@@ -1,0 +1,76 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+
+# Virtual environments and local tooling
+.venv/
+venv/
+env/
+.env
+.env.*
+!.env.example
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Build and packaging outputs
+build/
+dist/
+*.egg-info/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+*.bak
+
+# Credentials, signing caches, and model/API response caches
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+secrets.json
+signed-url-cache/
+credential-cache/
+model-api-cache/
+api-response-cache/
+
+# Full runtime evidence stays local until licensing and disclosure review.
+runs/
+runtime-cache/
+cache/
+raw-http/
+downloads/
+
+# Raster data and AOI chips are never tracked by default.
+*.tif
+*.tiff
+*.jp2
+*.vrt
+*.img
+*.npy
+*.npz
+*.zarr/
+*.cog
+aoi-chips/
+raster-chips/
+
+# Curated safe examples under examples/ are tracked explicitly.
+!examples/
+!examples/**

@@ -1,0 +1,258 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/claim-contract.schema.json",
+  "title": "Qualify Environmental Evidence Claim Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "runtime_ready", "project", "claim_contract", "evidence_policy", "transformation_policy", "spatial_scope", "temporal_scope", "qualification_policy", "pending_step_2"],
+  "properties": {
+    "schema_version": {"const": "0.5.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "runtime_ready": {"type": "boolean"},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["project_id", "project_name", "registry_url", "declared_model_start_date", "jurisdiction", "state"],
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1},
+        "project_name": {"type": "string", "minLength": 1},
+        "registry_url": {"type": "string", "format": "uri"},
+        "declared_model_start_date": {"type": "string", "format": "date"},
+        "jurisdiction": {"type": "string", "minLength": 1},
+        "state": {"type": "string", "minLength": 1}
+      }
+    },
+    "claim_contract": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["claim_type", "observable", "claim_text", "analysis_boundary_role", "pre_window_identity", "post_window_identity", "seasonal_rule_id", "metric", "aggregation", "eligible_population", "primary_indifference_band_policy_id", "primary_tau", "authority_ceiling", "forbidden_inferences"],
+      "properties": {
+        "claim_type": {"const": "OBSERVATIONAL_COMPARISON"},
+        "observable": {"const": "AOI_SEASONAL_NDVI"},
+        "claim_text": {"type": "string", "minLength": 1},
+        "analysis_boundary_role": {"const": "CEA"},
+        "pre_window_identity": {"$ref": "#/$defs/date_window"},
+        "post_window_identity": {"$ref": "#/$defs/date_window"},
+        "seasonal_rule_id": {"type": "string", "minLength": 1},
+        "metric": {"const": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI"},
+        "aggregation": {"const": "AOI median of per-pixel temporal-median Sentinel-2 L2A NDVI"},
+        "eligible_population": {"type": "string", "minLength": 1},
+        "primary_indifference_band_policy_id": {"const": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1"},
+        "primary_tau": {"const": 0.03},
+        "authority_ceiling": {"const": "OBSERVATIONAL_CONSISTENCY_ONLY"},
+        "forbidden_inferences": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 10,
+          "maxItems": 10,
+          "prefixItems": [
+            {"const": "CAUSAL_ATTRIBUTION"},
+            {"const": "CARBON_QUANTITY"},
+            {"const": "ADDITIONALITY"},
+            {"const": "CREDIT_VALIDITY_OR_QUALITY"},
+            {"const": "REGULATORY_OR_METHODOLOGY_COMPLIANCE"},
+            {"const": "PERMANENCE"},
+            {"const": "PROJECT_PERFORMANCE_BEYOND_BOUNDED_OBSERVATION"},
+            {"const": "GREENWASHING_OR_LEGAL_LIABILITY"},
+            {"const": "FINANCIAL_RECOMMENDATION"},
+            {"const": "TOKENISATION_READINESS"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "evidence_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registry_version", "allowed_source_ids", "source_bindings"],
+      "properties": {
+        "registry_version": {"const": "0.5.0"},
+        "allowed_source_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"enum": ["CER_ACCU_PROJECT_REGISTER", "CER_PROJECT_RECORD", "CER_PUBLISHED_CEA", "MSPC_SENTINEL2_L2A"]}
+        },
+        "source_bindings": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/source_binding"}
+        }
+      }
+    },
+    "transformation_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["registry_version", "required_transformation_ids"],
+      "properties": {
+        "registry_version": {"const": "0.5.0"},
+        "required_transformation_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "minItems": 12,
+          "maxItems": 12,
+          "prefixItems": [
+            {"const": "VALIDATE_CLAIM_CONTRACT"},
+            {"const": "CHECK_AUTHORITY_SCOPE"},
+            {"const": "RESOLVE_REGISTRY_FACTS"},
+            {"const": "RESOLVE_CEA_BOUNDARY"},
+            {"const": "SEARCH_SENTINEL2_L2A"},
+            {"const": "ALIGN_AOI_RASTERS"},
+            {"const": "APPLY_SCL_VALIDITY_MASK"},
+            {"const": "CALCULATE_AOI_VALID_COVERAGE"},
+            {"const": "CALCULATE_AOI_NDVI"},
+            {"const": "AGGREGATE_SEASONAL_WINDOWS"},
+            {"const": "QUALIFY_OBSERVATIONAL_CLAIM"},
+            {"const": "EMIT_ASSESSMENT_AND_PROVENANCE"}
+          ],
+          "items": false
+        }
+      }
+    },
+    "spatial_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "boundary_source_id", "boundary_artifact_uri", "boundary_sha256"],
+      "properties": {
+        "status": {"enum": ["PENDING_STEP_2", "FROZEN"]},
+        "boundary_source_id": {"const": "CER_PUBLISHED_CEA"},
+        "boundary_artifact_uri": {"type": ["string", "null"], "format": "uri"},
+        "boundary_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "temporal_scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "pre_window", "post_window", "seasonal_rule"],
+      "properties": {
+        "status": {"enum": ["PENDING_STEP_2", "FROZEN"]},
+        "pre_window": {"$ref": "#/$defs/date_window_or_null"},
+        "post_window": {"$ref": "#/$defs/date_window_or_null"},
+        "seasonal_rule": {
+          "oneOf": [
+            {"type": "null"},
+            {"const": "PENDING_STEP_2"},
+            {"type": "object", "minProperties": 1, "additionalProperties": true, "$comment": "The frozen seasonal-rule shape is intentionally deferred to Step 2; only a non-empty object can represent that future frozen contract."}
+          ]
+        }
+      }
+    },
+    "qualification_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_version", "proposed_execution_mode", "approval_status", "indifference_band", "sensitivity_tau_values", "scl_rule", "observation_coverage_rule"],
+      "properties": {
+        "policy_version": {"const": "0.5.0"},
+        "proposed_execution_mode": {"enum": ["QUALIFICATION", "MEASUREMENT_ONLY"]},
+        "approval_status": {"enum": ["PENDING_HUMAN_APPROVAL", "APPROVED"]},
+        "indifference_band": {"$ref": "#/$defs/indifference_band"},
+        "sensitivity_tau_values": {
+          "type": "array", "minItems": 3, "maxItems": 3,
+          "prefixItems": [{"const": 0.01}, {"const": 0.02}, {"const": 0.05}], "items": false
+        },
+        "scl_rule": {
+          "oneOf": [
+            {"type": "null"},
+            {"const": "PENDING_STEP_2"},
+            {"type": "object", "minProperties": 1, "additionalProperties": true, "$comment": "The frozen SCL-rule shape is intentionally deferred to Step 2; only a non-empty object can represent that future frozen contract."}
+          ]
+        },
+        "observation_coverage_rule": {
+          "oneOf": [
+            {"type": "null"},
+            {"const": "PENDING_STEP_2"},
+            {"type": "object", "minProperties": 1, "additionalProperties": true, "$comment": "The frozen AOI coverage-rule shape is intentionally deferred to Step 2; only a non-empty object can represent that future frozen contract."}
+          ]
+        }
+      }
+    },
+    "pending_step_2": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"enum": ["BOUNDARY_FILE_AND_CHECKSUM", "PRE_WINDOW", "POST_WINDOW", "SEASONAL_MATCHING_RULE", "SCL_VALIDITY_RULE", "OBSERVATION_COVERAGE_POLICY"]}
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"pending_step_2": {"minItems": 1}}, "required": ["pending_step_2"]},
+      "then": {"properties": {"runtime_ready": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"spatial_scope": {"properties": {"status": {"const": "PENDING_STEP_2"}}, "required": ["status"]}}, "required": ["spatial_scope"]},
+      "then": {"properties": {"runtime_ready": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"temporal_scope": {"properties": {"status": {"const": "PENDING_STEP_2"}}, "required": ["status"]}}, "required": ["temporal_scope"]},
+      "then": {"properties": {"runtime_ready": {"const": false}}}
+    },
+    {
+      "if": {"properties": {"qualification_policy": {"properties": {"approval_status": {"const": "PENDING_HUMAN_APPROVAL"}}, "required": ["approval_status"]}}, "required": ["qualification_policy"]},
+      "then": {"properties": {"runtime_ready": {"const": false}}}
+    }
+  ],
+  "$defs": {
+    "source_binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source_id", "canonical_uri", "discovery_uri", "retrieval_uri", "binding_status"],
+      "properties": {
+        "source_id": {"enum": ["CER_ACCU_PROJECT_REGISTER", "CER_PROJECT_RECORD", "CER_PUBLISHED_CEA", "MSPC_SENTINEL2_L2A"]},
+        "canonical_uri": {"type": ["string", "null"], "format": "uri"},
+        "discovery_uri": {"type": ["string", "null"], "format": "uri"},
+        "retrieval_uri": {"type": ["string", "null"], "format": "uri"},
+        "binding_status": {"enum": ["FROZEN", "PENDING_STEP_2"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"binding_status": {"const": "PENDING_STEP_2"}}, "required": ["binding_status"]},
+          "then": {"properties": {"canonical_uri": {"type": "null"}, "discovery_uri": {"type": "string", "format": "uri"}}}
+        },
+        {
+          "if": {"properties": {"binding_status": {"const": "FROZEN"}}, "required": ["binding_status"]},
+          "then": {"properties": {"canonical_uri": {"type": "string", "format": "uri"}}}
+        }
+      ]
+    },
+    "date_window_or_null": {
+      "oneOf": [
+        {"type": "null"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["start_date", "end_date"],
+          "properties": {
+            "start_date": {"type": "string", "format": "date"},
+            "end_date": {"type": "string", "format": "date"}
+          }
+        }
+      ]
+    },
+    "date_window": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_date", "end_date"],
+      "properties": {
+        "start_date": {"type": "string", "format": "date"},
+        "end_date": {"type": "string", "format": "date"}
+      }
+    },
+    "indifference_band": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["policy_id", "metric", "tau", "unit", "lower_boundary_inclusive", "upper_boundary_inclusive", "epistemic_status", "ecological_standard", "regulatory_standard", "instrument_detection_limit", "assurance_standard"],
+      "properties": {
+        "policy_id": {"const": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1"},
+        "metric": {"const": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI"},
+        "tau": {"const": 0.03},
+        "unit": {"const": "NDVI"},
+        "lower_boundary_inclusive": {"const": true},
+        "upper_boundary_inclusive": {"const": true},
+        "epistemic_status": {"const": "DEMO_OPERATIONAL_RULE"},
+        "ecological_standard": {"const": false},
+        "regulatory_standard": {"const": false},
+        "instrument_detection_limit": {"const": false},
+        "assurance_standard": {"const": false}
+      }
+    }
+  }
+}

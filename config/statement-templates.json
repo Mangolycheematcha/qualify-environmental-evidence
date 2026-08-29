@@ -1,0 +1,33 @@
+{
+  "registry_version": "0.5.0",
+  "templates": [
+    {
+      "template_id": "OBSERVATIONAL_COMPARISON_CORROBORATING_V1",
+      "required_disposition": "CORROBORATING",
+      "template_text": "Within the published CEA for {project_id}, the frozen post-window {post_window} AOI-level Sentinel-2 NDVI summary ({post_value}) was higher than the frozen pre-window {pre_window} summary ({pre_value}) under qualification policy {qualification_policy_version}. This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability.",
+      "allowed_placeholders": ["project_id", "pre_window", "post_window", "pre_value", "post_value", "qualification_policy_version"],
+      "mandatory_limitation_text": "This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability."
+    },
+    {
+      "template_id": "OBSERVATIONAL_COMPARISON_CONTRADICTORY_V1",
+      "required_disposition": "CONTRADICTORY",
+      "template_text": "Within the published CEA for {project_id}, the frozen post-window {post_window} AOI-level Sentinel-2 NDVI summary ({post_value}) was not higher than the frozen pre-window {pre_window} summary ({pre_value}) under qualification policy {qualification_policy_version}. This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability.",
+      "allowed_placeholders": ["project_id", "pre_window", "post_window", "pre_value", "post_value", "qualification_policy_version"],
+      "mandatory_limitation_text": "This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability."
+    },
+    {
+      "template_id": "OBSERVATIONAL_COMPARISON_CORROBORATING_V2",
+      "required_disposition": "CORROBORATING",
+      "template_text": "Within the frozen {analysis_boundary_role} for {project_id}, the {aggregation} Sentinel-2 L2A NDVI for the seasonally matched post-window {post_window} ({post_value}) minus the corresponding pre-model-start window {pre_window} ({pre_value}) was {delta_value} NDVI, greater than the +{primary_tau} primary PoC operational indifference band under {indifference_policy_id}, among {eligible_population}; seasonal rule {seasonal_rule_id}; qualification contract {qualification_policy_version}. This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability.",
+      "allowed_placeholders": ["project_id", "analysis_boundary_role", "pre_window", "post_window", "seasonal_rule_id", "aggregation", "eligible_population", "pre_value", "post_value", "delta_value", "primary_tau", "indifference_policy_id", "qualification_policy_version"],
+      "mandatory_limitation_text": "This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability."
+    },
+    {
+      "template_id": "OBSERVATIONAL_COMPARISON_CONTRADICTORY_V2",
+      "required_disposition": "CONTRADICTORY",
+      "template_text": "Within the frozen {analysis_boundary_role} for {project_id}, the {aggregation} Sentinel-2 L2A NDVI for the seasonally matched post-window {post_window} ({post_value}) minus the corresponding pre-model-start window {pre_window} ({pre_value}) was {delta_value} NDVI, less than the -{primary_tau} primary PoC operational indifference band under {indifference_policy_id}, among {eligible_population}; seasonal rule {seasonal_rule_id}; qualification contract {qualification_policy_version}. This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability.",
+      "allowed_placeholders": ["project_id", "analysis_boundary_role", "pre_window", "post_window", "seasonal_rule_id", "aggregation", "eligible_population", "pre_value", "post_value", "delta_value", "primary_tau", "indifference_policy_id", "qualification_policy_version"],
+      "mandatory_limitation_text": "This bounded observation does not establish causality, carbon quantity, additionality, ACCU validity, project compliance or financial suitability."
+    }
+  ]
+}

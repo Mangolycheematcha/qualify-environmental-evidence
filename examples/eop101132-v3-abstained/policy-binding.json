@@ -1,0 +1,13 @@
+{
+  "run_id": "EOP101132-STEP2B-20260829T105228553596Z-be9fe09f",
+  "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V3",
+  "approved_policy_sha256": "4a8a138308f0c3b95e8e9f06d448619e9b710882b1233fc71ab5df3158c7ca59",
+  "assessment_sha256": "f46822f29ef00c511fdc340c3adf240b5255aa6aec9e9a32e0dd692d1217dcf9",
+  "provenance_sha256": "69d3e3c0b054dc9f4ba2ac9610332a78e6ed104b53e115cb5539be39f434e407",
+  "terminal_result": {
+    "execution_status": "ABSTAINED",
+    "evidence_disposition": "INCONCLUSIVE",
+    "reason_code": "RESOURCE_LIMIT_EXCEEDED"
+  },
+  "curation_status": "SAFE_DERIVATIVES_ONLY"
+}

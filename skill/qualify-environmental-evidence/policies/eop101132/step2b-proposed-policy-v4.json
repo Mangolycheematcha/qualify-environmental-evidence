@@ -1,0 +1,632 @@
+{
+  "policy_schema_version": "1.3.0",
+  "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
+  "contract_version": "0.5.0",
+  "runtime_ready": false,
+  "approval_status": "PENDING_HUMAN_APPROVAL",
+  "proposed_execution_mode": "QUALIFICATION",
+  "approval": {
+    "status": "PENDING_HUMAN_APPROVAL",
+    "proposed_execution_mode": "QUALIFICATION",
+    "permitted_decisions": [
+      "QUALIFICATION",
+      "MEASUREMENT_ONLY"
+    ],
+    "sentinel_2_access_permitted": false,
+    "approved_policy_sha256": null,
+    "outcome_tuning_prohibited": true
+  },
+  "authority_ceiling": {
+    "value": "OBSERVATIONAL_CONSISTENCY_ONLY",
+    "rule_type": "CONTRACT_DEFINED",
+    "rationale": "Preserves the accepted Step 1 claim boundary.",
+    "limitations": [
+      "No causal attribution",
+      "No carbon quantity or additionality inference",
+      "No ACCU, project quality, integrity, compliance, permanence, legal, financial, or tokenisation conclusion"
+    ]
+  },
+  "bounded_claim": {
+    "claim_text": "Within the frozen EOP101132 carbon-estimation-area boundary, the AOI median of per-pixel temporal-median Sentinel-2 L2A NDVI for the seasonally matched 2025-06-01 to 2025-08-31 window is higher than the corresponding 2017-06-01 to 2017-08-31 pre-model-start window by more than the frozen 0.03 NDVI PoC operational indifference band, among pixels satisfying the joint observation-coverage policy.",
+    "analysis_boundary_role": "CEA",
+    "seasonal_rule_id": "MATCHED_AUSTRAL_WINTER_JJA_V1",
+    "metric_id": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI",
+    "aggregation": "AOI median of per-pixel temporal-median Sentinel-2 L2A NDVI",
+    "eligible_population": "Pixels satisfying DEMO_AOI_JOINT_MINCOUNT_COVERAGE_V1 in both windows",
+    "primary_tau": 0.03,
+    "indifference_policy_id": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1",
+    "qualification_policy_version": "0.5.0"
+  },
+  "project_and_boundary": {
+    "project_id": "EOP101132",
+    "project_page": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+    "declared_model_start_date": "2017-10-06",
+    "boundary_artifact_uri": "https://cer.gov.au/sites/default/files/projectFiles/EOP101132_CEA.zip",
+    "boundary_media_type": "application/zip",
+    "boundary_byte_length": 10219,
+    "boundary_raw_sha256": "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820fef2",
+    "policy_research_retrieved_at_utc": "2026-08-29T01:47:59.4030862Z",
+    "policy_research_http_status": 200,
+    "archive_members": [
+      "EOP101132_CEA.dbf",
+      "EOP101132_CEA.prj",
+      "EOP101132_CEA.shp",
+      "EOP101132_CEA.shx"
+    ],
+    "source_crs": "EPSG:7844",
+    "geometry_type": "MultiPolygon",
+    "geometry_part_count": 10,
+    "source_bounds": [
+      143.6654461,
+      -36.5125564,
+      143.6940965,
+      -36.4946613
+    ],
+    "projected_area_m2_research_check": 1427525.1809199722,
+    "analysis_boundary_role": "CEA",
+    "analysis_boundary_sha256": "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820fef2",
+    "cea_boundary_area_km2": 1.4275251809199723,
+    "project_boundary_area_km2": null,
+    "area_reconciliation": "The EO analysis uses the frozen CER carbon-estimation-area artifact. No project-boundary area is asserted because the corresponding official project-boundary artifact has not been recomputed and identity-bound in this offline task; the project KML must not substitute for the CEA.",
+    "rule_type": "SOURCE_DEFINED_IDENTITY_WITH_VERIFIED_BYTES",
+    "citation": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+    "rationale": "The official CER case page binds the project ID to the published CEA ZIP. Raw bytes were retrieved only to freeze identity and safely inspect the boundary before EO execution.",
+    "authority_limitation": "The CEA defines the AOI only; it does not establish environmental outcome, project validity, or ACCU quality.",
+    "execution_rule": "Re-download after approval, require the same final allowlisted URI, byte length, SHA-256, safe archive membership, declared CRS, non-empty valid geometry, and project-token match. Any byte or geometry change requires renewed approval. Do not repair geometry silently.",
+    "sensitivity_values": []
+  },
+  "temporal_scope": {
+    "pre_window": {
+      "start_date": "2017-06-01",
+      "end_date": "2017-08-31"
+    },
+    "post_window": {
+      "start_date": "2025-06-01",
+      "end_date": "2025-08-31"
+    },
+    "seasonal_matching_rule": "Use the same inclusive 92-day Australian meteorological-winter interval, June 1 through August 31, in each year. The pre-window ends before the declared model start date; the post-window is the latest fully completed matching season selected at policy freeze.",
+    "rule_type": "POC_OPERATIONAL_RULE",
+    "citation": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+    "rationale": "Same-season windows reduce gross seasonal mismatch, while the pre-window remains before the published model start date. Window selection occurred before any Sentinel-2 item search or outcome inspection.",
+    "authority_limitation": "Seasonal matching is a design control, not causal identification and not an ecological or CER standard.",
+    "baseline_limitation": "Only one pre-start seasonal year is used. The design does not estimate interannual baseline variability and does not establish that 2017 is a climatologically typical year.",
+    "baseline_year_scope": {
+      "primary_pre_years": [
+        2017
+      ],
+      "primary_post_years": [
+        2025
+      ],
+      "additional_baseline_years": [],
+      "interannual_baseline_variability_estimated": false,
+      "climatological_typicality_claimed": false,
+      "post_result_window_changes_permitted": false,
+      "future_additional_years_require_new_policy_id": true,
+      "future_additional_years_require_new_run_id": true,
+      "future_additional_years_cannot_replace_primary_disposition": true
+    },
+    "future_extension_rule": "Any additional baseline year or multi-year analysis is a separately declared secondary or exploratory extension with a new policy ID, policy hash, and run ID. It cannot overwrite or retroactively reinterpret the frozen primary result.",
+    "sensitivity_values": [
+      {
+        "id": "POST_YEAR_2024",
+        "pre_window": {
+          "start_date": "2017-06-01",
+          "end_date": "2017-08-31"
+        },
+        "post_window": {
+          "start_date": "2024-06-01",
+          "end_date": "2024-08-31"
+        }
+      },
+      {
+        "id": "MAY_TO_JULY",
+        "pre_window": {
+          "start_date": "2017-05-01",
+          "end_date": "2017-07-31"
+        },
+        "post_window": {
+          "start_date": "2025-05-01",
+          "end_date": "2025-07-31"
+        }
+      },
+      {
+        "id": "JULY_TO_SEPTEMBER",
+        "pre_window": {
+          "start_date": "2017-07-01",
+          "end_date": "2017-09-30"
+        },
+        "post_window": {
+          "start_date": "2025-07-01",
+          "end_date": "2025-09-30"
+        }
+      }
+    ]
+  },
+  "stac_source_and_selection": {
+    "endpoint": "https://planetarycomputer.microsoft.com/api/stac/v1",
+    "collection": "sentinel-2-l2a",
+    "query_spatial_operator": "intersects",
+    "query_geometry": "Approved normalized AOI GeoJSON in WGS84, with its canonical JSON SHA-256 recorded",
+    "query_datetime": "One exact inclusive approved window per search",
+    "required_asset_keys": [
+      "B04",
+      "B08",
+      "SCL"
+    ],
+    "query_predicates": [
+      "collection equals sentinel-2-l2a",
+      "datetime is inside the exact approved window",
+      "item geometry intersects the approved AOI"
+    ],
+    "scene_cloud_metadata_rule": "Do not send eo:cloud_cover as a query predicate. Record it for provenance and descriptive reporting when present; missing eo:cloud_cover never excludes an otherwise matching item.",
+    "item_sort": [
+      "properties.datetime ascending",
+      "id ascending"
+    ],
+    "identity_key": [
+      "collection",
+      "id"
+    ],
+    "independent_acquisition_identity": "Count unique source datatake identity, required as s2:datatake_id or an equivalently documented canonical datatake field. Multiple tiles, duplicate processing records, or reprocessed versions from one datatake count once. Missing or ambiguous datatake identity causes abstention.",
+    "duplicate_rule": "Deduplicate only byte-identical canonical Item JSON carrying the same collection and item ID. Distinct reprocessed records for one datatake do not increase the acquisition count; unresolved conflicts cause abstention rather than selection by observed coverage or NDVI.",
+    "maximum_items_per_window": 40,
+    "truncation_rule": "Never truncate. Exceeding the limit produces a controlled abstention before asset access.",
+    "rule_type": "SOURCE_DEFINED_COLLECTION_AND_FIELDS_WITH_POC_OPERATIONAL_SELECTION",
+    "citations": [
+      "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a",
+      "https://learn.microsoft.com/en-us/azure/planetary-computer/api-tutorial",
+      "https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/item-spec.md"
+    ],
+    "rationale": "The collection and STAC identity semantics are source-defined. Exact query, ordering, datatake identity, duplicate fail-closed behavior, no scene-cloud predicate, and item limit are operational controls selected before search.",
+    "authority_limitation": "eo:cloud_cover is candidate metadata only and is never AOI valid-observation coverage.",
+    "sensitivity_values": []
+  },
+  "target_grid": {
+    "crs": "EPSG:32754",
+    "resolution_m": 10,
+    "transform_origin": [
+      0,
+      10000000
+    ],
+    "extent_rule": "Transform the approved AOI to EPSG:32754 and snap bounds outward to the canonical 10 m UTM lattice anchored at easting 0 m and northing 10,000,000 m. Do not derive the lattice from the first observed item.",
+    "aoi_rasterization_rule": "A target pixel is an AOI pixel when its centre is inside the AOI; rasterize with all_touched=false.",
+    "spectral_resampling": "No B04/B08 resampling when the item grid is congruent with the canonical 10 m UTM lattice; otherwise fail closed rather than shift the grid.",
+    "scl_resampling": "nearest",
+    "congruence_checks": "Every B04 and B08 grid must have EPSG:32754, exact 10 m pixel size, axis orientation consistent with the frozen transform, and origin congruent modulo 10 m. B04 and B08 must be mutually congruent for each item and across selected items. Align native 20 m SCL to that grid using nearest neighbour only.",
+    "source_nodata_rule": "Propagate source dataset masks and nodata independently for B04, B08, and SCL; a pixel is valid only when all required inputs are valid.",
+    "rule_type": "POC_OPERATIONAL_RULE_USING_SOURCE_RESOLUTIONS",
+    "citations": [
+      "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a",
+      "https://sentiwiki.copernicus.eu/web/s2-products",
+      "https://rasterio.readthedocs.io/en/stable/topics/resampling.html",
+      "https://rasterio.readthedocs.io/en/stable/api/rasterio.features.html"
+    ],
+    "rationale": "B04 and B08 are native 10 m assets and should remain on a deterministic congruent Sentinel-2 UTM lattice. SCL is categorical and native 20 m, so nearest-neighbour preserves class labels. Unreconciled grids fail closed.",
+    "authority_limitation": "Grid and rasterization choices are PoC measurement semantics, not CER or ecological standards.",
+    "sensitivity_values": [
+      {
+        "resolution_m": 20,
+        "aoi_rasterization_rule": "pixel centre; all_touched=false"
+      },
+      {
+        "resolution_m": 10,
+        "aoi_rasterization_rule": "all touched pixels; all_touched=true"
+      }
+    ]
+  },
+  "scl_validity_rule": {
+    "valid_classes": [
+      4,
+      5
+    ],
+    "excluded_classes": [
+      0,
+      1,
+      2,
+      3,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "class_meanings": {
+      "0": "No data",
+      "1": "Saturated or defective",
+      "2": "Cast shadows / dark area pixels depending on processing baseline",
+      "3": "Cloud shadows",
+      "4": "Vegetation",
+      "5": "Non-vegetated",
+      "6": "Water",
+      "7": "Unclassified",
+      "8": "Cloud medium probability",
+      "9": "Cloud high probability",
+      "10": "Thin cirrus",
+      "11": "Snow or ice"
+    },
+    "rule_type": "SOURCE_DEFINED_CLASSES_WITH_POC_OPERATIONAL_INCLUSION",
+    "citations": [
+      "https://sentinels.copernicus.eu/documents/d/sentinel/sentinel-2-products-specification-document-15_1",
+      "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S2L2A.html",
+      "https://documentation.dataspace.copernicus.eu/notebook-samples/openeo/NDVI_Timeseries.html"
+    ],
+    "rationale": "Classes 4 and 5 are the land-surface classes retained in the official Copernicus NDVI example. All uncertain, cloud, shadow, water, snow, saturated, and nodata classes are excluded for this land AOI demonstration.",
+    "authority_limitation": "Copernicus defines the classes, but this inclusion set is a pre-registered PoC choice, not a universal validity mask.",
+    "native_resolution_m": 20,
+    "required_reporting": "Record per-window SCL class counts, nearest-neighbour alignment metadata, and processing-baseline distribution. SCL and reflectance behavior may differ across processing baselines.",
+    "sensitivity_values": [
+      {
+        "valid_classes": [
+          4,
+          5,
+          6
+        ]
+      },
+      {
+        "valid_classes": [
+          2,
+          4,
+          5,
+          6
+        ]
+      }
+    ]
+  },
+  "observation_coverage_policy": {
+    "rule_id": "DEMO_AOI_JOINT_MINCOUNT_COVERAGE_V1",
+    "minimum_unique_acquisitions_per_window": 3,
+    "minimum_valid_observations_per_pixel_per_window": 3,
+    "minimum_joint_aoi_fraction": 0.8,
+    "full_aoi_denominator": "Count of target-grid pixels whose centres are inside the approved AOI.",
+    "per_item_geometric_coverage": "Numerator: full-AOI pixels inside the STAC item footprint and readable B04/B08/SCL raster coverage. Denominator: full AOI target pixels.",
+    "per_item_valid_fraction": "Numerator: per-item geometrically covered pixels with valid B04, B08, SCL, retained SCL class, finite reflectance, and abs(B08+B04)>1e-6. Denominator: per-item geometrically covered AOI pixels. Also report numerator over full AOI.",
+    "per_window_min_count_fraction": "Numerator: full-AOI pixels with at least 3 valid observations in that window. Denominator: full AOI target pixels.",
+    "joint_comparison_fraction": "Numerator: full-AOI pixels meeting the minimum valid-observation count in both windows. Denominator: full AOI target pixels.",
+    "qualification_gate": "Require at least 3 unique acquisitions in each window and joint comparison fraction >= 0.80. No scene is dropped by an observed per-scene AOI fraction.",
+    "assessment_observation_mapping": "assessment.aoi_total_pixels is the full AOI denominator; aoi_valid_pixels and aoi_valid_fraction are the joint comparison numerator and fraction.",
+    "rule_type": "PRE_REGISTERED_DEMO_QUALIFICATION_POLICY",
+    "citation": "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S2L2A.html",
+    "rationale": "No official source identified a universal AOI coverage threshold for this claim. Three observations and 80% joint spatial support are conservative demonstration gates chosen before data inspection, and the common-pixel mask prevents spatial-support drift between windows.",
+    "authority_limitation": "This is not an ecological, CER, regulatory, assurance, or market standard.",
+    "sensitivity_values": [
+      {
+        "minimum_valid_observations_per_pixel_per_window": 2,
+        "minimum_joint_aoi_fraction": 0.7
+      },
+      {
+        "minimum_valid_observations_per_pixel_per_window": 3,
+        "minimum_joint_aoi_fraction": 0.9
+      },
+      {
+        "minimum_valid_observations_per_pixel_per_window": 5,
+        "minimum_joint_aoi_fraction": 0.8
+      }
+    ]
+  },
+  "ndvi_and_aggregation": {
+    "reflectance_rule": "Resolve and cross-check scale, offset, quantification value, nodata, and processing baseline independently for every STAC item and for B04 and B08 separately. Use only that item's asset-level raster metadata and product metadata BOA_ADD_OFFSET/QUANTIFICATION_VALUE. Never infer from date, window, a global constant, the first item, or another asset. Missing, contradictory, or ambiguous metadata causes RADIOMETRY_METADATA_UNRESOLVED and human review.",
+    "invalid_input_rule": "DN=0, declared nodata, non-finite values, source-mask invalid pixels, and pixels outside the valid data footprint are invalid before reflectance conversion and NDVI.",
+    "required_radiometry_provenance": [
+      "item_id",
+      "acquisition_datetime",
+      "platform",
+      "processing_baseline",
+      "asset_key",
+      "canonical_asset_identity",
+      "retrieval_uri_separate_from_identity",
+      "scale",
+      "offset",
+      "quantification_value",
+      "nodata",
+      "metadata_source",
+      "cross_check"
+    ],
+    "formula": "NDVI = (B08_reflectance - B04_reflectance) / (B08_reflectance + B04_reflectance)",
+    "numeric_type": "float64",
+    "denominator_rule": "Require finite reflectances and abs(B08_reflectance + B04_reflectance) > 1e-6.",
+    "range_rule": "Require finite NDVI within [-1, 1] after calibration, allowing only 1e-12 floating-point tolerance; otherwise produce a deterministic processing error.",
+    "per_window_composite": "For each target pixel, take the median NDVI over valid observations in the window when its valid count is at least 3.",
+    "aoi_summary": "Take the median of per-pixel window composites over the same joint-comparison pixels that qualify in both windows.",
+    "delta_distribution": "For joint-eligible per-pixel post-minus-pre temporal-median NDVI, report count, q05, q25, median, q75, q95, IQR, and MAD. Values are descriptive and do not replace the primary tau rule. No independent-pixel bootstrap or confidence interval is permitted without a separately frozen spatial design.",
+    "comparison_rule": "Apply POC_OPERATIONAL_INDIFFERENCE_BAND_V1 using canonical decimal comparison: delta > +0.03 is CORROBORATING; delta < -0.03 is CONTRADICTORY; inclusive -0.03 <= delta <= +0.03 is ABSTAINED/INCONCLUSIVE with EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND.",
+    "measurement_only_rule": "In MEASUREMENT_ONLY mode preserve valid measurements but emit ABSTAINED/INCONCLUSIVE with HUMAN_REVIEW_REQUIRED, never a completed disposition.",
+    "rule_type": "SOURCE_DEFINED_CALIBRATION_AND_FORMULA_WITH_POC_OPERATIONAL_AGGREGATION",
+    "citations": [
+      "https://sentiwiki.copernicus.eu/web/s2-products",
+      "https://sentinels.copernicus.eu/documents/d/sentinel/sentinel-2-products-specification-document-15_1"
+    ],
+    "rationale": "Explicit reflectance calibration addresses Sentinel-2 processing-baseline offsets. Median temporal and spatial aggregation is robust to isolated valid-pixel extremes and was frozen before observing results.",
+    "authority_limitation": "NDVI is a bounded spectral observation and is not carbon, additionality, compliance, project performance, or financial value.",
+    "sensitivity_values": [
+      {
+        "per_window_composite": "mean",
+        "aoi_summary": "median"
+      },
+      {
+        "per_window_composite": "median",
+        "aoi_summary": "mean"
+      }
+    ]
+  },
+  "processing_baseline_policy": {
+    "required_item_field": "s2:processing_baseline",
+    "rule": "Record every item's baseline and the per-window baseline distribution. Cross-baseline observations may be combined only after every item and each B04/B08 asset is independently converted to physical BOA reflectance with its own documented scale, offset, quantification value, and nodata, and asset/product metadata cross-checks pass. Acquisition date and window membership are never calibration inputs. Missing or contradictory metadata causes controlled abstention.",
+    "rule_type": "SOURCE_CAVEAT_WITH_POC_FAIL_CLOSED_RULE",
+    "citations": [
+      "https://sentiwiki.copernicus.eu/web/s2-products",
+      "https://documentation.dataspace.copernicus.eu/Data/Others/Sentinel2_L2A_baseline.html"
+    ],
+    "rationale": "Sentinel-2 processing baseline 04.00 introduced BOA offsets; using calibrated reflectance avoids silently comparing unadjusted DN values.",
+    "authority_limitation": "Calibration compatibility supports measurement consistency only. SCL and reflectance behavior may differ across processing baselines; this limitation does not support an environmental conclusion or make the comparison causal.",
+    "sensitivity_values": [
+      {
+        "rule": "Report same-processing-baseline subsets as a diagnostic when both windows contain enough observations; never replace the primary rule after outcome inspection."
+      }
+    ]
+  },
+  "operational_indifference_band": {
+    "policy_id": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1",
+    "metric": "post_window_ndvi_median - pre_window_ndvi_median",
+    "metric_id": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI",
+    "tau": 0.03,
+    "unit": "NDVI",
+    "lower_boundary_inclusive": true,
+    "upper_boundary_inclusive": true,
+    "comparison_semantics": "CANONICAL_DECIMAL_FROM_JSON_NUMBER_V1",
+    "serialization_tolerance": 1e-12,
+    "epistemic_status": "DEMO_OPERATIONAL_RULE",
+    "ecological_standard": false,
+    "regulatory_standard": false,
+    "instrument_detection_limit": false,
+    "assurance_standard": false,
+    "cer_rule": false,
+    "selection_rationale": {
+      "selection_timing": "PRE_OBSERVATION",
+      "selection_basis": "CONSERVATIVE_POC_OPERATIONAL_MARGIN",
+      "purpose": [
+        "prevent sign-only or numerically small NDVI differences from forcing a decisive disposition",
+        "provide an explicit abstention region for known residual measurement and processing uncertainty"
+      ],
+      "motivating_uncertainties": [
+        "Sentinel-2 L2A surface-reflectance uncertainty",
+        "SCL classification and cloud-edge limitations",
+        "residual processing-baseline and radiometric differences",
+        "BRDF and illumination-geometry differences",
+        "classification-boundary and resampling effects"
+      ],
+      "quantitatively_derived_detection_limit": false,
+      "ecological_threshold": false,
+      "regulatory_threshold": false,
+      "assurance_standard": false,
+      "cer_rule": false,
+      "requires_future_domain_validation": true
+    },
+    "primary_terminal_rule": {
+      "delta_greater_than_positive_tau": "COMPLETED/CORROBORATING",
+      "delta_less_than_negative_tau": "COMPLETED/CONTRADICTORY",
+      "inclusive_negative_tau_to_positive_tau": "ABSTAINED/INCONCLUSIVE/EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"
+    },
+    "sensitivity_tau_values": [
+      0.01,
+      0.02,
+      0.05
+    ],
+    "sensitivity_rule": "Store each secondary classification separately in assessment and provenance. No sensitivity value may overwrite the primary 0.03 disposition or motivate a post-runtime policy change.",
+    "rule_type": "PRE_REGISTERED_DEMO_QUALIFICATION_POLICY",
+    "rationale": "Frozen before any Sentinel-2 item query or NDVI result, the band is a conservative PoC governance rule motivated by known instrument- and method-layer uncertainty. It makes small signed differences operationally inconclusive. The value was not derived from a project-specific end-to-end uncertainty budget and is not a scientific detection limit.",
+    "authority_limitation": "The band is not an ecological threshold, CER rule, instrument detection limit, audit criterion, assurance standard, or market standard."
+  },
+  "scene_admissibility": {
+    "rule_id": "SENTINEL2_MEAN_SOLAR_ZENITH_MAX_V1",
+    "field": "mean_solar_zenith_angle",
+    "maximum_degrees": 70.0,
+    "maximum_inclusive": true,
+    "metadata_resolution": "PER_ITEM_OR_GRANULE",
+    "inference_from_date_or_location": "FORBIDDEN",
+    "application_stage": "BEFORE_ADMISSIBLE_ACQUISITION_GROUP_RESOURCE_COUNT_AND_COVERAGE",
+    "scientific_basis": "COPERNICUS_QUANTITATIVE_USE_LIMIT",
+    "metadata_rule": "Resolve mean solar zenith angle independently for every item from authoritative item or granule metadata. Never infer it from date, latitude, season, another item, or a window-level average.",
+    "admissibility_rule": "A finite numeric value less than or equal to 70.0 degrees is admissible. A value above 70.0, or missing, non-finite, contradictory, unparseable metadata, is inadmissible.",
+    "excluded_item_rule": "An inadmissible item remains in the scene inventory with its exclusion reason and contributes to neither independent-acquisition count, valid-pixel coverage, nor NDVI.",
+    "continuation_rule": "Excluding one item does not terminate the run when all remaining frozen acquisition and coverage gates pass. If exclusions cause a gate failure, return the applicable controlled ABSTAINED/INCONCLUSIVE reason. Never select an out-of-policy replacement after observing exclusions.",
+    "item_level_reason_codes": {
+      "above_maximum": "SOLAR_GEOMETRY_OUT_OF_RANGE",
+      "metadata_unresolved": "SOLAR_GEOMETRY_METADATA_UNRESOLVED"
+    },
+    "required_item_provenance": [
+      "item_id",
+      "acquisition_datetime",
+      "platform",
+      "datatake_id",
+      "mean_solar_zenith_angle",
+      "metadata_source",
+      "cross_check",
+      "admissible",
+      "exclusion_reason",
+      "processing_baseline"
+    ],
+    "required_window_summary": [
+      "count",
+      "minimum",
+      "q25",
+      "median",
+      "q75",
+      "maximum",
+      "missing_count",
+      "excluded_above_threshold_count",
+      "excluded_unresolved_count"
+    ],
+    "diagnostic_rule": "Record discovered-item and admitted-item summaries separately for each window and the post-minus-pre median SZA difference. The difference is descriptive only and is not a decision threshold or symmetry gate.",
+    "authority_limitation": "The per-item cutoff supports quantitative-use admissibility only. Seasonal matching remains the primary geometry control, and residual BRDF and illumination-geometry differences remain a limitation.",
+    "citations": [
+      "https://sentiwiki.copernicus.eu/web/s2-products",
+      "https://sentiwiki.copernicus.eu/web/s2-processing"
+    ]
+  },
+  "runtime_guards": {
+    "approved_policy_hash_required_before_network_access": true,
+    "approved_policy_sha256": null,
+    "policy_hash_binding_rule": "Before any network access, calculate the canonical local policy SHA-256 and require exact equality with an explicitly approved external hash. Record that hash at run start and in the final manifest. Any policy mutation terminates before STAC access.",
+    "run_immutability_rule": "Record input and policy hashes at run start and require the same values at every guarded stage and in the final manifest. A future-policy result cannot overwrite an existing run ID or primary disposition.",
+    "maximum_date_span_days_per_window": 120,
+    "maximum_aoi_area_m2": 10000000,
+    "maximum_grid_width_pixels": 1000,
+    "maximum_grid_height_pixels": 1000,
+    "maximum_full_aoi_pixels": 200000,
+    "http_connect_timeout_seconds": 10,
+    "http_read_timeout_seconds": 60,
+    "http_max_attempts": 3,
+    "retry_rule": "Retry only transient idempotent reads with bounded exponential backoff; never bypass identity, checksum, host, or policy failures.",
+    "asset_read_rule": "Read only AOI-intersecting COG windows; do not download whole Sentinel-2 bands when windowed reads are available.",
+    "allowed_hosts": [
+      "cer.gov.au",
+      "planetarycomputer.microsoft.com"
+    ],
+    "signed_url_rule": "Runtime signing may be used, but credential-bearing query strings must be removed from canonical identities, logs, hashes, manifests, and errors. Every redirect host is revalidated.",
+    "rule_type": "POC_OPERATIONAL_SECURITY_AND_RESOURCE_RULE",
+    "citation": "https://learn.microsoft.com/en-us/azure/planetary-computer/api-tutorial",
+    "rationale": "Bounds make network and raster behavior explicit and prevent unbounded execution.",
+    "authority_limitation": "Resource limits are engineering controls, not scientific quality thresholds.",
+    "sensitivity_values": [],
+    "raw_stac_items_per_window_max": 200,
+    "raw_stac_item_limit_stage": "AFTER_COMPLETE_STAC_PAGINATION_BEFORE_REMOTE_METADATA_ASSET_OR_RASTER_ACCESS",
+    "raw_stac_item_limit_reason_codes": [
+      "METADATA_INVENTORY_LIMIT_EXCEEDED",
+      "RESOURCE_LIMIT_EXCEEDED"
+    ],
+    "raw_stac_item_limit_rule": "If raw results exceed 200 in either window, preserve the complete count, do not truncate, and return ABSTAINED/INCONCLUSIVE before remote metadata-asset or raster access. This is a metadata inventory safety control, not a scientific threshold or scene-selection rule.",
+    "independent_admissible_acquisition_groups_per_window_max": 40,
+    "acquisition_group_limit_stage": "AFTER_COMPLETE_RAW_INVENTORY_GROUPING_REPRESENTATION_RESOLUTION_AND_METADATA_ADMISSIBILITY_BEFORE_RASTER_ACCESS",
+    "acquisition_group_limit_reason_code": "RESOURCE_LIMIT_EXCEEDED",
+    "acquisition_group_limit_rule": "If more than 40 independent metadata-admissible acquisition groups remain in either window, preserve all inventory and grouping records, do not truncate or rank, and return ABSTAINED/INCONCLUSIVE before B04, B08 or SCL raster access.",
+    "resource_accounting_change": "The numeric raster-processing limit remains 40. V4 changes only the unit from raw STAC item rows to independent metadata-admissible acquisition groups.",
+    "metadata_only_before_raster_limit": true,
+    "environmental_selection_prohibited": true
+  },
+  "qualification": {
+    "qualification_policy_version": "0.5.0",
+    "operational_policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
+    "primary_indifference_band_policy_id": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1",
+    "required_mode_for_completed_disposition": "QUALIFICATION",
+    "terminal_statuses": [
+      "COMPLETED",
+      "ABSTAINED",
+      "ERROR"
+    ],
+    "partial_failure_rule": "No empirical result is returned on partial failure. Emit a controlled abstention or error with complete diagnostic provenance.",
+    "rule_type": "CONTRACT_DEFINED_WITH_PRE_REGISTERED_DEMO_GATE",
+    "rationale": "Keeps existing schema and statement-template compatibility while giving the detailed operational policy its own immutable ID and hash.",
+    "authority_limitation": "A completed disposition qualifies only the exact bounded observational comparison.",
+    "sensitivity_values": []
+  },
+  "official_source_index": [
+    {
+      "topic": "CER project and published CEA",
+      "uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132"
+    },
+    {
+      "topic": "Planetary Computer Sentinel-2 L2A collection",
+      "uri": "https://planetarycomputer.microsoft.com/api/stac/v1/collections/sentinel-2-l2a"
+    },
+    {
+      "topic": "Planetary Computer STAC tutorial",
+      "uri": "https://learn.microsoft.com/en-us/azure/planetary-computer/api-tutorial"
+    },
+    {
+      "topic": "STAC Item specification 1.0.0",
+      "uri": "https://github.com/radiantearth/stac-spec/blob/v1.0.0/item-spec/item-spec.md"
+    },
+    {
+      "topic": "Sentinel-2 product and radiometry definitions",
+      "uri": "https://sentiwiki.copernicus.eu/web/s2-products"
+    },
+    {
+      "topic": "Sentinel-2 processing and quantitative-use limitations",
+      "uri": "https://sentiwiki.copernicus.eu/web/s2-processing"
+    },
+    {
+      "topic": "Sentinel-2 product specification 15.1",
+      "uri": "https://sentinels.copernicus.eu/documents/d/sentinel/sentinel-2-products-specification-document-15_1"
+    },
+    {
+      "topic": "Copernicus Sentinel-2 L2A and SCL definitions",
+      "uri": "https://documentation.dataspace.copernicus.eu/APIs/SentinelHub/Data/S2L2A.html"
+    },
+    {
+      "topic": "Copernicus processing-baseline caveat",
+      "uri": "https://documentation.dataspace.copernicus.eu/Data/Others/Sentinel2_L2A_baseline.html"
+    },
+    {
+      "topic": "Rasterio resampling semantics",
+      "uri": "https://rasterio.readthedocs.io/en/stable/topics/resampling.html"
+    },
+    {
+      "topic": "Rasterio rasterization semantics",
+      "uri": "https://rasterio.readthedocs.io/en/stable/api/rasterio.features.html"
+    }
+  ],
+  "acquisition_grouping": {
+    "rule_id": "SENTINEL2_METADATA_ONLY_ACQUISITION_GROUPING_V1",
+    "independent_acquisition_identity": [
+      "platform",
+      "s2:datatake_id"
+    ],
+    "required_identity_metadata": [
+      "non-empty platform",
+      "non-empty s2:datatake_id",
+      "authoritative sensing datetime",
+      "explicit MGRS tile identity for every spatial component"
+    ],
+    "identity_inference_prohibited": [
+      "item ordering",
+      "eo:cloud_cover",
+      "filename similarity alone",
+      "environmental values",
+      "NDVI",
+      "visual quality",
+      "another item's metadata"
+    ],
+    "multiple_tile_rule": "Multiple AOI-intersecting MGRS tiles from the same platform and datatake are retained as spatial components of one independent acquisition and counted once.",
+    "overlap_conflict_rule": "Later mosaic and alignment must use the frozen target grid and a pre-registered deterministic overlap rule; unresolved component conflict fails closed.",
+    "processing_representation_identity": [
+      "platform",
+      "s2:datatake_id",
+      "MGRS tile"
+    ],
+    "processing_representation_priority": [
+      "valid source and collection identity",
+      "highest valid processing baseline",
+      "most recent authoritative processing timestamp where present",
+      "lexicographically smallest canonical item ID only when preceding metadata and canonical asset identities are equivalent"
+    ],
+    "equivalent_conflict_rule": "Equivalent candidates with conflicting canonical asset identities fail closed with ACQUISITION_REPRESENTATION_AMBIGUOUS.",
+    "metadata_admissibility_before_resource_count": [
+      "canonical source identity",
+      "acquisition identity",
+      "processing representation resolution",
+      "mean solar zenith angle",
+      "processing baseline",
+      "B04, B08 and SCL asset presence",
+      "required product and granule metadata presence",
+      "B04 and B08 radiometry metadata resolvability"
+    ],
+    "metadata_inadmissible_rule": "Retain every item and exclusion reason in inventory, but do not count a metadata-inadmissible acquisition group toward the raster-processing limit.",
+    "no_environmental_selection_fields": [
+      "eo:cloud_cover",
+      "AOI valid-pixel fraction",
+      "SCL distribution",
+      "NDVI",
+      "visual appearance",
+      "expected disposition",
+      "closeness to a preferred result"
+    ],
+    "all_or_abstain_rule": "Process all metadata-admissible acquisition groups when the count is within the frozen limit; if it exceeds the limit, abstain before raster access and never truncate, rank, or select a subset.",
+    "reason_codes": {
+      "identity_unresolved": "ACQUISITION_IDENTITY_UNRESOLVED",
+      "representation_ambiguous": "ACQUISITION_REPRESENTATION_AMBIGUOUS"
+    },
+    "rule_type": "POC_OPERATIONAL_METADATA_AND_RESOURCE_ACCOUNTING_RULE",
+    "rationale": "Raster-processing cost and independent-observation count attach to canonical acquisition groups, not raw STAC metadata rows. This engineering unit correction does not change the number 40, invalidate V3, or predict a V4 environmental result."
+  }
+}

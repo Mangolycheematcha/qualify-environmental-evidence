@@ -1,0 +1,62 @@
+{
+  "manifest_version": "1",
+  "contract_version": "0.5.0",
+  "resources": [
+    {
+      "path": "config/allowed-transformations.json",
+      "sha256": "509a6eb1860c30638328cbf01c8f33d303b576c2225ce3ca3762b6fddeb9b38e"
+    },
+    {
+      "path": "config/evidence-sources.json",
+      "sha256": "329c69e47b026c464f38e7566794d88727c510fe5ae84b84a8b41918657af849"
+    },
+    {
+      "path": "config/forbidden-inferences.json",
+      "sha256": "7adb0097f1dc00820d645318fa7a79a17c821fac020cf144e7651957925f5167"
+    },
+    {
+      "path": "config/reason-codes.json",
+      "sha256": "3ec2d0df6d248e660f77d37cb7a2ca8282e96fcb0cfe4a769a96dcede5cbe7fc"
+    },
+    {
+      "path": "config/statement-templates.json",
+      "sha256": "ff2dcbf8fc565d673bb2907fcd0c1eb2e05c22bb02e732986627a74cfed95d17"
+    },
+    {
+      "path": "schemas/assessment-output.schema.json",
+      "sha256": "f98840d68c6371f5e93814daef71201ccfe62f93bec702b8febf10b4dcd2add9"
+    },
+    {
+      "path": "schemas/claim-contract.schema.json",
+      "sha256": "1db5501c12231f427e89b494700afbb80368d017f07bc43e1a34f821c3320a58"
+    },
+    {
+      "path": "schemas/provenance-manifest.schema.json",
+      "sha256": "292100bb39d56a6f620614112d4bbafe2da13a97d8878fb36f40bad1cdb51bc8"
+    },
+    {
+      "path": "cases/eop101132/case-spec.json",
+      "sha256": "64c7199ad686b2b410c5056bdf0938b613e70f12f1274eda699a2e881fb885f3"
+    },
+    {
+      "path": "policies/eop101132/step2b-proposed-policy.json",
+      "sha256": "4a8a138308f0c3b95e8e9f06d448619e9b710882b1233fc71ab5df3158c7ca59"
+    },
+    {
+      "path": "policies/eop101132/step2b-proposed-policy-v4.json",
+      "sha256": "3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd"
+    },
+    {
+      "path": "scripts/step2b_acquisition.py",
+      "sha256": "a2221f7fb2d98f5263123f2e53357a94fb910b201602568a04b6ee7460bf45f6"
+    },
+    {
+      "path": "scripts/step2b_offline.py",
+      "sha256": "8a26c8ac372ee331e7b1ae7225200ac7d5b6484de3db0cdfadaeddf4fe5a1fa0"
+    },
+    {
+      "path": "scripts/validate_step1_specs.py",
+      "sha256": "658c95bf2c10c5cc0ad03ac1ac697c1ac00a5b9ea70204eb7683588418c25712"
+    }
+  ]
+}

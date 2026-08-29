@@ -1,0 +1,17 @@
+[project]
+name = "qualify-environmental-evidence"
+version = "0.5.0"
+requires-python = ">=3.10"
+dependencies = [
+  "jsonschema>=4.18,<5",
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest>=8,<9",
+  "PyYAML>=6,<7",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

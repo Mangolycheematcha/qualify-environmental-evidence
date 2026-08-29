@@ -1,0 +1,6 @@
+interface:
+  display_name: "Qualify Environmental Evidence"
+  short_description: "Validate bounded evidence contracts without asset judgments"
+  default_prompt: "Use $qualify-environmental-evidence to validate this bounded evidence contract and report controlled status and reasons."
+policy:
+  allow_implicit_invocation: true

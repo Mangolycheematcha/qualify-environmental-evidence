@@ -1,0 +1,15 @@
+{
+  "registry_version": "0.5.0",
+  "forbidden_inferences": [
+    {"code": "CAUSAL_ATTRIBUTION", "description": "Attribution of an observed change to the project or intervention.", "outside_authority_reason": "A bounded spectral comparison does not identify causation."},
+    {"code": "CARBON_QUANTITY", "description": "Estimation or validation of carbon abatement or storage quantity.", "outside_authority_reason": "NDVI is not a carbon-accounting measurement or model."},
+    {"code": "ADDITIONALITY", "description": "Determination that outcomes would not have occurred otherwise.", "outside_authority_reason": "The PoC has no counterfactual design."},
+    {"code": "CREDIT_VALIDITY_OR_QUALITY", "description": "Judgment about ACCU validity, quality or integrity.", "outside_authority_reason": "Credit assurance requires evidence and authority beyond a bounded observation."},
+    {"code": "REGULATORY_OR_METHODOLOGY_COMPLIANCE", "description": "Determination of regulatory or methodology compliance.", "outside_authority_reason": "The PoC is not a regulator or compliance audit."},
+    {"code": "PERMANENCE", "description": "Determination that an environmental outcome is permanent.", "outside_authority_reason": "A two-window comparison cannot establish persistence or permanence."},
+    {"code": "PROJECT_PERFORMANCE_BEYOND_BOUNDED_OBSERVATION", "description": "General project-performance conclusion beyond the declared observable.", "outside_authority_reason": "Authority is limited to the frozen AOI and temporal comparison."},
+    {"code": "GREENWASHING_OR_LEGAL_LIABILITY", "description": "Legal or greenwashing determination.", "outside_authority_reason": "The PoC does not perform legal analysis or determine liability."},
+    {"code": "FINANCIAL_RECOMMENDATION", "description": "Investment, lending, purchase or trading recommendation.", "outside_authority_reason": "Observational evidence qualification is not financial advice."},
+    {"code": "TOKENISATION_READINESS", "description": "Determination that a project or credit is ready for tokenisation.", "outside_authority_reason": "Tokenisation suitability is outside the evidence and authority scope."}
+  ]
+}

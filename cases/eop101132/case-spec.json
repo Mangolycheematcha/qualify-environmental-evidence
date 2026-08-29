@@ -1,0 +1,67 @@
+{
+  "schema_version": "0.5.0",
+  "case_id": "EOP101132-NDVI-001",
+  "runtime_ready": false,
+  "project": {
+    "project_id": "EOP101132",
+    "project_name": "Sunday Morning Hills Revegetation",
+    "registry_url": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+    "declared_model_start_date": "2017-10-06",
+    "jurisdiction": "Australia",
+    "state": "Victoria"
+  },
+  "claim_contract": {
+    "claim_type": "OBSERVATIONAL_COMPARISON",
+    "observable": "AOI_SEASONAL_NDVI",
+    "claim_text": "Within the frozen EOP101132 carbon-estimation-area boundary, the AOI median of per-pixel temporal-median Sentinel-2 L2A NDVI for the seasonally matched 2025-06-01 to 2025-08-31 window is higher than the corresponding 2017-06-01 to 2017-08-31 pre-model-start window by more than the frozen 0.03 NDVI PoC operational indifference band, among pixels satisfying the joint observation-coverage policy.",
+    "analysis_boundary_role": "CEA",
+    "pre_window_identity": {"start_date": "2017-06-01", "end_date": "2017-08-31"},
+    "post_window_identity": {"start_date": "2025-06-01", "end_date": "2025-08-31"},
+    "seasonal_rule_id": "MATCHED_AUSTRAL_WINTER_JJA_V1",
+    "metric": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI",
+    "aggregation": "AOI median of per-pixel temporal-median Sentinel-2 L2A NDVI",
+    "eligible_population": "Pixels satisfying DEMO_AOI_JOINT_MINCOUNT_COVERAGE_V1 in both windows",
+    "primary_indifference_band_policy_id": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1",
+    "primary_tau": 0.03,
+    "authority_ceiling": "OBSERVATIONAL_CONSISTENCY_ONLY",
+    "forbidden_inferences": ["CAUSAL_ATTRIBUTION", "CARBON_QUANTITY", "ADDITIONALITY", "CREDIT_VALIDITY_OR_QUALITY", "REGULATORY_OR_METHODOLOGY_COMPLIANCE", "PERMANENCE", "PROJECT_PERFORMANCE_BEYOND_BOUNDED_OBSERVATION", "GREENWASHING_OR_LEGAL_LIABILITY", "FINANCIAL_RECOMMENDATION", "TOKENISATION_READINESS"]
+  },
+  "evidence_policy": {
+    "registry_version": "0.5.0",
+    "allowed_source_ids": ["CER_ACCU_PROJECT_REGISTER", "CER_PROJECT_RECORD", "CER_PUBLISHED_CEA", "MSPC_SENTINEL2_L2A"],
+    "source_bindings": [
+      {"source_id": "CER_ACCU_PROJECT_REGISTER", "canonical_uri": "https://cer.gov.au/markets/reports-and-data/accu-project-and-contract-register", "discovery_uri": null, "retrieval_uri": null, "binding_status": "FROZEN"},
+      {"source_id": "CER_PROJECT_RECORD", "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132", "discovery_uri": null, "retrieval_uri": null, "binding_status": "FROZEN"},
+      {"source_id": "CER_PUBLISHED_CEA", "canonical_uri": null, "discovery_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132", "retrieval_uri": null, "binding_status": "PENDING_STEP_2"},
+      {"source_id": "MSPC_SENTINEL2_L2A", "canonical_uri": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a", "discovery_uri": null, "retrieval_uri": null, "binding_status": "FROZEN"}
+    ]
+  },
+  "transformation_policy": {
+    "registry_version": "0.5.0",
+    "required_transformation_ids": ["VALIDATE_CLAIM_CONTRACT", "CHECK_AUTHORITY_SCOPE", "RESOLVE_REGISTRY_FACTS", "RESOLVE_CEA_BOUNDARY", "SEARCH_SENTINEL2_L2A", "ALIGN_AOI_RASTERS", "APPLY_SCL_VALIDITY_MASK", "CALCULATE_AOI_VALID_COVERAGE", "CALCULATE_AOI_NDVI", "AGGREGATE_SEASONAL_WINDOWS", "QUALIFY_OBSERVATIONAL_CLAIM", "EMIT_ASSESSMENT_AND_PROVENANCE"]
+  },
+  "spatial_scope": {"status": "PENDING_STEP_2", "boundary_source_id": "CER_PUBLISHED_CEA", "boundary_artifact_uri": null, "boundary_sha256": null},
+  "temporal_scope": {"status": "PENDING_STEP_2", "pre_window": null, "post_window": null, "seasonal_rule": null},
+  "qualification_policy": {
+    "policy_version": "0.5.0",
+    "proposed_execution_mode": "QUALIFICATION",
+    "approval_status": "PENDING_HUMAN_APPROVAL",
+    "indifference_band": {
+      "policy_id": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1",
+      "metric": "POST_MINUS_PRE_AOI_MEDIAN_PER_PIXEL_TEMPORAL_MEDIAN_NDVI",
+      "tau": 0.03,
+      "unit": "NDVI",
+      "lower_boundary_inclusive": true,
+      "upper_boundary_inclusive": true,
+      "epistemic_status": "DEMO_OPERATIONAL_RULE",
+      "ecological_standard": false,
+      "regulatory_standard": false,
+      "instrument_detection_limit": false,
+      "assurance_standard": false
+    },
+    "sensitivity_tau_values": [0.01, 0.02, 0.05],
+    "scl_rule": "PENDING_STEP_2",
+    "observation_coverage_rule": "PENDING_STEP_2"
+  },
+  "pending_step_2": ["BOUNDARY_FILE_AND_CHECKSUM", "PRE_WINDOW", "POST_WINDOW", "SEASONAL_MATCHING_RULE", "SCL_VALIDITY_RULE", "OBSERVATION_COVERAGE_POLICY"]
+}

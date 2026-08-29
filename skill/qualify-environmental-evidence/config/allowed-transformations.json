@@ -1,0 +1,137 @@
+{
+  "registry_version": "0.5.0",
+  "transformations": [
+    {
+      "sequence": 1,
+      "transformation_id": "VALIDATE_CLAIM_CONTRACT",
+      "purpose": "Reject malformed, unbounded or runtime-ineligible inputs.",
+      "input_types": ["CLAIM_CONTRACT"],
+      "output_types": ["VALIDATED_CLAIM_CONTRACT"],
+      "parameter_source": "NONE",
+      "implementation_stage": "STEP_1_CONTRACT_ONLY",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Accept unknown fields", "Proceed with unresolved runtime requirements"]
+    },
+    {
+      "sequence": 2,
+      "transformation_id": "CHECK_AUTHORITY_SCOPE",
+      "purpose": "Refuse requests that exceed the observational authority ceiling.",
+      "input_types": ["VALIDATED_CLAIM_CONTRACT"],
+      "output_types": ["AUTHORITY_DECISION"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_1_CONTRACT_ONLY",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Infer a forbidden conclusion", "Expand the authority ceiling"]
+    },
+    {
+      "sequence": 3,
+      "transformation_id": "RESOLVE_REGISTRY_FACTS",
+      "purpose": "Resolve allowlisted CER facts and source versions.",
+      "input_types": ["AUTHORITY_DECISION", "SOURCE_BINDINGS"],
+      "output_types": ["REGISTRY_FACTS"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Substitute an unregistered source", "Infer unpublished facts"]
+    },
+    {
+      "sequence": 4,
+      "transformation_id": "RESOLVE_CEA_BOUNDARY",
+      "purpose": "Retrieve, validate and hash the exact published CEA artifact.",
+      "input_types": ["REGISTRY_FACTS", "CEA_DISCOVERY_BINDING"],
+      "output_types": ["FROZEN_AOI_BOUNDARY"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Treat a discovery page as a boundary", "Use an unhashed boundary"]
+    },
+    {
+      "sequence": 5,
+      "transformation_id": "SEARCH_SENTINEL2_L2A",
+      "purpose": "Inventory complete raw STAC metadata, enforce the 200-item metadata safety limit, resolve deterministic tile representations and independent acquisition groups, apply metadata-only admissibility, then enforce the 40-group raster-processing limit before raster access.",
+      "input_types": ["FROZEN_AOI_BOUNDARY", "FROZEN_TEMPORAL_SCOPE"],
+      "output_types": ["SENTINEL2_SCENE_INVENTORY_WITH_ADMISSIBILITY", "PROCESSING_REPRESENTATION_RECORDS", "INDEPENDENT_ACQUISITION_GROUP_RECORDS"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status", "raw_item_counts", "processing_representation_records", "acquisition_group_records", "metadata_admissibility_records", "resource_limit_decision"],
+      "prohibited_behaviors": ["Use an unregistered collection", "Send eo:cloud_cover as a query predicate when no scene prefilter is approved", "Treat scene cloud cover as AOI coverage", "Truncate, rank or select a convenient subset when either resource limit is exceeded", "Count multiple tiles or reprocessed records from one datatake as independent acquisitions", "Resolve representations using cloud cover, SCL distribution, valid-pixel fraction, raster values, NDVI, visual appearance or expected disposition", "Infer acquisition identity from item order, filename similarity alone, another item or environmental values", "Infer mean solar zenith angle from date, latitude, season, another item or a window average", "Allow an item with unresolved or above-limit solar geometry into acquisition count, coverage or NDVI", "Read B04, B08 or SCL raster pixels before the acquisition-group resource gate passes", "Select an out-of-policy replacement after observing an exclusion"]
+    },
+    {
+      "sequence": 6,
+      "transformation_id": "ALIGN_AOI_RASTERS",
+      "purpose": "Align AOI, SCL, B04 and B08 grids under a frozen policy.",
+      "input_types": ["FROZEN_AOI_BOUNDARY", "SENTINEL2_SCENE_INVENTORY_WITH_ADMISSIBILITY"],
+      "output_types": ["ALIGNED_AOI_RASTERS"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Use an unfrozen alignment policy", "Silently resample without audit metadata", "Shift or accept a B04/B08 grid that is not congruent with the frozen 10 m UTM lattice", "Use non-nearest resampling for SCL"]
+    },
+    {
+      "sequence": 7,
+      "transformation_id": "APPLY_SCL_VALIDITY_MASK",
+      "purpose": "Apply only the frozen valid and invalid SCL mapping.",
+      "input_types": ["ALIGNED_AOI_RASTERS", "SCL_VALIDITY_RULE"],
+      "output_types": ["MASKED_AOI_RASTERS"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Invent SCL classes", "Apply an unfrozen validity rule"]
+    },
+    {
+      "sequence": 8,
+      "transformation_id": "CALCULATE_AOI_VALID_COVERAGE",
+      "purpose": "Calculate valid pixels divided by eligible AOI pixels.",
+      "input_types": ["MASKED_AOI_RASTERS", "OBSERVATION_COVERAGE_RULE"],
+      "output_types": ["AOI_VALID_COVERAGE"],
+      "parameter_source": "DETERMINISTIC_DERIVATION",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Substitute scene cloud cover", "Omit eligible-pixel denominator", "Count or measure a solar-geometry-inadmissible item"]
+    },
+    {
+      "sequence": 9,
+      "transformation_id": "CALCULATE_AOI_NDVI",
+      "purpose": "Resolve per-item/per-band radiometry and calculate descriptive AOI-level NDVI from calibrated B08 and B04 reflectance.",
+      "input_types": ["MASKED_AOI_RASTERS", "AOI_VALID_COVERAGE"],
+      "output_types": ["AOI_NDVI_OBSERVATIONS"],
+      "parameter_source": "DETERMINISTIC_DERIVATION",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Infer scale, offset or processing baseline from acquisition date, window membership, a global constant, the first item or another asset", "Calculate NDVI directly from uncorrected DN values", "Mix item radiometry metadata", "Infer causality", "Convert NDVI to carbon quantity"]
+    },
+    {
+      "sequence": 10,
+      "transformation_id": "AGGREGATE_SEASONAL_WINDOWS",
+      "purpose": "Aggregate only under the frozen seasonal-matching rule.",
+      "input_types": ["AOI_NDVI_OBSERVATIONS", "SEASONAL_MATCHING_RULE"],
+      "output_types": ["SEASONAL_NDVI_SUMMARIES"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Change windows after observing results", "Use an unfrozen seasonal rule", "Add an undeclared primary year", "Use a future-policy or sensitivity result to overwrite the frozen primary disposition"]
+    },
+    {
+      "sequence": 11,
+      "transformation_id": "QUALIFY_OBSERVATIONAL_CLAIM",
+      "purpose": "Apply coverage, the primary operational indifference band, conflict and authority gates to the bounded comparison.",
+      "input_types": ["SEASONAL_NDVI_SUMMARIES", "QUALIFICATION_POLICY"],
+      "output_types": ["EVIDENCE_QUALIFICATION"],
+      "parameter_source": "FROZEN_CASE_SPEC",
+      "implementation_stage": "STEP_2_OR_LATER",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Cross the authority ceiling", "Suppress abstention or conflict", "Use a sensitivity tau to overwrite the primary disposition", "Describe the operational band as a detection limit or ecological, CER, audit or assurance standard"]
+    },
+    {
+      "sequence": 12,
+      "transformation_id": "EMIT_ASSESSMENT_AND_PROVENANCE",
+      "purpose": "Emit linked schema-valid assessment and provenance artifacts.",
+      "input_types": ["TERMINAL_PIPELINE_STATE"],
+      "output_types": ["ASSESSMENT", "PROVENANCE_MANIFEST"],
+      "parameter_source": "DETERMINISTIC_DERIVATION",
+      "implementation_stage": "STEP_1_CONTRACT_ONLY",
+      "required_audit_fields": ["implementation_version", "parameter_set_ref", "parameter_set_sha256", "input_artifact_refs", "output_artifact_refs", "status"],
+      "prohibited_behaviors": ["Emit free-form completed statements", "Store chain-of-thought", "Omit skipped or failed operations"]
+    }
+  ]
+}

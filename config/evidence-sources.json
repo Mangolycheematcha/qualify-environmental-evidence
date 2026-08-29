@@ -1,0 +1,57 @@
+{
+  "registry_version": "0.5.0",
+  "sources": [
+    {
+      "source_id": "CER_ACCU_PROJECT_REGISTER",
+      "publisher": "Clean Energy Regulator",
+      "evidence_type": "PUBLIC_PROJECT_REGISTER",
+      "canonical_uri": "https://cer.gov.au/markets/reports-and-data/accu-project-and-contract-register",
+      "authority_scope": "Published register context and attributes only.",
+      "permitted_uses": ["Resolve published ACCU project register context and attributes."],
+      "prohibited_uses": ["Causality", "Carbon quantity", "Additionality", "ACCU quality", "Compliance", "Financial action"],
+      "stable_identifier_strategy": "Use the CER canonical register URI plus the resolved publication/version identifier.",
+      "version_resolution_method": "Freeze the retrieved representation hash and any publisher-provided version metadata in Step 2.",
+      "identity_policy": {"scheme": "https", "allowed_hosts": ["cer.gov.au"], "canonical_path_rule": "EXACT", "canonical_path_value": "/markets/reports-and-data/accu-project-and-contract-register", "discovery_path_rule": "EXACT", "discovery_path_value": "/markets/reports-and-data/accu-project-and-contract-register", "stable_identifier": "accu-project-and-contract-register", "bind_project_id": false, "allowed_query_parameters": [], "allow_retrieval_uri": false},
+      "step1_status": "IDENTITY_FROZEN"
+    },
+    {
+      "source_id": "CER_PROJECT_RECORD",
+      "publisher": "Clean Energy Regulator",
+      "evidence_type": "CASE_BOUND_PROJECT_RECORD",
+      "canonical_uri": "https://cer.gov.au/markets/reports-and-data/accu-project-and-contract-register",
+      "authority_scope": "Fields and mapping references published on the case-bound CER project record only.",
+      "permitted_uses": ["Resolve case-bound published project facts and mapping references."],
+      "prohibited_uses": ["Causality", "Carbon quantity", "Additionality", "ACCU quality", "Compliance", "Financial action"],
+      "stable_identifier_strategy": "Bind the generic source to the CER project URI containing the frozen project ID.",
+      "version_resolution_method": "Freeze the case-bound URI, retrieval timestamp, publisher version metadata and content hash in Step 2.",
+      "identity_policy": {"scheme": "https", "allowed_hosts": ["cer.gov.au"], "canonical_path_rule": "PROJECT_PATH", "canonical_path_value": "/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/", "discovery_path_rule": "PROJECT_PATH", "discovery_path_value": "/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/", "stable_identifier": "accu-project-and-contract-register", "bind_project_id": true, "allowed_query_parameters": [], "allow_retrieval_uri": false},
+      "step1_status": "IDENTITY_FROZEN"
+    },
+    {
+      "source_id": "CER_PUBLISHED_CEA",
+      "publisher": "Clean Energy Regulator",
+      "evidence_type": "PUBLISHED_CARBON_ESTIMATION_AREA",
+      "canonical_uri": "https://cer.gov.au/markets/reports-and-data/accu-project-and-contract-register",
+      "authority_scope": "Defines the AOI only after the exact case-specific published artifact and SHA-256 are frozen.",
+      "permitted_uses": ["Discover a published CEA from the case-bound project record.", "Define the AOI after exact artifact identity and SHA-256 are frozen."],
+      "prohibited_uses": ["Use an unresolved discovery page as the boundary", "Causality", "Carbon quantity", "Additionality", "ACCU quality", "Compliance", "Financial action"],
+      "stable_identifier_strategy": "Use the exact publisher artifact identifier and content SHA-256, never a temporary access URL.",
+      "version_resolution_method": "Resolve and hash the exact published boundary artifact in Step 2.",
+      "identity_policy": {"scheme": "https", "allowed_hosts": ["cer.gov.au"], "canonical_path_rule": "PROJECT_TOKEN", "canonical_path_value": "/", "discovery_path_rule": "PROJECT_PATH", "discovery_path_value": "/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/", "stable_identifier": "accu-project-and-contract-register", "bind_project_id": true, "allowed_query_parameters": [], "allow_retrieval_uri": true},
+      "step1_status": "ARTIFACT_PENDING_STEP_2"
+    },
+    {
+      "source_id": "MSPC_SENTINEL2_L2A",
+      "publisher": "Microsoft Planetary Computer",
+      "evidence_type": "SENTINEL_2_LEVEL_2A_CATALOG",
+      "canonical_uri": "https://planetarycomputer.microsoft.com/dataset/sentinel-2-l2a",
+      "authority_scope": "Bounded descriptive spectral observations only.",
+      "permitted_uses": ["Discover versioned Sentinel-2 L2A assets.", "Support bounded descriptive spectral observations.", "Use scene eo:cloud_cover only as a candidate-scene pre-filter."],
+      "prohibited_uses": ["Treat scene cloud cover as AOI valid-observation coverage", "Use signed or expiring access URLs as canonical identifiers", "Causality", "Carbon quantity", "Additionality", "ACCU quality", "Compliance", "Financial action"],
+      "stable_identifier_strategy": "Use collection/item/asset identifiers and immutable content hashes; exclude signed query parameters.",
+      "version_resolution_method": "Freeze collection, item, asset, processing baseline and content identity in Step 2.",
+      "identity_policy": {"scheme": "https", "allowed_hosts": ["planetarycomputer.microsoft.com"], "canonical_path_rule": "EXACT", "canonical_path_value": "/dataset/sentinel-2-l2a", "discovery_path_rule": "EXACT", "discovery_path_value": "/dataset/sentinel-2-l2a", "stable_identifier": "sentinel-2-l2a", "bind_project_id": false, "allowed_query_parameters": [], "allow_retrieval_uri": true},
+      "step1_status": "IDENTITY_FROZEN"
+    }
+  ]
+}

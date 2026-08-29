@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/assessment-output.schema.json",
+  "title": "Qualify Environmental Evidence Assessment Output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "run_id", "execution_status", "evidence_disposition", "reason_codes", "quality_checks", "observations", "statement_template_id", "supported_statement", "must_not_claim", "human_review_required", "provenance_manifest_ref", "qualification_policy_version", "statement_parameters"],
+  "properties": {
+    "schema_version": {"const": "0.5.0"},
+    "case_id": {"type": "string", "minLength": 1},
+    "run_id": {"type": "string", "minLength": 1},
+    "execution_status": {"enum": ["COMPLETED", "ABSTAINED", "REFUSED", "ERROR"]},
+    "evidence_disposition": {"enum": ["CORROBORATING", "CONTRADICTORY", "INCONCLUSIVE", null]},
+    "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reason_code"}},
+    "quality_checks": {"$ref": "#/$defs/quality_checks"},
+    "observations": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/observations"}]},
+    "statement_template_id": {"enum": ["OBSERVATIONAL_COMPARISON_CORROBORATING_V1", "OBSERVATIONAL_COMPARISON_CONTRADICTORY_V1", "OBSERVATIONAL_COMPARISON_CORROBORATING_V2", "OBSERVATIONAL_COMPARISON_CONTRADICTORY_V2", null]},
+    "supported_statement": {"type": ["string", "null"], "minLength": 1},
+    "must_not_claim": {
+      "type": "array", "uniqueItems": true, "minItems": 10, "maxItems": 10,
+      "prefixItems": [
+        {"const": "CAUSAL_ATTRIBUTION"}, {"const": "CARBON_QUANTITY"}, {"const": "ADDITIONALITY"},
+        {"const": "CREDIT_VALIDITY_OR_QUALITY"}, {"const": "REGULATORY_OR_METHODOLOGY_COMPLIANCE"},
+        {"const": "PERMANENCE"}, {"const": "PROJECT_PERFORMANCE_BEYOND_BOUNDED_OBSERVATION"},
+        {"const": "GREENWASHING_OR_LEGAL_LIABILITY"}, {"const": "FINANCIAL_RECOMMENDATION"},
+        {"const": "TOKENISATION_READINESS"}
+      ],
+      "items": false
+    },
+    "human_review_required": {"type": "boolean"},
+    "provenance_manifest_ref": {"type": "string", "minLength": 1},
+    "qualification_policy_version": {"const": "0.5.0"},
+    "statement_parameters": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/statement_parameters"}]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"execution_status": {"const": "COMPLETED"}}, "required": ["execution_status"]},
+      "then": {"properties": {
+        "evidence_disposition": {"enum": ["CORROBORATING", "CONTRADICTORY"]},
+        "reason_codes": {"maxItems": 0},
+        "observations": {"$ref": "#/$defs/complete_observations"},
+        "quality_checks": {"$ref": "#/$defs/all_pass_quality_checks"},
+        "statement_template_id": {"enum": ["OBSERVATIONAL_COMPARISON_CORROBORATING_V2", "OBSERVATIONAL_COMPARISON_CONTRADICTORY_V2"]},
+        "supported_statement": {"type": "string", "minLength": 1},
+        "human_review_required": {"const": false},
+        "statement_parameters": {"$ref": "#/$defs/statement_parameters"}
+      }}
+    },
+    {
+      "if": {"properties": {"execution_status": {"const": "ABSTAINED"}}, "required": ["execution_status"]},
+      "then": {"properties": {
+        "evidence_disposition": {"const": "INCONCLUSIVE"},
+        "observations": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/partial_observations"}, {"$ref": "#/$defs/complete_observations"}]},
+        "statement_template_id": {"type": "null"},
+        "supported_statement": {"type": "null"},
+        "human_review_required": {"const": true},
+        "statement_parameters": {"type": "null"},
+        "reason_codes": {"minItems": 1, "contains": {"enum": ["CLAIM_NOT_BOUNDED", "REQUIRED_FIELD_MISSING", "RUNTIME_SPECIFICATION_NOT_FROZEN", "EVIDENCE_SOURCE_NOT_ALLOWED", "TRANSFORMATION_NOT_ALLOWED", "TRANSFORMATION_SEQUENCE_INVALID", "BOUNDARY_NOT_FROZEN", "TEMPORAL_SCOPE_NOT_FROZEN", "SEASONAL_RULE_NOT_FROZEN", "SOURCE_UNAVAILABLE", "SOURCE_VERSION_UNRESOLVED", "CANONICAL_IDENTIFIER_UNRESOLVED", "ACQUISITION_IDENTITY_UNRESOLVED", "ACQUISITION_REPRESENTATION_AMBIGUOUS", "AOI_NO_OVERLAP", "SCL_ALIGNMENT_FAILED", "PROCESSING_BASELINE_UNRESOLVED", "RADIOMETRY_METADATA_UNRESOLVED", "SOLAR_GEOMETRY_OUT_OF_RANGE", "SOLAR_GEOMETRY_METADATA_UNRESOLVED", "VALID_OBSERVATION_COVERAGE_LOW", "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND", "METADATA_INVENTORY_LIMIT_EXCEEDED", "RESOURCE_LIMIT_EXCEEDED", "EVIDENCE_CONFLICT_UNRESOLVED", "PROVENANCE_INCOMPLETE", "PROVENANCE_HASH_MISMATCH"]}}
+      }, "required": ["reason_codes"]}
+    },
+    {
+      "if": {"properties": {"reason_codes": {"contains": {"const": "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"}}}, "required": ["reason_codes"]},
+      "then": {"properties": {
+        "execution_status": {"const": "ABSTAINED"},
+        "evidence_disposition": {"const": "INCONCLUSIVE"},
+        "observations": {"$ref": "#/$defs/complete_observations"},
+        "quality_checks": {"$ref": "#/$defs/all_pass_quality_checks"}
+      }}
+    },
+    {
+      "if": {"properties": {"execution_status": {"const": "REFUSED"}}, "required": ["execution_status"]},
+      "then": {"properties": {
+        "evidence_disposition": {"type": "null"}, "observations": {"type": "null"},
+        "statement_template_id": {"type": "null"}, "supported_statement": {"type": "null"},
+        "human_review_required": {"const": true}, "statement_parameters": {"type": "null"},
+        "reason_codes": {"minItems": 1, "contains": {"enum": ["AUTHORITY_SCOPE_EXCEEDED", "CAUSALITY_UNSUPPORTED", "CARBON_QUANTITY_UNSUPPORTED", "CREDIT_VALIDITY_UNSUPPORTED", "COMPLIANCE_UNSUPPORTED", "FINANCIAL_DECISION_UNSUPPORTED"]}}
+      }}
+    },
+    {
+      "if": {"properties": {"execution_status": {"const": "ERROR"}}, "required": ["execution_status"]},
+      "then": {"properties": {
+        "evidence_disposition": {"type": "null"}, "statement_template_id": {"type": "null"},
+        "supported_statement": {"type": "null"}, "human_review_required": {"const": true},
+        "statement_parameters": {"type": "null"}, "observations": {"type": "null"},
+        "reason_codes": {"minItems": 1, "contains": {"const": "DETERMINISTIC_PROCESSING_ERROR"}}
+      }}
+    }
+  ],
+  "$defs": {
+    "reason_code": {"enum": ["CLAIM_NOT_BOUNDED", "REQUIRED_FIELD_MISSING", "RUNTIME_SPECIFICATION_NOT_FROZEN", "EVIDENCE_SOURCE_NOT_ALLOWED", "TRANSFORMATION_NOT_ALLOWED", "TRANSFORMATION_SEQUENCE_INVALID", "BOUNDARY_NOT_FROZEN", "TEMPORAL_SCOPE_NOT_FROZEN", "SEASONAL_RULE_NOT_FROZEN", "SOURCE_UNAVAILABLE", "SOURCE_VERSION_UNRESOLVED", "CANONICAL_IDENTIFIER_UNRESOLVED", "ACQUISITION_IDENTITY_UNRESOLVED", "ACQUISITION_REPRESENTATION_AMBIGUOUS", "AOI_NO_OVERLAP", "SCL_ALIGNMENT_FAILED", "PROCESSING_BASELINE_UNRESOLVED", "RADIOMETRY_METADATA_UNRESOLVED", "SOLAR_GEOMETRY_OUT_OF_RANGE", "SOLAR_GEOMETRY_METADATA_UNRESOLVED", "VALID_OBSERVATION_COVERAGE_LOW", "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND", "METADATA_INVENTORY_LIMIT_EXCEEDED", "RESOURCE_LIMIT_EXCEEDED", "EVIDENCE_CONFLICT_UNRESOLVED", "AUTHORITY_SCOPE_EXCEEDED", "CAUSALITY_UNSUPPORTED", "CARBON_QUANTITY_UNSUPPORTED", "CREDIT_VALIDITY_UNSUPPORTED", "COMPLIANCE_UNSUPPORTED", "FINANCIAL_DECISION_UNSUPPORTED", "PROVENANCE_INCOMPLETE", "PROVENANCE_HASH_MISMATCH", "HUMAN_REVIEW_REQUIRED", "DETERMINISTIC_PROCESSING_ERROR"]},
+    "check": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+    "quality_checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["claim_contract", "evidence_allowlist", "transformation_allowlist", "spatial_scope", "temporal_scope", "observation_coverage", "evidence_consistency", "authority_scope", "provenance", "system_execution"],
+      "properties": {"claim_contract": {"$ref": "#/$defs/check"}, "evidence_allowlist": {"$ref": "#/$defs/check"}, "transformation_allowlist": {"$ref": "#/$defs/check"}, "spatial_scope": {"$ref": "#/$defs/check"}, "temporal_scope": {"$ref": "#/$defs/check"}, "observation_coverage": {"$ref": "#/$defs/check"}, "evidence_consistency": {"$ref": "#/$defs/check"}, "authority_scope": {"$ref": "#/$defs/check"}, "provenance": {"$ref": "#/$defs/check"}, "system_execution": {"$ref": "#/$defs/check"}}
+    },
+    "all_pass_quality_checks": {
+      "type": "object", "additionalProperties": false,
+      "required": ["claim_contract", "evidence_allowlist", "transformation_allowlist", "spatial_scope", "temporal_scope", "observation_coverage", "evidence_consistency", "authority_scope", "provenance", "system_execution"],
+      "properties": {"claim_contract": {"const": "PASS"}, "evidence_allowlist": {"const": "PASS"}, "transformation_allowlist": {"const": "PASS"}, "spatial_scope": {"const": "PASS"}, "temporal_scope": {"const": "PASS"}, "observation_coverage": {"const": "PASS"}, "evidence_consistency": {"const": "PASS"}, "authority_scope": {"const": "PASS"}, "provenance": {"const": "PASS"}, "system_execution": {"const": "PASS"}}
+    },
+    "delta_distribution": {
+      "type": "object", "additionalProperties": false,
+      "required": ["count", "q05", "q25", "median", "q75", "q95", "iqr", "mad"],
+      "properties": {"count": {"type": "integer", "minimum": 1}, "q05": {"type": "number"}, "q25": {"type": "number"}, "median": {"type": "number"}, "q75": {"type": "number"}, "q95": {"type": "number"}, "iqr": {"type": "number", "minimum": 0}, "mad": {"type": ["number", "null"], "minimum": 0}}
+    },
+    "sensitivity_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["policy_id", "delta_ndvi", "tau", "execution_status", "evidence_disposition", "reason_codes", "comparison_semantics"],
+      "properties": {
+        "policy_id": {"type": "string", "minLength": 1}, "delta_ndvi": {"type": "number", "minimum": -2, "maximum": 2}, "tau": {"enum": [0.01, 0.02, 0.05]},
+        "execution_status": {"enum": ["COMPLETED", "ABSTAINED"]},
+        "evidence_disposition": {"enum": ["CORROBORATING", "CONTRADICTORY", "INCONCLUSIVE"]},
+        "reason_codes": {"type": "array", "uniqueItems": true, "items": {"enum": ["EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"]}},
+        "comparison_semantics": {"const": "CANONICAL_DECIMAL_FROM_JSON_NUMBER_V1"}
+      }
+    },
+    "observations": {
+      "type": "object", "additionalProperties": false,
+      "required": ["observation_status", "aoi_total_pixels", "aoi_valid_pixels", "aoi_valid_fraction", "pre_window_ndvi_median", "post_window_ndvi_median", "delta_ndvi", "primary_tau", "delta_distribution", "sensitivity_results"],
+      "properties": {
+        "observation_status": {"enum": ["COMPLETE", "PARTIAL"]},
+        "aoi_total_pixels": {"type": ["integer", "null"], "minimum": 0},
+        "aoi_valid_pixels": {"type": ["integer", "null"], "minimum": 0},
+        "aoi_valid_fraction": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "pre_window_ndvi_median": {"type": ["number", "null"], "minimum": -1, "maximum": 1},
+        "post_window_ndvi_median": {"type": ["number", "null"], "minimum": -1, "maximum": 1},
+        "delta_ndvi": {"type": ["number", "null"], "minimum": -2, "maximum": 2},
+        "primary_tau": {"enum": [0.03, null]},
+        "delta_distribution": {"oneOf": [{"type": "null"}, {"$ref": "#/$defs/delta_distribution"}]},
+        "sensitivity_results": {"oneOf": [{"type": "null"}, {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/sensitivity_result"}}]}
+      }
+    },
+    "complete_observations": {
+      "allOf": [
+        {"$ref": "#/$defs/observations"},
+        {"properties": {
+          "observation_status": {"const": "COMPLETE"},
+          "aoi_total_pixels": {"type": "integer", "minimum": 1}, "aoi_valid_pixels": {"type": "integer", "minimum": 0},
+          "aoi_valid_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+          "pre_window_ndvi_median": {"type": "number", "minimum": -1, "maximum": 1},
+          "post_window_ndvi_median": {"type": "number", "minimum": -1, "maximum": 1},
+          "delta_ndvi": {"type": "number", "minimum": -2, "maximum": 2}, "primary_tau": {"const": 0.03},
+          "delta_distribution": {"$ref": "#/$defs/delta_distribution"},
+          "sensitivity_results": {"type": "array", "minItems": 3, "maxItems": 3, "items": {"$ref": "#/$defs/sensitivity_result"}}
+        }}
+      ]
+    },
+    "partial_observations": {"allOf": [{"$ref": "#/$defs/observations"}, {"properties": {"observation_status": {"const": "PARTIAL"}}}]},
+    "statement_parameters": {
+      "type": "object", "additionalProperties": false,
+      "required": ["project_id", "analysis_boundary_role", "pre_window", "post_window", "seasonal_rule_id", "aggregation", "eligible_population", "pre_value", "post_value", "delta_value", "primary_tau", "indifference_policy_id", "qualification_policy_version"],
+      "properties": {
+        "project_id": {"type": "string", "minLength": 1}, "analysis_boundary_role": {"const": "CEA"},
+        "pre_window": {"type": "string", "minLength": 1}, "post_window": {"type": "string", "minLength": 1},
+        "seasonal_rule_id": {"type": "string", "minLength": 1}, "aggregation": {"type": "string", "minLength": 1},
+        "eligible_population": {"type": "string", "minLength": 1}, "pre_value": {"type": "string", "minLength": 1},
+        "post_value": {"type": "string", "minLength": 1}, "delta_value": {"type": "string", "minLength": 1},
+        "primary_tau": {"const": "0.03"}, "indifference_policy_id": {"const": "POC_OPERATIONAL_INDIFFERENCE_BAND_V1"},
+        "qualification_policy_version": {"const": "0.5.0"}
+      }
+    }
+  }
+}
