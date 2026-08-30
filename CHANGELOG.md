@@ -20,6 +20,7 @@ All notable contract and platform changes are recorded here. This project has no
 - Added a frozen three-attempt transport retry policy and ensured failure sealing cannot replace the primary runtime reason.
 - Preserved the second three-way-approved V4 run after a raw `TimeoutError` escaped the retry wrapper during post-window STAC retrieval.
 - Corrected conservative network-access audit state so it is persisted before the first request, and made raw `TimeoutError` use the frozen retry policy.
+- Added the missing pre-run regression for persistent raw timeout exhaustion, exact three-attempt history, and terminal `SOURCE_UNAVAILABLE` classification; the pending third approval was not consumed.
 
 ## 0.4.0
 

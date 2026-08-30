@@ -332,6 +332,27 @@ def test_raw_timeout_error_uses_frozen_retry_policy(monkeypatch):
     assert metadata["retry_delays_seconds"] == [0, 2]
 
 
+def test_raw_timeout_exhaustion_remains_source_unavailable(monkeypatch):
+    calls = []
+    sleeps = []
+
+    def persistent_timeout(*args, **kwargs):
+        calls.append((args, kwargs))
+        raise TimeoutError("The read operation timed out")
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", persistent_timeout)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    with pytest.raises(runtime.V4RuntimeFailure, match="after 3 attempt") as error:
+        runtime._http_request("https://planetarycomputer.microsoft.com/test")
+    assert error.value.reason_code == "SOURCE_UNAVAILABLE"
+    assert len(calls) == runtime.NETWORK_MAX_ATTEMPTS == 3
+    assert sleeps == [2, 5]
+    assert error.value.details is not None
+    attempts = error.value.details["network_attempts"]
+    assert [attempt["attempt"] for attempt in attempts] == [1, 2, 3]
+    assert {attempt["reason_code"] for attempt in attempts} == {"SOURCE_UNAVAILABLE"}
+
+
 def test_network_access_is_persisted_before_first_request(tmp_path, monkeypatch):
     state = {"stage": "INITIALIZED", "network_accessed": False}
     policy = {"project_and_boundary": {"project_page": "https://cer.gov.au/test"}}

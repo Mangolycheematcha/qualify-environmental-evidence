@@ -20,6 +20,8 @@ The approved `1.0.1` baseline at commit `b355df332e2e42a0ed4515d71781bfd859f86ab
 
 Version `1.0.2` makes raw `TimeoutError` use the frozen retry policy and persists conservative network-access state before the first request. These runtime changes require a new implementation commit and approval even though the V4 policy bytes are unchanged.
 
+The subsequent approval bound to commit `863169af556c5e93dac541131bc92abe00d3e028` was not consumed because preflight inspection found missing direct regression coverage for persistent raw timeout exhaustion. A focused test was added, producing a new Git commit while leaving policy and runtime-spec bytes unchanged. Any future live run requires approval bound to that new commit.
+
 New approval must bind all three immutable identifiers:
 
 - policy SHA-256;
