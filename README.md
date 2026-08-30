@@ -9,13 +9,13 @@ Specification-first proof of concept for bounded, provenance-linked qualificatio
 | Area | Status |
 |---|---|
 | Contract and platform implementation | Contract `0.5.0` and the V4 runtime baseline are implemented and tested offline |
-| Live source runs | V3 abstained at its frozen resource gate; the approved V4 run was preserved after a metadata transport timeout |
+| Live source runs | V3 and two approved V4 attempts are preserved; neither V4 attempt reached raster access |
 | Real raster and NDVI path | Implemented and tested with synthetic arrays; not yet executed against live V4 assets |
 | Behavioural evaluation | Not yet executed |
 | Green Agent orchestration | Not built |
 | Public release | Not approved |
 
-The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. The first approved V4 run, `EOP101132-STEP2B-V4-20260830T034400613962Z-441a2382987372a0`, ended `ERROR / SOURCE_UNAVAILABLE` on a metadata transport timeout before raster access. Neither run produced coverage, NDVI, an environmental qualification result, or any causal, carbon, compliance, credit-quality, or financial conclusion.
+The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. The first approved V4 run ended `ERROR / SOURCE_UNAVAILABLE` on a metadata transport timeout. The second approved V4 run, `EOP101132-STEP2B-V4-20260830T041242319779Z-24e3f17288b106b7`, ended `ERROR / DETERMINISTIC_PROCESSING_ERROR` when a raw `TimeoutError` escaped the frozen retry wrapper. All three runs stopped before raster access and produced no coverage, NDVI, environmental qualification, or Step 3 result.
 
 V4 keeps the 40-acquisition raster-processing limit but applies it after deterministic metadata-only grouping and admissibility checks. Its live runtime is frozen separately so approval can bind the unchanged policy bytes, runtime semantics, and exact Git commit without a self-referential hash.
 
@@ -59,7 +59,7 @@ The contract identifies official Clean Energy Regulator project records and Micr
 
 ## Limitations
 
-- Both preserved live runs stopped before raster access: V3 at its resource gate and V4 on a source timeout.
+- All preserved live runs stopped before raster access: V3 at its resource gate and both V4 attempts on source-transport paths.
 - The V4 raster and replay implementation has synthetic coverage but remains unexecuted against live Sentinel-2 assets.
 - A single bounded PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
 - V4 corrects an engineering unit of account; it does not invalidate V3 or imply that a future run will complete.

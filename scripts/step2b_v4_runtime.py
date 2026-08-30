@@ -40,7 +40,7 @@ BOUNDARY_SHA256 = "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820f
 BOUNDARY_BYTES = 10219
 FORBIDDEN_CODES = legacy_io.FORBIDDEN_CODES
 TRANSFORMATION_IDS = legacy_io.TRANSFORMATION_IDS
-RUNTIME_VERSION = "step2b_v4_runtime.py/1.0.1"
+RUNTIME_VERSION = "step2b_v4_runtime.py/1.0.2"
 NETWORK_MAX_ATTEMPTS = 3
 NETWORK_RETRY_DELAYS_SECONDS = (0, 2, 5)
 
@@ -118,7 +118,7 @@ def verify_runtime_spec(
         raise V4RuntimeFailure("local runtime-spec SHA-256 does not match approval", "PROVENANCE_HASH_MISMATCH")
     spec = json.loads(spec_bytes)
     expected = {
-        "runtime_spec_version": "1.0.1",
+        "runtime_spec_version": "1.0.2",
         "runtime_spec_id": RUNTIME_SPEC_ID,
         "policy_id": POLICY_ID,
         "approved_policy_sha256": APPROVED_POLICY_SHA256,
@@ -268,21 +268,22 @@ def _http_request(*args: Any, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
             metadata["request_attempt_count"] = attempt_number
             metadata["retry_delays_seconds"] = list(NETWORK_RETRY_DELAYS_SECONDS[:attempt_number])
             return raw, metadata
-        except legacy_io.RuntimeFailure as exc:
+        except (legacy_io.RuntimeFailure, TimeoutError) as exc:
+            reason_code = getattr(exc, "reason_code", "SOURCE_UNAVAILABLE")
             attempts.append(
                 {
                     "attempt": attempt_number,
                     "attempted_at_utc": attempted_at,
-                    "reason_code": exc.reason_code,
+                    "reason_code": reason_code,
                     "error": _safe_error_message(exc),
                 }
             )
             http_error = exc.__cause__
             non_retryable_http = getattr(http_error, "code", None) not in (None, 408, 429, 500, 502, 503, 504)
-            if exc.reason_code != "SOURCE_UNAVAILABLE" or non_retryable_http or attempt_number == NETWORK_MAX_ATTEMPTS:
+            if reason_code != "SOURCE_UNAVAILABLE" or non_retryable_http or attempt_number == NETWORK_MAX_ATTEMPTS:
                 raise V4RuntimeFailure(
                     f"source unavailable after {attempt_number} attempt(s): {_safe_error_message(exc)}",
-                    exc.reason_code,
+                    reason_code,
                     details={"network_attempts": attempts},
                 ) from exc
     raise AssertionError("bounded network retry loop exhausted without returning or raising")
@@ -333,6 +334,8 @@ def fetch_sources(run_dir: Path) -> None:
         raise V4RuntimeFailure("fetch-sources requires an initialized run")
     policy = read_json(run_dir / "frozen" / "policy.json")
     project_url = policy["project_and_boundary"]["project_page"]
+    state.update(stage="SOURCE_FETCH_STARTED", network_accessed=True)
+    write_json(run_dir / "run-state.json", state)
     project_raw, project_meta = _http_request(project_url)
     (run_dir / "source" / "cer-project-page.raw").write_bytes(project_raw)
     project_meta["extracted_project_fields"] = legacy_io._project_fields(project_raw)

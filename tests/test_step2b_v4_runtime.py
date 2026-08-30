@@ -312,6 +312,45 @@ def test_network_retry_is_bounded_and_audited(monkeypatch):
     assert metadata["retry_delays_seconds"] == [0, 2, 5]
 
 
+def test_raw_timeout_error_uses_frozen_retry_policy(monkeypatch):
+    calls = []
+    sleeps = []
+
+    def timeout_then_succeed(*args, **kwargs):
+        calls.append((args, kwargs))
+        if len(calls) == 1:
+            raise TimeoutError("The read operation timed out")
+        return b"ok", {"http_status": 200}
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", timeout_then_succeed)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    raw, metadata = runtime._http_request("https://planetarycomputer.microsoft.com/test")
+    assert raw == b"ok"
+    assert len(calls) == 2
+    assert sleeps == [2]
+    assert metadata["request_attempt_count"] == 2
+    assert metadata["retry_delays_seconds"] == [0, 2]
+
+
+def test_network_access_is_persisted_before_first_request(tmp_path, monkeypatch):
+    state = {"stage": "INITIALIZED", "network_accessed": False}
+    policy = {"project_and_boundary": {"project_page": "https://cer.gov.au/test"}}
+    runtime.write_json(tmp_path / "frozen" / "policy.json", policy)
+    monkeypatch.setattr(runtime, "_run_guard", lambda _run_dir: (state, {}, {}))
+    monkeypatch.setattr(
+        runtime,
+        "_http_request",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(
+            runtime.V4RuntimeFailure("source unavailable", "SOURCE_UNAVAILABLE")
+        ),
+    )
+    with pytest.raises(runtime.V4RuntimeFailure, match="source unavailable"):
+        runtime.fetch_sources(tmp_path)
+    persisted = runtime.read_json(tmp_path / "run-state.json")
+    assert persisted["stage"] == "SOURCE_FETCH_STARTED"
+    assert persisted["network_accessed"] is True
+
+
 def test_json_security_scan_distinguishes_strings_from_non_finite_values(tmp_path):
     safe = tmp_path / "runtime-spec.json"
     safe.write_text('{"scan_for":"NaN/Infinity"}\n', encoding="utf-8")

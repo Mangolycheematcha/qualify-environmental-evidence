@@ -18,6 +18,8 @@ All notable contract and platform changes are recorded here. This project has no
 - Preserved the first three-way-approved V4 run after a `SOURCE_UNAVAILABLE` metadata timeout before raster access.
 - Corrected a failure-sealing scanner false positive caused by policy text and immutable source XML containing the strings `NaN` or `Infinity`.
 - Added a frozen three-attempt transport retry policy and ensured failure sealing cannot replace the primary runtime reason.
+- Preserved the second three-way-approved V4 run after a raw `TimeoutError` escaped the retry wrapper during post-window STAC retrieval.
+- Corrected conservative network-access audit state so it is persisted before the first request, and made raw `TimeoutError` use the frozen retry policy.
 
 ## 0.4.0
 

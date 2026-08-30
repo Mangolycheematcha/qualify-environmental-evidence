@@ -44,7 +44,7 @@ def build_spec() -> dict[str, Any]:
     if sha256_file(policy_path) != POLICY_SHA256:
         raise ValueError("V4 policy hash drift")
     return {
-        "runtime_spec_version": "1.0.1",
+        "runtime_spec_version": "1.0.2",
         "runtime_spec_id": "EOP101132_STEP2B_V4_RUNTIME_V1",
         "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
         "approved_policy_sha256": POLICY_SHA256,
@@ -86,6 +86,8 @@ def build_spec() -> dict[str, Any]:
             "retry_delays_seconds": [0, 2, 5],
             "retryable_http_statuses": [408, 429, 500, 502, 503, 504],
             "retryable_transport_failure": "SOURCE_UNAVAILABLE",
+            "raw_timeout_error_is_retryable": True,
+            "network_access_flag_persisted_before_first_request": True,
         },
         "source_and_search": {
             "project_id": "EOP101132",
