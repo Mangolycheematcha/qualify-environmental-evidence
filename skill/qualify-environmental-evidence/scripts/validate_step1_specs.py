@@ -15,7 +15,9 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 try:
     from scripts import step2b_offline
+    from scripts import approval_protocol_v2
 except ImportError:  # Packaged validator is imported with the skill scripts directory on sys.path.
+    import approval_protocol_v2
     import step2b_offline
 
 
@@ -88,6 +90,13 @@ REQUIRED_REASON_CODES = [
     "FINANCIAL_DECISION_UNSUPPORTED",
     "PROVENANCE_INCOMPLETE",
     "PROVENANCE_HASH_MISMATCH",
+    "APPROVAL_BINDING_INVALID",
+    "APPROVAL_EVIDENCE_NOT_INDEPENDENT",
+    "APPROVAL_IDENTITY_MISMATCH",
+    "APPROVAL_RUN_ID_MISMATCH",
+    "APPROVAL_EXPIRED",
+    "APPROVAL_ALREADY_CONSUMED",
+    "APPROVAL_EVIDENCE_UNAVAILABLE",
     "HUMAN_REVIEW_REQUIRED",
     "DETERMINISTIC_PROCESSING_ERROR",
 ]
@@ -157,6 +166,10 @@ SCHEMA_FILES = {
     "claim": ROOT / "schemas" / "claim-contract.schema.json",
     "assessment": ROOT / "schemas" / "assessment-output.schema.json",
     "provenance": ROOT / "schemas" / "provenance-manifest.schema.json",
+    "approval_request_v2": ROOT / "schemas" / "approval-request-v2.schema.json",
+    "approval_verification_v2": ROOT / "schemas" / "approval-verification-v2.schema.json",
+    "approval_consumption_v2": ROOT / "schemas" / "approval-consumption-v2.schema.json",
+    "run_state_v2": ROOT / "schemas" / "run-state-v2.schema.json",
 }
 CASE_FILE = ROOT / "cases" / "eop101132" / "case-spec.json"
 V3_POLICY_FILE = ROOT / "policies" / "eop101132" / "step2b-proposed-policy.json"
@@ -186,10 +199,10 @@ def reject_non_finite(value: Any, context: str = "document", path: tuple[Any, ..
 
 def load_json(path: Path) -> dict[str, Any]:
     try:
-        value = json.loads(path.read_text(encoding="utf-8"), parse_constant=_reject_json_constant)
+        value = approval_protocol_v2.strict_json_loads(path.read_bytes())
         reject_non_finite(value, str(path))
         return value
-    except (OSError, json.JSONDecodeError, ValueError) as exc:
+    except (OSError, json.JSONDecodeError, ValueError, approval_protocol_v2.ApprovalProtocolError) as exc:
         try:
             display_path = path.relative_to(ROOT)
         except ValueError:

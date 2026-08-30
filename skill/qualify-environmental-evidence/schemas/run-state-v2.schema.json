@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/run-state-v2.schema.json",
+  "title": "V4 Run State With Approval Protocol V2",
+  "type": "object",
+  "required": ["run_id", "policy_sha256", "runtime_spec_sha256", "git_commit", "approval_protocol_version", "approval_request_sha256", "approval_evidence_sha256", "approval_consumption_sha256", "stage", "authorization_network_access_attempted", "data_network_access_attempted", "network_accessed"],
+  "properties": {
+    "run_id": {"type": "string"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "runtime_spec_sha256": {"$ref": "#/$defs/sha256"},
+    "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "approval_protocol_version": {"const": "2.0.0"},
+    "approval_request_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_consumption_sha256": {"$ref": "#/$defs/sha256"},
+    "stage": {"type": "string"},
+    "authorization_network_access_attempted": {"type": "boolean"},
+    "first_authorization_access_attempt_at": {"type": ["string", "null"], "format": "date-time"},
+    "data_network_access_attempted": {"type": "boolean"},
+    "first_data_network_attempt_at": {"type": ["string", "null"], "format": "date-time"},
+    "network_accessed": {"type": "boolean"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

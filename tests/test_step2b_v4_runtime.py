@@ -39,10 +39,9 @@ def test_v4_policy_bytes_remain_unchanged():
 
 def test_exact_three_way_approval_binding():
     approval = _approval("b" * 64)
-    runtime.validate_detached_approval(approval, runtime_spec_hash="b" * 64, git_commit="a" * 40)
-    approval["allowed_scope"] = "ONE_PRIMARY_EOP101132_RUN"
-    with pytest.raises(runtime.V4RuntimeFailure, match="allowed_scope"):
+    with pytest.raises(runtime.V4RuntimeFailure) as error:
         runtime.validate_detached_approval(approval, runtime_spec_hash="b" * 64, git_commit="a" * 40)
+    assert error.value.reason_code == "APPROVAL_EVIDENCE_NOT_INDEPENDENT"
 
 
 def test_frozen_runtime_spec_and_all_implementation_hashes_validate():
@@ -50,7 +49,8 @@ def test_frozen_runtime_spec_and_all_implementation_hashes_validate():
     spec, actual = runtime.verify_runtime_spec(digest, verify_packages=False)
     assert actual == digest
     assert spec["approved_policy_sha256"] == runtime.APPROVED_POLICY_SHA256
-    assert spec["approval_binding"]["statement_template"].endswith("{git_commit}")
+    assert spec["approval_binding"]["protocol"] == "APPROVAL_PROTOCOL_V2"
+    assert spec["approval_binding"]["maximum_executions"] == 1
 
 
 def test_snapped_grid_uses_frozen_lattice():
@@ -164,7 +164,21 @@ def test_runtime_manifest_carries_three_way_identity_and_validates(tmp_path):
     policy = json.loads(POLICY.read_text(encoding="utf-8"))
     (run_dir / "frozen" / "policy.json").write_bytes(POLICY.read_bytes())
     (run_dir / "frozen" / "runtime-spec.json").write_bytes(runtime.RUNTIME_SPEC_PATH.read_bytes())
-    runtime.write_json(run_dir / "approval" / "approval.json", _approval("b" * 64))
+    request = runtime.approval_v2.build_request(
+        policy_sha256=runtime.APPROVED_POLICY_SHA256,
+        runtime_spec_sha256="b" * 64,
+        executable_git_commit="a" * 40,
+        created_at_utc="2026-08-30T00:00:00.000000Z",
+    )
+    verification = {
+        "approval_request_sha256": request["approval_request_sha256"],
+        "github_url": "https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/17",
+        "github_author_login": "Mangolycheematcha",
+    }
+    consumption = {"approval_request_sha256": request["approval_request_sha256"]}
+    runtime.write_json(run_dir / "approval" / "approval-request.json", request, canonical=True)
+    runtime.write_json(run_dir / "approval" / "approval-verification.json", verification, canonical=True)
+    runtime.write_json(run_dir / "approval" / "approval-consumption.json", consumption, canonical=True)
     runtime.legacy_io._runtime_case(run_dir, policy)
     project_raw = b"synthetic project record"
     runtime.write_json(
@@ -218,7 +232,11 @@ def test_runtime_manifest_carries_three_way_identity_and_validates(tmp_path):
             "case_id": "EOP101132-NDVI-001",
             "policy_sha256": runtime.APPROVED_POLICY_SHA256,
             "runtime_spec_sha256": "b" * 64,
-            "approval_sha256": hashlib.sha256((run_dir / "approval" / "approval.json").read_bytes()).hexdigest(),
+            "approval_protocol_version": "2.0.0",
+            "approval_request_sha256": request["approval_request_sha256"],
+            "approval_evidence_sha256": runtime.sha256_file(run_dir / "approval" / "approval-verification.json"),
+            "approval_consumption_sha256": runtime.sha256_file(run_dir / "approval" / "approval-consumption.json"),
+            "approval_sha256": runtime.sha256_file(run_dir / "approval" / "approval-verification.json"),
             "git_commit": "a" * 40,
             "created_at_utc": "2026-08-30T00:00:00Z",
             "stage": "RASTER_AGGREGATION_COMPLETE",
@@ -230,7 +248,8 @@ def test_runtime_manifest_carries_three_way_identity_and_validates(tmp_path):
     identity = manifest["run_identity"]
     assert identity["approved_runtime_spec_sha256"] == "b" * 64
     assert identity["git_commit"] == "a" * 40
-    assert identity["detached_approval_sha256"] == runtime.sha256_file(run_dir / "approval" / "approval.json")
+    assert identity["approval_request_sha256"] == request["approval_request_sha256"]
+    assert identity["approval_evidence_sha256"] == runtime.sha256_file(run_dir / "approval" / "approval-verification.json")
 
 
 def test_offline_replay_recomputes_ndvi_from_safe_aoi_inputs(tmp_path):
@@ -358,13 +377,8 @@ def test_network_access_is_persisted_before_first_request(tmp_path, monkeypatch)
     policy = {"project_and_boundary": {"project_page": "https://cer.gov.au/test"}}
     runtime.write_json(tmp_path / "frozen" / "policy.json", policy)
     monkeypatch.setattr(runtime, "_run_guard", lambda _run_dir: (state, {}, {}))
-    monkeypatch.setattr(
-        runtime,
-        "_http_request",
-        lambda *_args, **_kwargs: (_ for _ in ()).throw(
-            runtime.V4RuntimeFailure("source unavailable", "SOURCE_UNAVAILABLE")
-        ),
-    )
+    monkeypatch.setattr(runtime.legacy_io, "http_request", lambda *_args, **_kwargs: (_ for _ in ()).throw(TimeoutError("source unavailable")))
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
     with pytest.raises(runtime.V4RuntimeFailure, match="source unavailable"):
         runtime.fetch_sources(tmp_path)
     persisted = runtime.read_json(tmp_path / "run-state.json")

@@ -123,6 +123,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--manifest", help="Path to a linked provenance manifest JSON file; requires --assessment.")
     parser.add_argument("--json", action="store_true", help="Emit one compact JSON object to stdout.")
     parser.add_argument("--check-resources", action="store_true", help="Verify packaged resource hashes and exit.")
+    parser.add_argument("--approval-request", help="Strictly validate an Approval Protocol V2 request without network access.")
     return parser
 
 
@@ -147,6 +148,29 @@ def main(argv: list[str] | None = None) -> int:
         )
         _emit(payload, args.json)
         return EXIT_OK
+    if args.approval_request:
+        try:
+            import approval_protocol_v2
+
+            request = approval_protocol_v2.read_json(Path(args.approval_request).resolve())
+            approval_protocol_v2.validate_request(request)
+            payload = _result(
+                "VALID_APPROVAL_REQUEST_V2", status="ABSTAINED", disposition="INCONCLUSIVE",
+                reasons=["HUMAN_REVIEW_REQUIRED"], human_review=True, runtime_ready=False,
+                detail="Approval request bindings and canonical hash are valid; no approval evidence was retrieved or consumed.",
+            )
+            payload["approval_request_sha256"] = request["approval_request_sha256"]
+            _emit(payload, args.json)
+            return EXIT_OK
+        except Exception as exc:
+            payload = _result(
+                "INVALID_APPROVAL_REQUEST_V2", status="ERROR", disposition=None,
+                reasons=["APPROVAL_BINDING_INVALID"], human_review=True, runtime_ready=False,
+                detail=str(exc),
+            )
+            print(str(exc), file=sys.stderr)
+            _emit(payload, args.json)
+            return EXIT_INVALID
     if not args.case:
         payload = _result(
             "INVALID_INVOCATION", status="ERROR", disposition=None,

@@ -28,6 +28,10 @@
     "run_identity": {
       "type": "object", "additionalProperties": false,
       "required": ["approved_policy_sha256", "calculated_policy_sha256_at_start", "final_policy_sha256", "input_sha256_at_start", "final_input_sha256"],
+      "allOf": [{
+        "if": {"required": ["approval_protocol_version"]},
+        "then": {"required": ["approval_protocol_version", "approval_request_sha256", "approval_evidence_sha256", "approval_consumption_sha256", "reserved_run_id", "github_approval_url", "github_approver_login"]}
+      }],
       "properties": {
         "approved_policy_sha256": {"$ref": "#/$defs/sha256"},
         "calculated_policy_sha256_at_start": {"$ref": "#/$defs/sha256"},
@@ -36,6 +40,13 @@
         "final_input_sha256": {"$ref": "#/$defs/sha256"},
         "approved_runtime_spec_sha256": {"$ref": "#/$defs/sha256"},
         "detached_approval_sha256": {"$ref": "#/$defs/sha256"},
+        "approval_protocol_version": {"const": "2.0.0"},
+        "approval_request_sha256": {"$ref": "#/$defs/sha256"},
+        "approval_evidence_sha256": {"$ref": "#/$defs/sha256"},
+        "approval_consumption_sha256": {"$ref": "#/$defs/sha256"},
+        "reserved_run_id": {"type": "string", "minLength": 1},
+        "github_approval_url": {"type": "string", "pattern": "^https://github\\.com/"},
+        "github_approver_login": {"const": "Mangolycheematcha"},
         "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
       }
     },
@@ -172,7 +183,7 @@
         "finished_at_utc": {"type": "string", "format": "date-time"}, "reason_codes": {"type": "array", "uniqueItems": true, "items": {"$ref": "#/$defs/reason_code"}}
       }
     },
-    "reason_code": {"enum": ["CLAIM_NOT_BOUNDED", "REQUIRED_FIELD_MISSING", "RUNTIME_SPECIFICATION_NOT_FROZEN", "EVIDENCE_SOURCE_NOT_ALLOWED", "TRANSFORMATION_NOT_ALLOWED", "TRANSFORMATION_SEQUENCE_INVALID", "BOUNDARY_NOT_FROZEN", "TEMPORAL_SCOPE_NOT_FROZEN", "SEASONAL_RULE_NOT_FROZEN", "SOURCE_UNAVAILABLE", "SOURCE_VERSION_UNRESOLVED", "CANONICAL_IDENTIFIER_UNRESOLVED", "ACQUISITION_IDENTITY_UNRESOLVED", "ACQUISITION_REPRESENTATION_AMBIGUOUS", "AOI_NO_OVERLAP", "SCL_ALIGNMENT_FAILED", "PROCESSING_BASELINE_UNRESOLVED", "RADIOMETRY_METADATA_UNRESOLVED", "SOLAR_GEOMETRY_OUT_OF_RANGE", "SOLAR_GEOMETRY_METADATA_UNRESOLVED", "VALID_OBSERVATION_COVERAGE_LOW", "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND", "METADATA_INVENTORY_LIMIT_EXCEEDED", "RESOURCE_LIMIT_EXCEEDED", "EVIDENCE_CONFLICT_UNRESOLVED", "AUTHORITY_SCOPE_EXCEEDED", "CAUSALITY_UNSUPPORTED", "CARBON_QUANTITY_UNSUPPORTED", "CREDIT_VALIDITY_UNSUPPORTED", "COMPLIANCE_UNSUPPORTED", "FINANCIAL_DECISION_UNSUPPORTED", "PROVENANCE_INCOMPLETE", "PROVENANCE_HASH_MISMATCH", "HUMAN_REVIEW_REQUIRED", "DETERMINISTIC_PROCESSING_ERROR"]},
+    "reason_code": {"enum": ["CLAIM_NOT_BOUNDED", "REQUIRED_FIELD_MISSING", "RUNTIME_SPECIFICATION_NOT_FROZEN", "EVIDENCE_SOURCE_NOT_ALLOWED", "TRANSFORMATION_NOT_ALLOWED", "TRANSFORMATION_SEQUENCE_INVALID", "BOUNDARY_NOT_FROZEN", "TEMPORAL_SCOPE_NOT_FROZEN", "SEASONAL_RULE_NOT_FROZEN", "SOURCE_UNAVAILABLE", "SOURCE_VERSION_UNRESOLVED", "CANONICAL_IDENTIFIER_UNRESOLVED", "ACQUISITION_IDENTITY_UNRESOLVED", "ACQUISITION_REPRESENTATION_AMBIGUOUS", "AOI_NO_OVERLAP", "SCL_ALIGNMENT_FAILED", "PROCESSING_BASELINE_UNRESOLVED", "RADIOMETRY_METADATA_UNRESOLVED", "SOLAR_GEOMETRY_OUT_OF_RANGE", "SOLAR_GEOMETRY_METADATA_UNRESOLVED", "VALID_OBSERVATION_COVERAGE_LOW", "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND", "METADATA_INVENTORY_LIMIT_EXCEEDED", "RESOURCE_LIMIT_EXCEEDED", "EVIDENCE_CONFLICT_UNRESOLVED", "AUTHORITY_SCOPE_EXCEEDED", "CAUSALITY_UNSUPPORTED", "CARBON_QUANTITY_UNSUPPORTED", "CREDIT_VALIDITY_UNSUPPORTED", "COMPLIANCE_UNSUPPORTED", "FINANCIAL_DECISION_UNSUPPORTED", "PROVENANCE_INCOMPLETE", "PROVENANCE_HASH_MISMATCH", "APPROVAL_BINDING_INVALID", "APPROVAL_EVIDENCE_NOT_INDEPENDENT", "APPROVAL_IDENTITY_MISMATCH", "APPROVAL_RUN_ID_MISMATCH", "APPROVAL_EXPIRED", "APPROVAL_ALREADY_CONSUMED", "APPROVAL_EVIDENCE_UNAVAILABLE", "HUMAN_REVIEW_REQUIRED", "DETERMINISTIC_PROCESSING_ERROR"]},
     "policy_versions": {
       "type": "object", "additionalProperties": false,
       "required": ["evidence_sources", "transformations", "statement_templates", "forbidden_inferences", "reason_codes", "qualification_policy"],

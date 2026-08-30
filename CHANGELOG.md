@@ -15,13 +15,14 @@ All notable contract and platform changes are recorded here. This project has no
 - Added three-way detached approval binding for the V4 policy hash, runtime-spec hash, and Git commit.
 - Implemented metadata-asset resolution, acquisition-group raster processing, calibrated NDVI aggregation, primary sealing, and exact AOI-cache replay.
 - Added synthetic V4 runtime, array-hash, raster-calibration, coverage, assessment, and provenance tests.
-- Preserved the first three-way-approved V4 run after a `SOURCE_UNAVAILABLE` metadata timeout before raster access.
+- Preserved the first historical V4 attempt after a `SOURCE_UNAVAILABLE` metadata timeout before raster access; its self-attested approval is not independent human evidence.
 - Corrected a failure-sealing scanner false positive caused by policy text and immutable source XML containing the strings `NaN` or `Infinity`.
 - Added a frozen three-attempt transport retry policy and ensured failure sealing cannot replace the primary runtime reason.
-- Preserved the second three-way-approved V4 run after a raw `TimeoutError` escaped the retry wrapper during post-window STAC retrieval.
+- Preserved the second historical V4 attempt after a raw `TimeoutError` escaped the retry wrapper during post-window STAC retrieval.
 - Corrected conservative network-access audit state so it is persisted before the first request, and made raw `TimeoutError` use the frozen retry policy.
 - Added the missing pre-run regression for persistent raw timeout exhaustion, exact three-attempt history, and terminal `SOURCE_UNAVAILABLE` classification; the pending third approval was not consumed.
-- Preserved the third three-way-approved V4 run after it completed live raster processing, NDVI qualification, provenance sealing, and cached-input replay as `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND`.
+- Preserved the technically valid and reproducible V4 scientific run after it completed live raster processing, NDVI qualification, provenance sealing, and cached-input replay as `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND`; subsequent audit found its approval binding invalid.
+- Added Approval Protocol V2 with independently attributable GitHub evidence, exact reserved-Run-ID binding, expiry, read-only authorization lookup, one-time atomic consumption, and separate authorization/data network-attempt records.
 - Recorded that Step 2B is complete for the approved run and Step 3 was not executed.
 
 ## 0.4.0

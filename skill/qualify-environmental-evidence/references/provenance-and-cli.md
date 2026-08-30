@@ -5,6 +5,7 @@
 ```text
 python scripts/qualify.py CASE.json [--assessment ASSESSMENT.json --manifest MANIFEST.json] [--json]
 python scripts/qualify.py --check-resources [--json]
+python scripts/qualify.py --approval-request REQUEST.json [--json]
 ```
 
 Paths may be absolute or relative to the caller. Packaged schemas, registries, and code resolve from the installed skill root, not the working directory. `--json` writes one compact JSON object to stdout; diagnostics go to stderr.
@@ -19,7 +20,7 @@ Exit codes:
 | 4 | Packaged resource integrity failure |
 | 5 | Unexpected internal error |
 
-The script requires Python 3.10+ and `jsonschema>=4.18,<5`. It makes no network calls.
+The script requires Python 3.10+ and `jsonschema>=4.18,<5`. It makes no network calls. Approval request validation checks strict JSON, fixed bindings, the canonical statement, and the request hash only; it does not retrieve evidence, approve, consume, or execute a scientific workflow.
 
 ## Audit Trail
 

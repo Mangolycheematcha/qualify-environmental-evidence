@@ -15,6 +15,7 @@ import pytest
 import yaml
 
 from scripts import validate_step1_specs as step1
+from scripts import approval_protocol_v2
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -90,7 +91,7 @@ def test_packaged_resources_match_authoritative_allowlist_and_manifest():
     result = subprocess.run([sys.executable, str(PACKAGE_SCRIPT), "--check"], cwd=ROOT, text=True, capture_output=True, check=False)
     assert result.returncode == 0, result.stderr
     manifest = json.loads((SKILL / "resource-manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest["resources"]) == 14
+    assert len(manifest["resources"]) == 19
     assert [item["path"] for item in manifest["resources"]] == list(dict.fromkeys(item["path"] for item in manifest["resources"]))
 
 
@@ -116,6 +117,21 @@ def test_standalone_skill_copy_runs_without_repository(tmp_path):
     check = run_cli("--check-resources", "--json", cwd=tmp_path, cli=cli)
     assert check.returncode == 0
     assert json.loads(check.stdout)["outcome"] == "RESOURCES_VALID"
+
+
+def test_standalone_skill_validates_approval_request_without_network(tmp_path):
+    request = approval_protocol_v2.build_request(
+        policy_sha256=approval_protocol_v2.APPROVED_POLICY_SHA256,
+        runtime_spec_sha256="b" * 64,
+        executable_git_commit="a" * 40,
+        created_at_utc="2026-08-30T00:00:00.000000Z",
+    )
+    request_path = write_json(tmp_path / "approval-request.json", request)
+    result = run_cli("--approval-request", str(request_path), "--json", cwd=tmp_path)
+    assert result.returncode == 0, result.stderr
+    payload = json.loads(result.stdout)
+    assert payload["outcome"] == "VALID_APPROVAL_REQUEST_V2"
+    assert payload["approval_request_sha256"] == request["approval_request_sha256"]
 
 
 def test_machine_output_and_stable_authority_refusal_exit_code(tmp_path):

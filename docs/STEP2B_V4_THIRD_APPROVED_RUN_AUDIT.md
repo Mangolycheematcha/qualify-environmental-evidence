@@ -1,4 +1,6 @@
-# Step 2B V4 Third Approved Run Audit
+# Step 2B V4 Completed Scientific Run Record
+
+> Superseded governance classification: subsequent independent audit returned `VALID_TECHNICAL_RUN_BUT_APPROVAL_BINDING_INVALID`. This document preserves technical observations but does not establish approval. See `docs/incidents/STEP2B_V4_APPROVAL_BINDING_FAILURE.md`.
 
 ## Identity
 
@@ -9,7 +11,7 @@
 - Runtime-spec SHA-256: `9bbfdd8c1e73a8a0393afbbec7570e4a28616b204dff2fbed2db17d8dd9a4508`
 - Detached approval SHA-256: `c995bde4e8b7c9994f65f2b64e1ac4d03325e9a02ee1b4cdcd36920e257ef6d0`
 
-The approval was consumed exactly once. The run was fresh, was not resumed from an earlier run, and remains local under the ignored `runs/` directory.
+The local approval record was consumed exactly once by the implementation, but it was self-attested and did not constitute independent human approval. The run was fresh, was not resumed from an earlier run, and remains local under the ignored `runs/` directory.
 
 ## Outcome
 
@@ -50,7 +52,7 @@ The primary result qualifies only the bounded observational NDVI comparison. It 
 - Offline replay: canonical assessment bytes and hash equal; network access `false`
 - Post-run automated tests: `239 passed`
 
-The first and second approved V4 runs were compared with their independent Agent archives after this run and remained byte-identical: `136/136` and `33/33` files respectively, with zero differences. Repository policy and runtime-spec bytes remained identical to the frozen run copies.
+The first and second historical V4 attempts were compared with their independent Agent archives after this run and remained byte-identical: `136/136` and `33/33` files respectively, with zero differences. Repository policy and runtime-spec bytes remained identical to the frozen run copies.
 
 ## Boundary
 

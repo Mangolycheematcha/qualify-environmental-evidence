@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/approval-request-v2.schema.json",
+  "title": "Approval Request V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["approval_protocol_version", "approval_request_id", "reserved_run_id", "nonce", "policy_id", "policy_sha256", "runtime_spec_id", "runtime_spec_sha256", "executable_git_commit", "execution_mode", "qualification_mode", "source_scope", "input_scope", "maximum_executions", "created_at_utc", "expires_at_utc", "expected_approver_login", "expected_github_repository", "allowed_evidence_type", "canonicalisation_id", "canonical_approval_statement", "approval_request_sha256"],
+  "properties": {
+    "approval_protocol_version": {"const": "2.0.0"},
+    "approval_request_id": {"type": "string", "pattern": "^APR-EOP101132-V2-[0-9a-f]{32}$"},
+    "reserved_run_id": {"type": "string", "pattern": "^EOP101132-STEP2B-V4-[0-9]{8}T[0-9]{12}Z-[0-9a-f]{16}$"},
+    "nonce": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "policy_id": {"const": "DEMO_QUALIFICATION_POLICY_EOP101132_V4"},
+    "policy_sha256": {"$ref": "#/$defs/sha256"},
+    "runtime_spec_id": {"const": "EOP101132_STEP2B_V4_RUNTIME_V1"},
+    "runtime_spec_sha256": {"$ref": "#/$defs/sha256"},
+    "executable_git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "execution_mode": {"const": "QUALIFICATION"},
+    "qualification_mode": {"const": "STEP2B_V4_BOUNDED_NDVI"},
+    "source_scope": {"type": "object", "minProperties": 1},
+    "input_scope": {"type": "object", "minProperties": 1},
+    "maximum_executions": {"const": 1},
+    "created_at_utc": {"type": "string", "format": "date-time"},
+    "expires_at_utc": {"type": "string", "format": "date-time"},
+    "expected_approver_login": {"const": "Mangolycheematcha"},
+    "expected_github_repository": {"const": "Mangolycheematcha/qualify-environmental-evidence"},
+    "allowed_evidence_type": {"const": ["GITHUB_ISSUE", "GITHUB_ISSUE_COMMENT"]},
+    "canonicalisation_id": {"const": "CANONICAL_JSON_V1"},
+    "canonical_approval_statement": {"type": "string", "minLength": 1},
+    "approval_request_sha256": {"$ref": "#/$defs/sha256"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

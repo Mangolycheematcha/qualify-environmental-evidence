@@ -10,17 +10,19 @@ The repository constrains evidence identity, transformations, abstention behavio
 
 | Area | Status |
 |---|---|
-| Contract and platform implementation | Contract `0.5.0` and frozen V4 runtime `1.0.2` are implemented and tested |
-| Live source runs | V3 and three approved V4 runs are preserved locally; the third V4 run completed the frozen Step 2B path |
+| Contract and platform implementation | Contract `0.5.0` and V4 runtime `1.1.0` with Approval Protocol V2 are implemented and tested |
+| Live source runs | Historical V3/V4 runs are preserved locally; the completed V4 scientific run failed subsequent approval-binding audit |
 | Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs |
 | Step 2B qualification | `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
 | Step 3 | Not executed and not approved |
 | Green Agent orchestration | Not built |
 | Public release | Not approved |
 
-The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. The first approved V4 run ended `ERROR / SOURCE_UNAVAILABLE` on a metadata transport timeout. The second approved V4 run, `EOP101132-STEP2B-V4-20260830T041242319779Z-24e3f17288b106b7`, ended `ERROR / DETERMINISTIC_PROCESSING_ERROR` when a raw `TimeoutError` escaped the frozen retry wrapper.
+The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. Two early V4 attempts ended on transport and timeout handling failures. Their original approval records are historical artifacts, not independent human-approval evidence under Approval Protocol V2.
 
-The third approved V4 run, `EOP101132-STEP2B-V4-20260830T044223516364Z-73144a299e2d5763`, completed the frozen Step 2B workflow at authorised execution commit `bf0b1a33230ff2d6e259aab2cca087bc8c21dbbf`. It read permitted raster pixels, computed a pre-window NDVI median of `0.6630660903670323`, a post-window median of `0.6432938994009436`, and delta NDVI of `-0.0197721909660887`. The primary policy therefore abstained as `INCONCLUSIVE` because the bounded observation fell within the operational indifference band. Offline replay reproduced the canonical assessment hash. Step 3 was not executed.
+The completed V4 scientific run, `EOP101132-STEP2B-V4-20260830T044223516364Z-73144a299e2d5763`, executed commit `bf0b1a33230ff2d6e259aab2cca087bc8c21dbbf`. It read permitted raster pixels, computed a pre-window NDVI median of `0.6630660903670323`, a post-window median of `0.6432938994009436`, and delta NDVI of `-0.0197721909660887`. The primary policy abstained as `INCONCLUSIVE` because the bounded observation fell within the operational indifference band. Offline replay reproduced the assessment bytes. A subsequent audit classified it `VALID_TECHNICAL_RUN_BUT_APPROVAL_BINDING_INVALID`; it is not an approved or canonical run. Step 3 was not executed.
+
+The V4 scientific run is technically valid and reproducible. Its original human-approval binding failed a subsequent governance audit. A corrected pre-authorized run is pending.
 
 V4 keeps the 40-acquisition raster-processing limit but applies it after deterministic metadata-only grouping and admissibility checks. Its live runtime is frozen separately so approval can bind the unchanged policy bytes, runtime semantics, and exact Git commit without a self-referential hash.
 
@@ -64,7 +66,7 @@ The contract identifies official Clean Energy Regulator project records and Micr
 
 ## Limitations
 
-- The third V4 result is one bounded observational comparison; it does not generalise beyond the frozen claim, AOI, windows, sources, and policy.
+- The completed V4 scientific result is one bounded observational comparison with invalid approval binding; it does not generalise beyond the frozen claim, AOI, windows, sources, and policy.
 - A single bounded PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
 - V4 corrects an engineering unit of account; it does not invalidate V3 or retrospectively alter either failed V4 run.
 

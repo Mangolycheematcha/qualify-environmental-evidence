@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/approval-consumption-v2.schema.json",
+  "title": "Approval Consumption V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["approval_protocol_version", "approval_request_id", "approval_request_sha256", "approval_evidence_sha256", "consumed_at_utc", "consumed_by_run_id", "executable_commit", "maximum_executions", "actual_consumption_count"],
+  "properties": {
+    "approval_protocol_version": {"const": "2.0.0"},
+    "approval_request_id": {"type": "string"},
+    "approval_request_sha256": {"$ref": "#/$defs/sha256"},
+    "approval_evidence_sha256": {"$ref": "#/$defs/sha256"},
+    "consumed_at_utc": {"type": "string", "format": "date-time"},
+    "consumed_by_run_id": {"type": "string"},
+    "executable_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "maximum_executions": {"const": 1},
+    "actual_consumption_count": {"const": 1}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

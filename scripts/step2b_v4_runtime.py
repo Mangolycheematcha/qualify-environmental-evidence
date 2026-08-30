@@ -24,6 +24,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from scripts import step2b_acquisition as acquisition  # noqa: E402
+from scripts import approval_protocol_v2 as approval_v2  # noqa: E402
 from scripts import step2b_offline  # noqa: E402
 from scripts import step2b_runtime as legacy_io  # noqa: E402
 from scripts import step2b_v4_raster as raster_core  # noqa: E402
@@ -35,12 +36,12 @@ POLICY_ID = "DEMO_QUALIFICATION_POLICY_EOP101132_V4"
 RUNTIME_SPEC_ID = "EOP101132_STEP2B_V4_RUNTIME_V1"
 CONTRACT_VERSION = "0.5.0"
 APPROVAL_SCOPE = "ONE_EOP101132_V4_PRIMARY_RUN"
-APPROVAL_RECORD_VERSION = "2.0.0"
+APPROVAL_RECORD_VERSION = approval_v2.APPROVAL_PROTOCOL_VERSION
 BOUNDARY_SHA256 = "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820fef2"
 BOUNDARY_BYTES = 10219
 FORBIDDEN_CODES = legacy_io.FORBIDDEN_CODES
 TRANSFORMATION_IDS = legacy_io.TRANSFORMATION_IDS
-RUNTIME_VERSION = "step2b_v4_runtime.py/1.0.2"
+RUNTIME_VERSION = "step2b_v4_runtime.py/1.1.0"
 NETWORK_MAX_ATTEMPTS = 3
 NETWORK_RETRY_DELAYS_SECONDS = (0, 2, 5)
 
@@ -75,7 +76,7 @@ def sha256_file(path: Path) -> str:
 
 
 def read_json(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"), parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)))
+    return approval_v2.read_json(path)
 
 
 def write_json(path: Path, value: Any, *, canonical: bool = False) -> None:
@@ -118,7 +119,7 @@ def verify_runtime_spec(
         raise V4RuntimeFailure("local runtime-spec SHA-256 does not match approval", "PROVENANCE_HASH_MISMATCH")
     spec = json.loads(spec_bytes)
     expected = {
-        "runtime_spec_version": "1.0.2",
+        "runtime_spec_version": "1.1.0",
         "runtime_spec_id": RUNTIME_SPEC_ID,
         "policy_id": POLICY_ID,
         "approved_policy_sha256": APPROVED_POLICY_SHA256,
@@ -161,34 +162,18 @@ def validate_detached_approval(
     runtime_spec_hash: str,
     git_commit: str,
 ) -> None:
-    expected = {
-        "approval_record_version": APPROVAL_RECORD_VERSION,
-        "policy_id": POLICY_ID,
-        "approved_policy_sha256": APPROVED_POLICY_SHA256,
-        "runtime_spec_id": RUNTIME_SPEC_ID,
-        "approved_runtime_spec_sha256": runtime_spec_hash,
-        "approved_git_commit": git_commit,
-        "mode": "QUALIFICATION",
-        "approval_statement": approval_statement(APPROVED_POLICY_SHA256, runtime_spec_hash, git_commit),
-        "approver_role": "HUMAN_PROJECT_OWNER",
-        "allowed_scope": APPROVAL_SCOPE,
-        "policy_mutation_permitted": False,
-    }
-    for field, value in expected.items():
-        if approval.get(field) != value:
-            raise V4RuntimeFailure(f"detached approval {field} mismatch", "PROVENANCE_HASH_MISMATCH")
-    timestamp = approval.get("approval_record_created_at_utc")
-    if not isinstance(timestamp, str) or not timestamp.endswith("Z"):
-        raise V4RuntimeFailure("detached approval requires a UTC creation timestamp", "PROVENANCE_HASH_MISMATCH")
-    try:
-        datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
-    except ValueError as exc:
-        raise V4RuntimeFailure("detached approval timestamp is not ISO-8601", "PROVENANCE_HASH_MISMATCH") from exc
+    del approval, runtime_spec_hash, git_commit
+    raise V4RuntimeFailure(
+        "self-attested detached approval is not independent human evidence; Approval Protocol V2 is required",
+        "APPROVAL_EVIDENCE_NOT_INDEPENDENT",
+    )
 
 
 def _run_guard(run_dir: Path, *, verify_packages: bool = True) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     state = read_json(run_dir / "run-state.json")
-    approval = read_json(run_dir / "approval" / "approval.json")
+    approval = read_json(run_dir / "approval" / "approval-request.json")
+    evidence = read_json(run_dir / "approval" / "approval-verification.json")
+    consumption = read_json(run_dir / "approval" / "approval-consumption.json")
     commit = current_git_commit()
     if commit != state["git_commit"]:
         raise V4RuntimeFailure("Git commit changed after run initialization", "PROVENANCE_HASH_MISMATCH")
@@ -197,7 +182,31 @@ def _run_guard(run_dir: Path, *, verify_packages: bool = True) -> tuple[dict[str
         runtime_spec_path=run_dir / "frozen" / "runtime-spec.json",
         verify_packages=verify_packages,
     )
-    validate_detached_approval(approval, runtime_spec_hash=spec_hash, git_commit=commit)
+    approval_v2.validate_request(approval)
+    try:
+        approval_v2.validate_execution_bindings(
+            approval,
+            policy_sha256=APPROVED_POLICY_SHA256,
+            runtime_spec_sha256=spec_hash,
+            executable_git_commit=commit,
+            reserved_run_id=state["run_id"],
+        )
+    except approval_v2.ApprovalProtocolError as exc:
+        raise V4RuntimeFailure(str(exc), exc.reason_code) from exc
+    if evidence.get("approval_request_sha256") != approval["approval_request_sha256"]:
+        raise V4RuntimeFailure("approval evidence request hash mismatch", "APPROVAL_BINDING_INVALID")
+    if consumption.get("approval_request_sha256") != approval["approval_request_sha256"]:
+        raise V4RuntimeFailure("approval consumption request hash mismatch", "APPROVAL_BINDING_INVALID")
+    if consumption.get("consumed_by_run_id") != state["run_id"] or consumption.get("actual_consumption_count") != 1:
+        raise V4RuntimeFailure("approval consumption Run ID or count mismatch", "APPROVAL_RUN_ID_MISMATCH")
+    expected_hashes = {
+        "approval_request_sha256": approval["approval_request_sha256"],
+        "approval_evidence_sha256": sha256_file(run_dir / "approval" / "approval-verification.json"),
+        "approval_consumption_sha256": sha256_file(run_dir / "approval" / "approval-consumption.json"),
+    }
+    for field, value in expected_hashes.items():
+        if state.get(field) != value:
+            raise V4RuntimeFailure(f"run-state {field} mismatch", "PROVENANCE_HASH_MISMATCH")
     if sha256_file(run_dir / "frozen" / "policy.json") != APPROVED_POLICY_SHA256:
         raise V4RuntimeFailure("run-local frozen policy changed", "PROVENANCE_HASH_MISMATCH")
     if sha256_file(POLICY_PATH) != APPROVED_POLICY_SHA256:
@@ -207,22 +216,35 @@ def _run_guard(run_dir: Path, *, verify_packages: bool = True) -> tuple[dict[str
 
 def initialise_run(approval_path: Path) -> Path:
     require_clean_git()
-    approval = read_json(approval_path)
-    runtime_spec_hash = approval.get("approved_runtime_spec_sha256")
-    if not isinstance(runtime_spec_hash, str):
-        raise V4RuntimeFailure("approval omits approved_runtime_spec_sha256", "PROVENANCE_HASH_MISMATCH")
+    request_dir = approval_path
+    approval = read_json(request_dir / "approval-request.json")
+    approval_v2.validate_request(approval, now=utc_now())
+    runtime_spec_hash = approval["runtime_spec_sha256"]
     _, calculated_spec_hash = verify_runtime_spec(runtime_spec_hash)
     commit = current_git_commit()
-    validate_detached_approval(approval, runtime_spec_hash=calculated_spec_hash, git_commit=commit)
+    if approval["policy_sha256"] != APPROVED_POLICY_SHA256:
+        raise V4RuntimeFailure("approval policy hash mismatch", "APPROVAL_BINDING_INVALID")
+    if approval["executable_git_commit"] != commit:
+        raise V4RuntimeFailure("approval executable Git commit mismatch", "APPROVAL_BINDING_INVALID")
+    approval_v2.validate_verified_bundle(request_dir, now=utc_now())
     created = utc_now()
-    suffix = os.urandom(8).hex()
-    stamp = created.replace("-", "").replace(":", "").replace(".", "")
-    run_id = f"EOP101132-STEP2B-V4-{stamp}-{suffix}"
+    try:
+        approval_v2.consume_verified_approval(
+            request_dir,
+            executable_git_commit=commit,
+            execution_initialized_at_utc=created,
+        )
+    except approval_v2.ApprovalProtocolError as exc:
+        raise V4RuntimeFailure(str(exc), exc.reason_code) from exc
+    run_id = approval["reserved_run_id"]
     run_dir = ROOT / "runs" / run_id
     run_dir.mkdir(parents=True, exist_ok=False)
     for name in ("approval", "frozen", "source/item-metadata", "source/metadata-assets", "inventory", "grouping", "cache", "diagnostics", "replay", "logs"):
         (run_dir / name).mkdir(parents=True, exist_ok=True)
-    shutil.copyfile(approval_path, run_dir / "approval" / "approval.json")
+    shutil.copyfile(request_dir / "approval-request.json", run_dir / "approval" / "approval-request.json")
+    shutil.copyfile(request_dir / "approval-verification.json", run_dir / "approval" / "approval-verification.json")
+    shutil.copyfile(request_dir / "approval-consumption.json", run_dir / "approval" / "approval-consumption.json")
+    shutil.copyfile(request_dir / "approval-state.json", run_dir / "approval" / "approval-state-at-initialization.json")
     shutil.copyfile(POLICY_PATH, run_dir / "frozen" / "policy.json")
     shutil.copyfile(RUNTIME_SPEC_PATH, run_dir / "frozen" / "runtime-spec.json")
     legacy_io._runtime_case(run_dir, read_json(run_dir / "frozen" / "policy.json"))
@@ -233,11 +255,19 @@ def initialise_run(approval_path: Path) -> Path:
         "policy_sha256": APPROVED_POLICY_SHA256,
         "runtime_spec_id": RUNTIME_SPEC_ID,
         "runtime_spec_sha256": calculated_spec_hash,
-        "approval_sha256": sha256_file(run_dir / "approval" / "approval.json"),
+        "approval_protocol_version": approval_v2.APPROVAL_PROTOCOL_VERSION,
+        "approval_request_sha256": approval["approval_request_sha256"],
+        "approval_evidence_sha256": sha256_file(run_dir / "approval" / "approval-verification.json"),
+        "approval_consumption_sha256": sha256_file(run_dir / "approval" / "approval-consumption.json"),
+        "approval_sha256": sha256_file(run_dir / "approval" / "approval-verification.json"),
         "git_commit": commit,
         "contract_version": CONTRACT_VERSION,
         "created_at_utc": created,
         "stage": "INITIALIZED",
+        "authorization_network_access_attempted": read_json(request_dir / "approval-state.json").get("authorization_network_access_attempted", False),
+        "first_authorization_access_attempt_at": read_json(request_dir / "approval-state.json").get("first_authorization_access_attempt_at"),
+        "data_network_access_attempted": False,
+        "first_data_network_attempt_at": None,
         "network_accessed": False,
         "raster_pixels_read": False,
     }
@@ -256,13 +286,35 @@ def _safe_error_message(exc: Exception) -> str:
     return url_pattern.sub(lambda match: _strip_query(match.group(0)), message)
 
 
-def _http_request(*args: Any, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
+def _record_data_network_attempt(run_dir: Path, attempted_at: str, args: tuple[Any, ...]) -> None:
+    request_uri = _strip_query(str(args[0])) if args else "UNRESOLVED"
+    attempts_path = run_dir / "diagnostics" / "data-network-attempts.json"
+    attempts = read_json(attempts_path).get("attempts", []) if attempts_path.is_file() else []
+    attempts.append(
+        {
+            "attempt": len(attempts) + 1,
+            "attempted_at_utc": attempted_at,
+            "network_class": "ENVIRONMENTAL_DATA",
+            "request_uri": request_uri,
+        }
+    )
+    write_json(attempts_path, {"attempts": attempts}, canonical=True)
+    state = read_json(run_dir / "run-state.json")
+    state.update(data_network_access_attempted=True, network_accessed=True)
+    if state.get("first_data_network_attempt_at") is None:
+        state["first_data_network_attempt_at"] = attempted_at
+    write_json(run_dir / "run-state.json", state)
+
+
+def _http_request(*args: Any, audit_run_dir: Path | None = None, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
     attempts: list[dict[str, Any]] = []
     for attempt_number in range(1, NETWORK_MAX_ATTEMPTS + 1):
         delay = NETWORK_RETRY_DELAYS_SECONDS[attempt_number - 1]
         if delay:
             time.sleep(delay)
         attempted_at = utc_now()
+        if audit_run_dir is not None:
+            _record_data_network_attempt(audit_run_dir, attempted_at, args)
         try:
             raw, metadata = legacy_io.http_request(*args, **kwargs)
             metadata["request_attempt_count"] = attempt_number
@@ -289,10 +341,10 @@ def _http_request(*args: Any, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
     raise AssertionError("bounded network retry loop exhausted without returning or raising")
 
 
-def _sign_asset_url(unsigned_url: str) -> tuple[str, dict[str, Any]]:
+def _sign_asset_url(run_dir: Path, unsigned_url: str) -> tuple[str, dict[str, Any]]:
     canonical = _strip_query(unsigned_url)
     endpoint = "https://planetarycomputer.microsoft.com/api/sas/v1/sign?" + urllib.parse.urlencode({"href": canonical})
-    raw, signing_metadata = _http_request(endpoint)
+    raw, signing_metadata = _http_request(endpoint, audit_run_dir=run_dir)
     try:
         response = json.loads(raw)
         signed = response["href"]
@@ -311,12 +363,12 @@ def _sign_asset_url(unsigned_url: str) -> tuple[str, dict[str, Any]]:
     }
 
 
-def _fetch_signed_asset(unsigned_url: str) -> tuple[bytes, dict[str, Any]]:
-    signed, safe = _sign_asset_url(unsigned_url)
+def _fetch_signed_asset(run_dir: Path, unsigned_url: str) -> tuple[bytes, dict[str, Any]]:
+    signed, safe = _sign_asset_url(run_dir, unsigned_url)
     host = urllib.parse.urlsplit(signed).hostname
     if not host:
         raise V4RuntimeFailure("signed asset has no hostname", "SOURCE_UNAVAILABLE")
-    raw, metadata = _http_request(signed, extra_hosts={host})
+    raw, metadata = _http_request(signed, extra_hosts={host}, audit_run_dir=run_dir)
     safe.update(
         {
             "retrieved_at_utc": metadata["retrieved_at_utc"],
@@ -334,14 +386,14 @@ def fetch_sources(run_dir: Path) -> None:
         raise V4RuntimeFailure("fetch-sources requires an initialized run")
     policy = read_json(run_dir / "frozen" / "policy.json")
     project_url = policy["project_and_boundary"]["project_page"]
-    state.update(stage="SOURCE_FETCH_STARTED", network_accessed=True)
+    state.update(stage="SOURCE_FETCH_STARTED")
     write_json(run_dir / "run-state.json", state)
-    project_raw, project_meta = _http_request(project_url)
+    project_raw, project_meta = _http_request(project_url, audit_run_dir=run_dir)
     (run_dir / "source" / "cer-project-page.raw").write_bytes(project_raw)
     project_meta["extracted_project_fields"] = legacy_io._project_fields(project_raw)
     write_json(run_dir / "source" / "cer-project-page.metadata.json", project_meta)
     cea_url = policy["project_and_boundary"]["boundary_artifact_uri"]
-    cea_raw, cea_meta = _http_request(cea_url)
+    cea_raw, cea_meta = _http_request(cea_url, audit_run_dir=run_dir)
     if sha256_bytes(cea_raw) != BOUNDARY_SHA256 or len(cea_raw) != BOUNDARY_BYTES:
         raise V4RuntimeFailure("CER CEA bytes differ from the frozen artifact", "SOURCE_VERSION_UNRESOLVED")
     cea_path = run_dir / "source" / "eop101132-cea.zip"
@@ -362,7 +414,7 @@ def fetch_sources(run_dir: Path) -> None:
             window,
             policy["temporal_scope"][f"{window}_window"],
             geometry,
-            request_fn=_http_request,
+            request_fn=lambda *args, **kwargs: _http_request(*args, audit_run_dir=run_dir, **kwargs),
         )
         unique, duplicate_count = legacy_io._deduplicate_items(items)
         counts[window] = {
@@ -464,8 +516,8 @@ def _normalise_item_with_metadata(run_dir: Path, item: dict[str, Any], window: s
     required = ("B04", "B08", "SCL", "product-metadata", "granule-metadata")
     if not isinstance(item_id, str) or any(not isinstance(assets.get(key, {}).get("href"), str) for key in required):
         raise V4RuntimeFailure("STAC item omits a required canonical asset", "RADIOMETRY_METADATA_UNRESOLVED")
-    product_raw, product_safe = _fetch_signed_asset(assets["product-metadata"]["href"])
-    granule_raw, granule_safe = _fetch_signed_asset(assets["granule-metadata"]["href"])
+    product_raw, product_safe = _fetch_signed_asset(run_dir, assets["product-metadata"]["href"])
+    granule_raw, granule_safe = _fetch_signed_asset(run_dir, assets["granule-metadata"]["href"])
     metadata_dir = run_dir / "source" / "metadata-assets" / item_id
     metadata_dir.mkdir(parents=True, exist_ok=False)
     (metadata_dir / "product-metadata.xml").write_bytes(product_raw)
@@ -712,7 +764,7 @@ def _item_geometry_mask(item: dict[str, Any], affine: Any, shape: tuple[int, int
     return geometry_mask([projected], out_shape=shape, transform=affine, invert=True, all_touched=False)
 
 
-def _read_component_arrays(item: dict[str, Any], affine: Any, shape: tuple[int, int]) -> tuple[Any, Any, Any, Any]:
+def _read_component_arrays(run_dir: Path, item: dict[str, Any], affine: Any, shape: tuple[int, int]) -> tuple[Any, Any, Any, Any]:
     try:
         import numpy as np
         import rasterio
@@ -722,7 +774,7 @@ def _read_component_arrays(item: dict[str, Any], affine: Any, shape: tuple[int, 
         raise V4RuntimeFailure(f"raster dependency unavailable: {exc}") from exc
     signed: dict[str, str] = {}
     for key in ("B04", "B08", "SCL"):
-        signed[key], _ = _sign_asset_url(item["assets"][key]["href"])
+        signed[key], _ = _sign_asset_url(run_dir, item["assets"][key]["href"])
     env = rasterio.Env(
         GDAL_DISABLE_READDIR_ON_OPEN="EMPTY_DIR",
         CPL_VSIL_CURL_ALLOWED_EXTENSIONS=".tif,.TIF",
@@ -821,7 +873,7 @@ def process_rasters(run_dir: Path) -> None:
         component_cache = []
         for item in sorted(target_members, key=lambda value: value["properties"]["s2:mgrs_tile"]):
             record = metadata[item["id"]]
-            red, nir, scl, source_valid = _read_component_arrays(item, affine, shape)
+            red, nir, scl, source_valid = _read_component_arrays(run_dir, item, affine, shape)
             source_valid &= _item_geometry_mask(item, affine, shape) & aoi_mask
             red_meta = record["radiometry"]["B04"]
             nir_meta = record["radiometry"]["B08"]
@@ -1172,7 +1224,9 @@ def build_manifest(run_dir: Path, assessment: dict[str, Any]) -> dict[str, Any]:
     input_hash = sha256_bytes(canonical_bytes({
         "policy_sha256": state["policy_sha256"],
         "runtime_spec_sha256": state["runtime_spec_sha256"],
-        "approval_sha256": state["approval_sha256"],
+        "approval_request_sha256": state["approval_request_sha256"],
+        "approval_evidence_sha256": state["approval_evidence_sha256"],
+        "approval_consumption_sha256": state["approval_consumption_sha256"],
         "git_commit": state["git_commit"],
         "runtime_case_sha256": case_hash,
     }))
@@ -1195,6 +1249,13 @@ def build_manifest(run_dir: Path, assessment: dict[str, Any]) -> dict[str, Any]:
             "final_input_sha256": input_hash,
             "approved_runtime_spec_sha256": state["runtime_spec_sha256"],
             "detached_approval_sha256": state["approval_sha256"],
+            "approval_protocol_version": state["approval_protocol_version"],
+            "approval_request_sha256": state["approval_request_sha256"],
+            "approval_evidence_sha256": state["approval_evidence_sha256"],
+            "approval_consumption_sha256": state["approval_consumption_sha256"],
+            "reserved_run_id": state["run_id"],
+            "github_approval_url": read_json(run_dir / "approval" / "approval-verification.json")["github_url"],
+            "github_approver_login": read_json(run_dir / "approval" / "approval-verification.json")["github_author_login"],
             "git_commit": state["git_commit"],
         },
         "source_records": _source_records(run_dir, policy),
@@ -1518,7 +1579,7 @@ def main(argv: list[str] | None = None) -> int:
     verify.add_argument("approved_runtime_spec_sha256")
     verify.add_argument("--skip-packages", action="store_true")
     init = sub.add_parser("init")
-    init.add_argument("approval_record", type=Path)
+    init.add_argument("approval_request_dir", type=Path)
     for command in ("fetch-sources", "evaluate-metadata", "process-rasters", "finalise", "replay", "execute-live"):
         child = sub.add_parser(command)
         child.add_argument("run_dir", type=Path)
@@ -1528,7 +1589,7 @@ def main(argv: list[str] | None = None) -> int:
             _, digest = verify_runtime_spec(args.approved_runtime_spec_sha256, verify_packages=not args.skip_packages)
             print(json.dumps({"runtime_spec_id": RUNTIME_SPEC_ID, "runtime_spec_sha256": digest, "status": "VALID"}, sort_keys=True))
         elif args.command == "init":
-            print(initialise_run(args.approval_record.resolve()))
+            print(initialise_run(args.approval_request_dir.resolve()))
         else:
             run_dir = args.run_dir.resolve()
             try:
@@ -1545,7 +1606,7 @@ def main(argv: list[str] | None = None) -> int:
                 raise
             print(run_dir)
         return 0
-    except (V4RuntimeFailure, acquisition.AcquisitionPolicyError, raster_core.RasterContractError, step2b_offline.OfflineContractError, OSError, ValueError) as exc:
+    except (V4RuntimeFailure, approval_v2.ApprovalProtocolError, acquisition.AcquisitionPolicyError, raster_core.RasterContractError, step2b_offline.OfflineContractError, OSError, ValueError) as exc:
         print(json.dumps({"error": str(exc), "reason_code": getattr(exc, "reason_code", "DETERMINISTIC_PROCESSING_ERROR")}, ensure_ascii=False), file=sys.stderr)
         return 1
 

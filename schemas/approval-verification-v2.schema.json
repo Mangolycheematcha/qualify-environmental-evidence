@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/approval-verification-v2.schema.json",
+  "title": "Approval Verification V2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["approval_protocol_version", "approval_request_id", "approval_request_sha256", "reserved_run_id", "evidence_type", "github_repository", "github_url", "github_evidence_id", "github_issue_number", "github_author_login", "github_author_type", "github_created_at_utc", "github_retrieved_at_utc", "approval_body_sha256", "safe_response_snapshot", "safe_response_snapshot_sha256", "independent_identity_source", "read_only_method"],
+  "properties": {
+    "approval_protocol_version": {"const": "2.0.0"},
+    "approval_request_id": {"type": "string"},
+    "approval_request_sha256": {"$ref": "#/$defs/sha256"},
+    "reserved_run_id": {"type": "string"},
+    "evidence_type": {"enum": ["GITHUB_ISSUE", "GITHUB_ISSUE_COMMENT"]},
+    "github_repository": {"const": "Mangolycheematcha/qualify-environmental-evidence"},
+    "github_url": {"type": "string", "pattern": "^https://github\\.com/Mangolycheematcha/qualify-environmental-evidence/issues/[1-9][0-9]*(#issuecomment-[1-9][0-9]*)?$"},
+    "github_evidence_id": {"type": "integer", "minimum": 1},
+    "github_issue_number": {"type": "integer", "minimum": 1},
+    "github_author_login": {"const": "Mangolycheematcha"},
+    "github_author_type": {"const": "User"},
+    "github_created_at_utc": {"type": "string", "format": "date-time"},
+    "github_retrieved_at_utc": {"type": "string", "format": "date-time"},
+    "approval_body_sha256": {"$ref": "#/$defs/sha256"},
+    "safe_response_snapshot": {"type": "object"},
+    "safe_response_snapshot_sha256": {"$ref": "#/$defs/sha256"},
+    "independent_identity_source": {"const": "GITHUB_API_ACTOR"},
+    "read_only_method": {"const": "GET"}
+  },
+  "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}
+}

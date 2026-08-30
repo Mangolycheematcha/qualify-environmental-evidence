@@ -16,7 +16,7 @@
     },
     {
       "path": "config/reason-codes.json",
-      "sha256": "3ec2d0df6d248e660f77d37cb7a2ca8282e96fcb0cfe4a769a96dcede5cbe7fc"
+      "sha256": "6dad0049e7090c917d55db25ec8a7fcc52829d1d6caf72e32d6bad69e03185e7"
     },
     {
       "path": "config/statement-templates.json",
@@ -24,7 +24,19 @@
     },
     {
       "path": "schemas/assessment-output.schema.json",
-      "sha256": "f98840d68c6371f5e93814daef71201ccfe62f93bec702b8febf10b4dcd2add9"
+      "sha256": "e6e056dc00fbd6d4000084db6515caa7016ae5f13c5f142fcd244973d2614849"
+    },
+    {
+      "path": "schemas/approval-consumption-v2.schema.json",
+      "sha256": "75daf09681a7679495df30fb0eb4d8be8d451c7f3f100c75f2a3407c5d285e63"
+    },
+    {
+      "path": "schemas/approval-request-v2.schema.json",
+      "sha256": "f920c664dee10995032c283c4bb543e85a416576af348f44033611de3f0283e1"
+    },
+    {
+      "path": "schemas/approval-verification-v2.schema.json",
+      "sha256": "2bf12f77209d6da6f05456f5daa95bb322bf2e44d55c1780400d4f80ff13e100"
     },
     {
       "path": "schemas/claim-contract.schema.json",
@@ -32,7 +44,11 @@
     },
     {
       "path": "schemas/provenance-manifest.schema.json",
-      "sha256": "c7b05183e9871578ceadcaad4b646bf972a816113936d16c53dd05627610796d"
+      "sha256": "50fb370fc8c8955cf3e2668f97492ff3788588cd59e39423529fd8e255f98b41"
+    },
+    {
+      "path": "schemas/run-state-v2.schema.json",
+      "sha256": "5a7af3f9e09f13e5751bc149741f16c271c2a20fd770f097ff9e7ce05d048288"
     },
     {
       "path": "cases/eop101132/case-spec.json",
@@ -47,6 +63,10 @@
       "sha256": "3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd"
     },
     {
+      "path": "scripts/approval_protocol_v2.py",
+      "sha256": "a642662e9e983794688448278032a19a14bf4e2224070cd1ee54903bb3f67576"
+    },
+    {
       "path": "scripts/step2b_acquisition.py",
       "sha256": "a2221f7fb2d98f5263123f2e53357a94fb910b201602568a04b6ee7460bf45f6"
     },
@@ -56,7 +76,7 @@
     },
     {
       "path": "scripts/validate_step1_specs.py",
-      "sha256": "658c95bf2c10c5cc0ad03ac1ac697c1ac00a5b9ea70204eb7683588418c25712"
+      "sha256": "ecc1fda210403c1681002db100a689ea64f4bf3a6ad7f3cefee6cd29e8ebd3b1"
     }
   ]
 }
