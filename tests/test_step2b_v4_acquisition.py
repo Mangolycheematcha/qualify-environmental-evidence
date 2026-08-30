@@ -249,6 +249,7 @@ def test_offline_grouping_does_not_open_network(monkeypatch):
 def test_readme_and_packaged_v4_resources_are_present():
     readme = (ROOT / "README.md").read_text(encoding="utf-8")
     assert "No licence has yet been selected. Private repository only." in readme
-    assert "Real raster and NDVI path | Implemented and tested with synthetic arrays; not yet executed against live V4 assets" in readme
+    assert "Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs" in readme
+    assert "Step 3 | Not executed and not approved" in readme
     assert (ROOT / "skill" / "qualify-environmental-evidence" / "policies" / "eop101132" / "step2b-proposed-policy-v4.json").is_file()
     assert (ROOT / "skill" / "qualify-environmental-evidence" / "scripts" / "step2b_acquisition.py").is_file()

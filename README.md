@@ -1,6 +1,8 @@
-# Qualify Environmental Evidence
+# qualify-environmental-evidence
 
-Specification-first proof of concept for bounded, provenance-linked qualification of environmental observations. The repository constrains evidence identity, transformations, abstention behavior, and authority before any environmental statement can be emitted.
+A reproducible proof of concept for qualifying — not validating — public environmental evidence before it enters regulated financial workflows.
+
+The repository constrains evidence identity, transformations, abstention behavior, and authority before any environmental statement can be emitted.
 
 > **No licence has yet been selected. Private repository only. Public reuse permission has not been granted.**
 
@@ -8,14 +10,17 @@ Specification-first proof of concept for bounded, provenance-linked qualificatio
 
 | Area | Status |
 |---|---|
-| Contract and platform implementation | Contract `0.5.0` and the V4 runtime baseline are implemented and tested offline |
-| Live source runs | V3 and two approved V4 attempts are preserved; neither V4 attempt reached raster access |
-| Real raster and NDVI path | Implemented and tested with synthetic arrays; not yet executed against live V4 assets |
-| Behavioural evaluation | Not yet executed |
+| Contract and platform implementation | Contract `0.5.0` and frozen V4 runtime `1.0.2` are implemented and tested |
+| Live source runs | V3 and three approved V4 runs are preserved locally; the third V4 run completed the frozen Step 2B path |
+| Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs |
+| Step 2B qualification | `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
+| Step 3 | Not executed and not approved |
 | Green Agent orchestration | Not built |
 | Public release | Not approved |
 
-The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. The first approved V4 run ended `ERROR / SOURCE_UNAVAILABLE` on a metadata transport timeout. The second approved V4 run, `EOP101132-STEP2B-V4-20260830T041242319779Z-24e3f17288b106b7`, ended `ERROR / DETERMINISTIC_PROCESSING_ERROR` when a raw `TimeoutError` escaped the frozen retry wrapper. All three runs stopped before raster access and produced no coverage, NDVI, environmental qualification, or Step 3 result.
+The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. The first approved V4 run ended `ERROR / SOURCE_UNAVAILABLE` on a metadata transport timeout. The second approved V4 run, `EOP101132-STEP2B-V4-20260830T041242319779Z-24e3f17288b106b7`, ended `ERROR / DETERMINISTIC_PROCESSING_ERROR` when a raw `TimeoutError` escaped the frozen retry wrapper.
+
+The third approved V4 run, `EOP101132-STEP2B-V4-20260830T044223516364Z-73144a299e2d5763`, completed the frozen Step 2B workflow at authorised execution commit `bf0b1a33230ff2d6e259aab2cca087bc8c21dbbf`. It read permitted raster pixels, computed a pre-window NDVI median of `0.6630660903670323`, a post-window median of `0.6432938994009436`, and delta NDVI of `-0.0197721909660887`. The primary policy therefore abstained as `INCONCLUSIVE` because the bounded observation fell within the operational indifference band. Offline replay reproduced the canonical assessment hash. Step 3 was not executed.
 
 V4 keeps the 40-acquisition raster-processing limit but applies it after deterministic metadata-only grouping and admissibility checks. Its live runtime is frozen separately so approval can bind the unchanged policy bytes, runtime semantics, and exact Git commit without a self-referential hash.
 
@@ -51,7 +56,7 @@ Regenerate the pending V4 proposal deterministically:
 uv run --offline --no-project python scripts/propose_v4.py --check
 ```
 
-All V4 grouping tests use static synthetic metadata. They make no CER, STAC, EO, signing, raster, LLM, or model API request.
+Automated tests use static synthetic metadata and make no CER, STAC, EO, signing, raster, LLM, or model API request. Live run artifacts remain local and ignored.
 
 ## Data Sources And Attribution
 
@@ -59,9 +64,8 @@ The contract identifies official Clean Energy Regulator project records and Micr
 
 ## Limitations
 
-- All preserved live runs stopped before raster access: V3 at its resource gate and both V4 attempts on source-transport paths.
-- The V4 raster and replay implementation has synthetic coverage but remains unexecuted against live Sentinel-2 assets.
+- The third V4 result is one bounded observational comparison; it does not generalise beyond the frozen claim, AOI, windows, sources, and policy.
 - A single bounded PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- V4 corrects an engineering unit of account; it does not invalidate V3 or imply that a future run will complete.
+- V4 corrects an engineering unit of account; it does not invalidate V3 or retrospectively alter either failed V4 run.
 
 See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [REPRODUCIBILITY.md](REPRODUCIBILITY.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).

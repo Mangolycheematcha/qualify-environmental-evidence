@@ -21,6 +21,8 @@ All notable contract and platform changes are recorded here. This project has no
 - Preserved the second three-way-approved V4 run after a raw `TimeoutError` escaped the retry wrapper during post-window STAC retrieval.
 - Corrected conservative network-access audit state so it is persisted before the first request, and made raw `TimeoutError` use the frozen retry policy.
 - Added the missing pre-run regression for persistent raw timeout exhaustion, exact three-attempt history, and terminal `SOURCE_UNAVAILABLE` classification; the pending third approval was not consumed.
+- Preserved the third three-way-approved V4 run after it completed live raster processing, NDVI qualification, provenance sealing, and cached-input replay as `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND`.
+- Recorded that Step 2B is complete for the approved run and Step 3 was not executed.
 
 ## 0.4.0
 
