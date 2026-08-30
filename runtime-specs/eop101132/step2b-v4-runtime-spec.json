@@ -89,12 +89,12 @@
     "schemas/assessment-output.schema.json": "f98840d68c6371f5e93814daef71201ccfe62f93bec702b8febf10b4dcd2add9",
     "schemas/claim-contract.schema.json": "1db5501c12231f427e89b494700afbb80368d017f07bc43e1a34f821c3320a58",
     "schemas/provenance-manifest.schema.json": "c7b05183e9871578ceadcaad4b646bf972a816113936d16c53dd05627610796d",
-    "scripts/freeze_v4_runtime_spec.py": "ad5fb842cccf67dd0e378be2d705dd5a8116325d4ce4fbb219ed779cd0dce21b",
+    "scripts/freeze_v4_runtime_spec.py": "dd9ae9ae708b9474d9e8169fa458ab8768d126bead5497115e63efb5fc28a83b",
     "scripts/step2b_acquisition.py": "a2221f7fb2d98f5263123f2e53357a94fb910b201602568a04b6ee7460bf45f6",
     "scripts/step2b_offline.py": "8a26c8ac372ee331e7b1ae7225200ac7d5b6484de3db0cdfadaeddf4fe5a1fa0",
-    "scripts/step2b_runtime.py": "07ec82cead3d8c77726c0a311d07df7ba99b23119e37676814579c709eaed645",
+    "scripts/step2b_runtime.py": "d78d86ea9c9d0b1ad6acc18a227ceeaf7a57f4c91b77eda15ca194b284ae6cbc",
     "scripts/step2b_v4_raster.py": "dfa83096fad7ce8a5e91cec8e94f979521e3c33b108d928147dc6169afac0d4b",
-    "scripts/step2b_v4_runtime.py": "eca6ea281ed560dd65b0a98c3884d906995d6f67b30b8ffe1c6028da26e21736",
+    "scripts/step2b_v4_runtime.py": "2c3fe58d33307fa3279509cfcef60533175428a57b670671f4370d8044f9f19d",
     "scripts/validate_step1_specs.py": "658c95bf2c10c5cc0ad03ac1ac697c1ac00a5b9ea70204eb7683588418c25712",
     "uv.lock": "2dc962c4f49a386ef05e7731fb0b45e10438023163307471cd68bef00d7debe1"
   },
@@ -116,8 +116,24 @@
     "allowed_data_hosts": [
       "canonical Azure Blob hosts returned by approved sentinel-2-l2a STAC items"
     ],
+    "maximum_attempts_per_request": 3,
     "other_network_prohibited": true,
     "persisted_retrieval_uri": "canonical unsigned URL without query",
+    "request_timeout_seconds": 60,
+    "retry_delays_seconds": [
+      0,
+      2,
+      5
+    ],
+    "retryable_http_statuses": [
+      408,
+      429,
+      500,
+      502,
+      503,
+      504
+    ],
+    "retryable_transport_failure": "SOURCE_UNAVAILABLE",
     "signed_urls_in_memory_only": true
   },
   "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
@@ -168,9 +184,11 @@
     "rasterio": "1.5.1"
   },
   "runtime_spec_id": "EOP101132_STEP2B_V4_RUNTIME_V1",
-  "runtime_spec_version": "1.0.0",
+  "runtime_spec_version": "1.0.1",
   "security": {
     "failure_resume_same_run_id": false,
+    "failure_sealing_preserves_primary_error": true,
+    "non_finite_scan": "Reject unquoted NaN/Infinity JSON values and generated text-report tokens; ignore matching JSON strings and immutable raw source payload text.",
     "result_driven_policy_change": false,
     "scan_for": [
       "signed URL parameters",

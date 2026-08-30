@@ -15,6 +15,9 @@ All notable contract and platform changes are recorded here. This project has no
 - Added three-way detached approval binding for the V4 policy hash, runtime-spec hash, and Git commit.
 - Implemented metadata-asset resolution, acquisition-group raster processing, calibrated NDVI aggregation, primary sealing, and exact AOI-cache replay.
 - Added synthetic V4 runtime, array-hash, raster-calibration, coverage, assessment, and provenance tests.
+- Preserved the first three-way-approved V4 run after a `SOURCE_UNAVAILABLE` metadata timeout before raster access.
+- Corrected a failure-sealing scanner false positive caused by policy text and immutable source XML containing the strings `NaN` or `Infinity`.
+- Added a frozen three-attempt transport retry policy and ensured failure sealing cannot replace the primary runtime reason.
 
 ## 0.4.0
 

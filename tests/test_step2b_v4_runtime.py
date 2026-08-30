@@ -290,3 +290,80 @@ def test_offline_replay_recomputes_ndvi_from_safe_aoi_inputs(tmp_path):
 def test_failure_messages_strip_signed_query_strings():
     error = RuntimeError("failed https://blob.example.test/a.tif?se=expiry&sig=secret")
     assert runtime._safe_error_message(error) == "failed https://blob.example.test/a.tif"
+
+
+def test_network_retry_is_bounded_and_audited(monkeypatch):
+    calls = []
+    sleeps = []
+
+    def transient_request(*args, **kwargs):
+        calls.append((args, kwargs))
+        if len(calls) < 3:
+            raise runtime.legacy_io.RuntimeFailure("temporary timeout", "SOURCE_UNAVAILABLE")
+        return b"ok", {"http_status": 200}
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", transient_request)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    raw, metadata = runtime._http_request("https://planetarycomputer.microsoft.com/test")
+    assert raw == b"ok"
+    assert len(calls) == 3
+    assert sleeps == [2, 5]
+    assert metadata["request_attempt_count"] == 3
+    assert metadata["retry_delays_seconds"] == [0, 2, 5]
+
+
+def test_json_security_scan_distinguishes_strings_from_non_finite_values(tmp_path):
+    safe = tmp_path / "runtime-spec.json"
+    safe.write_text('{"scan_for":"NaN/Infinity"}\n', encoding="utf-8")
+    (tmp_path / "source-metadata.xml").write_text("<value>NaN</value>\n", encoding="utf-8")
+    runtime._security_scan(tmp_path)
+    bad = tmp_path / "bad.json"
+    bad.write_text('{"value":NaN}\n', encoding="utf-8")
+    with pytest.raises(runtime.V4RuntimeFailure, match="non-finite JSON value"):
+        runtime._security_scan(tmp_path)
+
+
+def test_failure_sealing_does_not_replace_primary_error(tmp_path, monkeypatch):
+    (tmp_path / "diagnostics").mkdir()
+    runtime.write_json(tmp_path / "run-state.json", {"stage": "INITIALIZED", "network_accessed": True})
+
+    def sealing_failure(_run_dir):
+        raise runtime.V4RuntimeFailure("secondary scan error", "PROVENANCE_INCOMPLETE")
+
+    monkeypatch.setattr(runtime, "_security_scan", sealing_failure)
+    primary = runtime.V4RuntimeFailure(
+        "primary timeout",
+        "SOURCE_UNAVAILABLE",
+        details={"network_attempts": [{"attempt": 1}]},
+    )
+    runtime.record_failure(tmp_path, primary)
+    failure = runtime.read_json(tmp_path / "diagnostics" / "runtime-failure.json")
+    sealing = runtime.read_json(tmp_path / "diagnostics" / "failure-sealing-errors.json")
+    state = runtime.read_json(tmp_path / "run-state.json")
+    assert failure["reason_code"] == "SOURCE_UNAVAILABLE"
+    assert failure["details"] == {"network_attempts": [{"attempt": 1}]}
+    assert sealing[0]["reason_code"] == "PROVENANCE_INCOMPLETE"
+    assert state["terminal_reason_codes"] == ["SOURCE_UNAVAILABLE"]
+
+
+def test_checksum_sealing_does_not_replace_primary_error(tmp_path, monkeypatch):
+    (tmp_path / "diagnostics").mkdir()
+    runtime.write_json(tmp_path / "run-state.json", {"stage": "INITIALIZED", "network_accessed": True})
+    monkeypatch.setattr(runtime, "_security_scan", lambda _run_dir: None)
+    monkeypatch.setattr(
+        runtime,
+        "_write_checksums",
+        lambda _run_dir: (_ for _ in ()).throw(OSError("checksum write failed")),
+    )
+    runtime.record_failure(tmp_path, runtime.V4RuntimeFailure("primary timeout", "SOURCE_UNAVAILABLE"))
+    failure = runtime.read_json(tmp_path / "diagnostics" / "runtime-failure.json")
+    sealing = runtime.read_json(tmp_path / "diagnostics" / "failure-sealing-errors.json")
+    assert failure["reason_code"] == "SOURCE_UNAVAILABLE"
+    assert sealing == [
+        {
+            "operation": "write_checksums",
+            "exception_type": "OSError",
+            "reason_code": "DETERMINISTIC_PROCESSING_ERROR",
+            "message": "checksum write failed",
+        }
+    ]

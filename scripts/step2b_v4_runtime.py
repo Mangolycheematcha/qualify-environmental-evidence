@@ -10,6 +10,7 @@ import re
 import shutil
 import subprocess
 import sys
+import time
 import urllib.parse
 import xml.etree.ElementTree as ET
 from collections import defaultdict
@@ -22,10 +23,10 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from scripts import step2b_acquisition as acquisition
-from scripts import step2b_offline
-from scripts import step2b_runtime as legacy_io
-from scripts import step2b_v4_raster as raster_core
+from scripts import step2b_acquisition as acquisition  # noqa: E402
+from scripts import step2b_offline  # noqa: E402
+from scripts import step2b_runtime as legacy_io  # noqa: E402
+from scripts import step2b_v4_raster as raster_core  # noqa: E402
 
 POLICY_PATH = ROOT / "policies" / "eop101132" / "step2b-proposed-policy-v4.json"
 RUNTIME_SPEC_PATH = ROOT / "runtime-specs" / "eop101132" / "step2b-v4-runtime-spec.json"
@@ -39,13 +40,22 @@ BOUNDARY_SHA256 = "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820f
 BOUNDARY_BYTES = 10219
 FORBIDDEN_CODES = legacy_io.FORBIDDEN_CODES
 TRANSFORMATION_IDS = legacy_io.TRANSFORMATION_IDS
-RUNTIME_VERSION = "step2b_v4_runtime.py/1.0.0"
+RUNTIME_VERSION = "step2b_v4_runtime.py/1.0.1"
+NETWORK_MAX_ATTEMPTS = 3
+NETWORK_RETRY_DELAYS_SECONDS = (0, 2, 5)
 
 
 class V4RuntimeFailure(RuntimeError):
-    def __init__(self, message: str, reason_code: str = "DETERMINISTIC_PROCESSING_ERROR") -> None:
+    def __init__(
+        self,
+        message: str,
+        reason_code: str = "DETERMINISTIC_PROCESSING_ERROR",
+        *,
+        details: dict[str, Any] | None = None,
+    ) -> None:
         super().__init__(message)
         self.reason_code = reason_code
+        self.details = details
 
 
 def utc_now() -> str:
@@ -108,7 +118,7 @@ def verify_runtime_spec(
         raise V4RuntimeFailure("local runtime-spec SHA-256 does not match approval", "PROVENANCE_HASH_MISMATCH")
     spec = json.loads(spec_bytes)
     expected = {
-        "runtime_spec_version": "1.0.0",
+        "runtime_spec_version": "1.0.1",
         "runtime_spec_id": RUNTIME_SPEC_ID,
         "policy_id": POLICY_ID,
         "approved_policy_sha256": APPROVED_POLICY_SHA256,
@@ -246,10 +256,42 @@ def _safe_error_message(exc: Exception) -> str:
     return url_pattern.sub(lambda match: _strip_query(match.group(0)), message)
 
 
+def _http_request(*args: Any, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
+    attempts: list[dict[str, Any]] = []
+    for attempt_number in range(1, NETWORK_MAX_ATTEMPTS + 1):
+        delay = NETWORK_RETRY_DELAYS_SECONDS[attempt_number - 1]
+        if delay:
+            time.sleep(delay)
+        attempted_at = utc_now()
+        try:
+            raw, metadata = legacy_io.http_request(*args, **kwargs)
+            metadata["request_attempt_count"] = attempt_number
+            metadata["retry_delays_seconds"] = list(NETWORK_RETRY_DELAYS_SECONDS[:attempt_number])
+            return raw, metadata
+        except legacy_io.RuntimeFailure as exc:
+            attempts.append(
+                {
+                    "attempt": attempt_number,
+                    "attempted_at_utc": attempted_at,
+                    "reason_code": exc.reason_code,
+                    "error": _safe_error_message(exc),
+                }
+            )
+            http_error = exc.__cause__
+            non_retryable_http = getattr(http_error, "code", None) not in (None, 408, 429, 500, 502, 503, 504)
+            if exc.reason_code != "SOURCE_UNAVAILABLE" or non_retryable_http or attempt_number == NETWORK_MAX_ATTEMPTS:
+                raise V4RuntimeFailure(
+                    f"source unavailable after {attempt_number} attempt(s): {_safe_error_message(exc)}",
+                    exc.reason_code,
+                    details={"network_attempts": attempts},
+                ) from exc
+    raise AssertionError("bounded network retry loop exhausted without returning or raising")
+
+
 def _sign_asset_url(unsigned_url: str) -> tuple[str, dict[str, Any]]:
     canonical = _strip_query(unsigned_url)
     endpoint = "https://planetarycomputer.microsoft.com/api/sas/v1/sign?" + urllib.parse.urlencode({"href": canonical})
-    raw, _ = legacy_io.http_request(endpoint)
+    raw, signing_metadata = _http_request(endpoint)
     try:
         response = json.loads(raw)
         signed = response["href"]
@@ -263,6 +305,8 @@ def _sign_asset_url(unsigned_url: str) -> tuple[str, dict[str, Any]]:
         "signed_at_utc": utc_now(),
         "safe_expiry": response.get("msft:expiry"),
         "retrieval_uri_sha256": sha256_bytes(signed.encode("utf-8")),
+        "signing_request_attempt_count": signing_metadata["request_attempt_count"],
+        "signing_retry_delays_seconds": signing_metadata["retry_delays_seconds"],
     }
 
 
@@ -271,7 +315,7 @@ def _fetch_signed_asset(unsigned_url: str) -> tuple[bytes, dict[str, Any]]:
     host = urllib.parse.urlsplit(signed).hostname
     if not host:
         raise V4RuntimeFailure("signed asset has no hostname", "SOURCE_UNAVAILABLE")
-    raw, metadata = legacy_io.http_request(signed, extra_hosts={host})
+    raw, metadata = _http_request(signed, extra_hosts={host})
     safe.update(
         {
             "retrieved_at_utc": metadata["retrieved_at_utc"],
@@ -289,12 +333,12 @@ def fetch_sources(run_dir: Path) -> None:
         raise V4RuntimeFailure("fetch-sources requires an initialized run")
     policy = read_json(run_dir / "frozen" / "policy.json")
     project_url = policy["project_and_boundary"]["project_page"]
-    project_raw, project_meta = legacy_io.http_request(project_url)
+    project_raw, project_meta = _http_request(project_url)
     (run_dir / "source" / "cer-project-page.raw").write_bytes(project_raw)
     project_meta["extracted_project_fields"] = legacy_io._project_fields(project_raw)
     write_json(run_dir / "source" / "cer-project-page.metadata.json", project_meta)
     cea_url = policy["project_and_boundary"]["boundary_artifact_uri"]
-    cea_raw, cea_meta = legacy_io.http_request(cea_url)
+    cea_raw, cea_meta = _http_request(cea_url)
     if sha256_bytes(cea_raw) != BOUNDARY_SHA256 or len(cea_raw) != BOUNDARY_BYTES:
         raise V4RuntimeFailure("CER CEA bytes differ from the frozen artifact", "SOURCE_VERSION_UNRESOLVED")
     cea_path = run_dir / "source" / "eop101132-cea.zip"
@@ -315,6 +359,7 @@ def fetch_sources(run_dir: Path) -> None:
             window,
             policy["temporal_scope"][f"{window}_window"],
             geometry,
+            request_fn=_http_request,
         )
         unique, duplicate_count = legacy_io._deduplicate_items(items)
         counts[window] = {
@@ -1327,7 +1372,20 @@ def _security_scan(run_dir: Path) -> None:
             raise V4RuntimeFailure(f"credential-bearing content persisted in {path.name}", "PROVENANCE_INCOMPLETE")
         if local_path.search(raw):
             raise V4RuntimeFailure(f"local machine path persisted in {path.name}", "PROVENANCE_INCOMPLETE")
-        if non_finite.search(raw):
+        if path.suffix == ".json":
+            try:
+                json.loads(
+                    raw.decode("utf-8"),
+                    parse_constant=lambda value: (_ for _ in ()).throw(ValueError(value)),
+                )
+            except ValueError as exc:
+                if str(exc) in {"NaN", "Infinity", "-Infinity"}:
+                    raise V4RuntimeFailure(
+                        f"non-finite JSON value persisted in {path.name}",
+                        "DETERMINISTIC_PROCESSING_ERROR",
+                    ) from exc
+                raise
+        elif path.suffix.lower() in {".csv", ".md", ".sha256", ".txt"} and non_finite.search(raw):
             raise V4RuntimeFailure(f"non-finite token persisted in {path.name}", "DETERMINISTIC_PROCESSING_ERROR")
 
 
@@ -1415,12 +1473,39 @@ def record_failure(run_dir: Path, exc: Exception) -> None:
         "hotfix_applied": False,
         "resume_under_same_run_id_permitted": False,
     }
+    details = getattr(exc, "details", None)
+    if details is not None:
+        failure["details"] = details
     write_json(run_dir / "diagnostics" / "runtime-failure.json", failure)
     state = read_json(run_dir / "run-state.json")
     state.update(stage="ERROR", terminal_reason_codes=[reason], ended_at_utc=utc_now())
     write_json(run_dir / "run-state.json", state)
-    _security_scan(run_dir)
-    _write_checksums(run_dir)
+    sealing_errors = []
+    try:
+        _security_scan(run_dir)
+    except Exception as sealing_exc:  # noqa: BLE001
+        sealing_errors.append(
+            {
+                "operation": "security_scan",
+                "exception_type": type(sealing_exc).__name__,
+                "reason_code": getattr(sealing_exc, "reason_code", "DETERMINISTIC_PROCESSING_ERROR"),
+                "message": _safe_error_message(sealing_exc),
+            }
+        )
+    if sealing_errors:
+        write_json(run_dir / "diagnostics" / "failure-sealing-errors.json", sealing_errors)
+    try:
+        _write_checksums(run_dir)
+    except Exception as sealing_exc:  # noqa: BLE001
+        sealing_errors.append(
+            {
+                "operation": "write_checksums",
+                "exception_type": type(sealing_exc).__name__,
+                "reason_code": getattr(sealing_exc, "reason_code", "DETERMINISTIC_PROCESSING_ERROR"),
+                "message": _safe_error_message(sealing_exc),
+            }
+        )
+        write_json(run_dir / "diagnostics" / "failure-sealing-errors.json", sealing_errors)
 
 
 def main(argv: list[str] | None = None) -> int:

@@ -6,7 +6,6 @@ import datetime as dt
 import hashlib
 import json
 import math
-import os
 import re
 import struct
 import sys
@@ -15,6 +14,7 @@ import urllib.parse
 import urllib.request
 import uuid
 import zipfile
+from collections.abc import Callable
 from pathlib import Path
 from typing import Any
 
@@ -281,7 +281,15 @@ def _project_fields(html: bytes) -> dict[str, Any]:
     return fields
 
 
-def _stac_search(run_dir: Path, endpoint: str, window_name: str, window: dict[str, str], geometry: dict[str, Any]) -> list[dict[str, Any]]:
+def _stac_search(
+    run_dir: Path,
+    endpoint: str,
+    window_name: str,
+    window: dict[str, str],
+    geometry: dict[str, Any],
+    *,
+    request_fn: Callable[..., tuple[bytes, dict[str, Any]]] = http_request,
+) -> list[dict[str, Any]]:
     search_url = endpoint.rstrip("/") + "/search"
     body_value = {
         "collections": ["sentinel-2-l2a"],
@@ -295,7 +303,7 @@ def _stac_search(run_dir: Path, endpoint: str, window_name: str, window: dict[st
     request_url, request_method, request_body = search_url, "POST", body
     request_records = []
     while request_url:
-        raw, metadata = http_request(
+        raw, metadata = request_fn(
             request_url,
             method=request_method,
             body=request_body,

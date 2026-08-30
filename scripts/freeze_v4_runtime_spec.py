@@ -44,7 +44,7 @@ def build_spec() -> dict[str, Any]:
     if sha256_file(policy_path) != POLICY_SHA256:
         raise ValueError("V4 policy hash drift")
     return {
-        "runtime_spec_version": "1.0.0",
+        "runtime_spec_version": "1.0.1",
         "runtime_spec_id": "EOP101132_STEP2B_V4_RUNTIME_V1",
         "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
         "approved_policy_sha256": POLICY_SHA256,
@@ -81,6 +81,11 @@ def build_spec() -> dict[str, Any]:
             "other_network_prohibited": True,
             "signed_urls_in_memory_only": True,
             "persisted_retrieval_uri": "canonical unsigned URL without query",
+            "request_timeout_seconds": 60,
+            "maximum_attempts_per_request": 3,
+            "retry_delays_seconds": [0, 2, 5],
+            "retryable_http_statuses": [408, 429, 500, 502, 503, 504],
+            "retryable_transport_failure": "SOURCE_UNAVAILABLE",
         },
         "source_and_search": {
             "project_id": "EOP101132",
@@ -150,6 +155,8 @@ def build_spec() -> dict[str, Any]:
             "scan_for": ["signed URL parameters", "authorization headers", "NaN/Infinity", "local machine paths"],
             "failure_resume_same_run_id": False,
             "result_driven_policy_change": False,
+            "non_finite_scan": "Reject unquoted NaN/Infinity JSON values and generated text-report tokens; ignore matching JSON strings and immutable raw source payload text.",
+            "failure_sealing_preserves_primary_error": True,
         },
         "stop_after": "STEP2B_V4",
     }
