@@ -32,7 +32,7 @@
     },
     {
       "path": "schemas/provenance-manifest.schema.json",
-      "sha256": "292100bb39d56a6f620614112d4bbafe2da13a97d8878fb36f40bad1cdb51bc8"
+      "sha256": "c7b05183e9871578ceadcaad4b646bf972a816113936d16c53dd05627610796d"
     },
     {
       "path": "cases/eop101132/case-spec.json",

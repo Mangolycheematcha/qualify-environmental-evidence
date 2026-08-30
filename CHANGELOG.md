@@ -11,6 +11,10 @@ All notable contract and platform changes are recorded here. This project has no
 - Changed the resource-accounting unit from raw STAC item rows to deterministic, metadata-admissible independent acquisition groups while retaining the limit of 40.
 - Added a separate 200-raw-item metadata inventory safety limit.
 - Added deterministic acquisition identity and processing-representation resolution controls.
+- Added a separately hashed V4 runtime specification with exact implementation-file and package bindings.
+- Added three-way detached approval binding for the V4 policy hash, runtime-spec hash, and Git commit.
+- Implemented metadata-asset resolution, acquisition-group raster processing, calibrated NDVI aggregation, primary sealing, and exact AOI-cache replay.
+- Added synthetic V4 runtime, array-hash, raster-calibration, coverage, assessment, and provenance tests.
 
 ## 0.4.0
 

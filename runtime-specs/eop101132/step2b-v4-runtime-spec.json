@@ -1,0 +1,198 @@
+{
+  "aggregation": {
+    "delta_distribution": [
+      "q05",
+      "q25",
+      "median",
+      "q75",
+      "q95",
+      "IQR",
+      "MAD"
+    ],
+    "pixel_bootstrap_prohibited": true,
+    "primary_tau": 0.03,
+    "sensitivity_tau": [
+      0.01,
+      0.02,
+      0.05
+    ],
+    "sequence": [
+      "per-acquisition calibrated NDVI",
+      "per-pixel temporal median by window",
+      "joint-eligible restriction",
+      "AOI median PRE",
+      "AOI median POST",
+      "POST minus PRE"
+    ]
+  },
+  "allowed_scope": "ONE_EOP101132_V4_PRIMARY_RUN",
+  "approval_binding": {
+    "approver_role": "HUMAN_PROJECT_OWNER",
+    "mode": "QUALIFICATION",
+    "policy_mutation_permitted": false,
+    "readiness_rule": "Exact detached approval, policy bytes, runtime-spec bytes, implementation hashes, package versions, Git commit and clean tree must pass before network access.",
+    "required_fields": [
+      "approval_record_version",
+      "policy_id",
+      "approved_policy_sha256",
+      "runtime_spec_id",
+      "approved_runtime_spec_sha256",
+      "approved_git_commit",
+      "mode",
+      "approval_statement",
+      "approval_record_created_at_utc",
+      "approver_role",
+      "allowed_scope",
+      "policy_mutation_permitted"
+    ],
+    "statement_template": "批准 QUALIFICATION {policy_sha256} RUNTIME_SPEC {runtime_spec_sha256} COMMIT {git_commit}"
+  },
+  "approval_record_version": "2.0.0",
+  "approved_policy_sha256": "3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd",
+  "contract_version": "0.5.0",
+  "coverage": {
+    "joint_rule": "eligible_pre AND eligible_post",
+    "minimum_joint_aoi_fraction": 0.8,
+    "minimum_unique_acquisitions_per_window": 3,
+    "minimum_valid_observations_per_pixel_per_window": 3
+  },
+  "grouping": {
+    "canonical_output": "CANONICAL_JSON_V1",
+    "component_identity": [
+      "platform",
+      "s2:datatake_id",
+      "s2:mgrs_tile"
+    ],
+    "environmental_selection_fields_prohibited": true,
+    "independent_identity": [
+      "platform",
+      "s2:datatake_id"
+    ],
+    "representation_priority": [
+      "valid source and collection",
+      "highest processing baseline",
+      "latest s2:generation_time",
+      "lexicographically smallest equivalent item ID"
+    ],
+    "rule_id": "SENTINEL2_METADATA_ONLY_ACQUISITION_GROUPING_V1"
+  },
+  "implementation_files": {
+    ".gitattributes": "de1a56caa02a8a357a901cc42d0de51d79a8b54d185286c011a63381dac200eb",
+    "cases/eop101132/case-spec.json": "64c7199ad686b2b410c5056bdf0938b613e70f12f1274eda699a2e881fb885f3",
+    "config/allowed-transformations.json": "509a6eb1860c30638328cbf01c8f33d303b576c2225ce3ca3762b6fddeb9b38e",
+    "config/evidence-sources.json": "329c69e47b026c464f38e7566794d88727c510fe5ae84b84a8b41918657af849",
+    "config/forbidden-inferences.json": "7adb0097f1dc00820d645318fa7a79a17c821fac020cf144e7651957925f5167",
+    "config/reason-codes.json": "3ec2d0df6d248e660f77d37cb7a2ca8282e96fcb0cfe4a769a96dcede5cbe7fc",
+    "config/statement-templates.json": "ff2dcbf8fc565d673bb2907fcd0c1eb2e05c22bb02e732986627a74cfed95d17",
+    "pyproject.toml": "a76437d0a9f6e61b1967a89569ea5687e7d3fffc46e4d081a5ba02b89db87b14",
+    "requirements-v4-runtime.txt": "818b266f5ddb05664133ffa2466c9ec34b0f878b802c141cbc78c58675e16c83",
+    "schemas/assessment-output.schema.json": "f98840d68c6371f5e93814daef71201ccfe62f93bec702b8febf10b4dcd2add9",
+    "schemas/claim-contract.schema.json": "1db5501c12231f427e89b494700afbb80368d017f07bc43e1a34f821c3320a58",
+    "schemas/provenance-manifest.schema.json": "c7b05183e9871578ceadcaad4b646bf972a816113936d16c53dd05627610796d",
+    "scripts/freeze_v4_runtime_spec.py": "ad5fb842cccf67dd0e378be2d705dd5a8116325d4ce4fbb219ed779cd0dce21b",
+    "scripts/step2b_acquisition.py": "a2221f7fb2d98f5263123f2e53357a94fb910b201602568a04b6ee7460bf45f6",
+    "scripts/step2b_offline.py": "8a26c8ac372ee331e7b1ae7225200ac7d5b6484de3db0cdfadaeddf4fe5a1fa0",
+    "scripts/step2b_runtime.py": "07ec82cead3d8c77726c0a311d07df7ba99b23119e37676814579c709eaed645",
+    "scripts/step2b_v4_raster.py": "dfa83096fad7ce8a5e91cec8e94f979521e3c33b108d928147dc6169afac0d4b",
+    "scripts/step2b_v4_runtime.py": "eca6ea281ed560dd65b0a98c3884d906995d6f67b30b8ffe1c6028da26e21736",
+    "scripts/validate_step1_specs.py": "658c95bf2c10c5cc0ad03ac1ac697c1ac00a5b9ea70204eb7683588418c25712",
+    "uv.lock": "2dc962c4f49a386ef05e7731fb0b45e10438023163307471cd68bef00d7debe1"
+  },
+  "metadata_admissibility": {
+    "processing_timestamp_field": "s2:generation_time",
+    "radiometry": "Per-item and per-band BOA_QUANTIFICATION_VALUE, BOA_ADD_OFFSET or XML-schema zero default, and NODATA; product XML is cached and cross-checked before raster pixels.",
+    "remote_metadata_assets": [
+      "product-metadata",
+      "granule-metadata"
+    ],
+    "solar_geometry_cross_check_tolerance_degrees": 1e-06,
+    "solar_zenith_maximum_inclusive_degrees": 70.0
+  },
+  "network": {
+    "allowed_control_hosts": [
+      "cer.gov.au",
+      "planetarycomputer.microsoft.com"
+    ],
+    "allowed_data_hosts": [
+      "canonical Azure Blob hosts returned by approved sentinel-2-l2a STAC items"
+    ],
+    "other_network_prohibited": true,
+    "persisted_retrieval_uri": "canonical unsigned URL without query",
+    "signed_urls_in_memory_only": true
+  },
+  "policy_id": "DEMO_QUALIFICATION_POLICY_EOP101132_V4",
+  "python_runtime": {
+    "implementation": "CPython",
+    "major_minor": "3.14"
+  },
+  "raster": {
+    "aoi_rule": "pixel centre; all_touched=false",
+    "denominator_epsilon": 1e-06,
+    "non_target_crs_component_rule": "May be metadata-retained without pixel read only when target-CRS components cover every AOI pixel covered by the group; otherwise fail SCL_ALIGNMENT_FAILED.",
+    "numeric_type": "float64",
+    "overlap_rule": "Sort target-CRS components by MGRS tile and require finite NDVI equality within 1e-12 on overlap; conflicts fail closed.",
+    "scl_resampling": "nearest",
+    "spectral_resampling": "None. A WarpedVRT may only act as a congruence-preserving AOI window adapter where source and target are the identical 10 m EPSG:32754 lattice; interpolation or grid shift fails closed.",
+    "target_crs": "EPSG:32754",
+    "target_origin": [
+      0,
+      10000000
+    ],
+    "target_resolution_m": 10,
+    "valid_scl_classes": [
+      4,
+      5
+    ],
+    "whole_asset_download_prohibited": true
+  },
+  "replay": {
+    "cache": "Unsigned AOI-level B04 DN, B08 DN, SCL and source-valid arrays plus radiometry metadata and canonical array hashes; NDVI and acquisition mosaics are recomputed during replay.",
+    "network_prohibited": true,
+    "required_equalities": [
+      "canonical assessment bytes",
+      "assessment SHA-256",
+      "grouping-output SHA-256",
+      "all cached array SHA-256 values"
+    ]
+  },
+  "resource_limits": {
+    "independent_admissible_acquisition_groups_per_window_max": 40,
+    "maximum_full_aoi_pixels": 200000,
+    "maximum_grid_height_pixels": 1000,
+    "maximum_grid_width_pixels": 1000,
+    "raw_stac_items_per_window_max": 200,
+    "truncation_permitted": false
+  },
+  "runtime_packages": {
+    "numpy": "2.5.2",
+    "rasterio": "1.5.1"
+  },
+  "runtime_spec_id": "EOP101132_STEP2B_V4_RUNTIME_V1",
+  "runtime_spec_version": "1.0.0",
+  "security": {
+    "failure_resume_same_run_id": false,
+    "result_driven_policy_change": false,
+    "scan_for": [
+      "signed URL parameters",
+      "authorization headers",
+      "NaN/Infinity",
+      "local machine paths"
+    ]
+  },
+  "source_and_search": {
+    "cea_sha256": "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820fef2",
+    "cloud_cover_query_predicate": false,
+    "collection": "sentinel-2-l2a",
+    "complete_pagination_required": true,
+    "post_window": [
+      "2025-06-01",
+      "2025-08-31"
+    ],
+    "pre_window": [
+      "2017-06-01",
+      "2017-08-31"
+    ],
+    "project_id": "EOP101132"
+  },
+  "stop_after": "STEP2B_V4"
+}

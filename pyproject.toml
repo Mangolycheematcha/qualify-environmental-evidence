@@ -11,6 +11,10 @@ test = [
   "pytest>=8,<9",
   "PyYAML>=6,<7",
 ]
+runtime = [
+  "numpy==2.5.2; python_version >= '3.12'",
+  "rasterio==1.5.1; python_version >= '3.12'",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
