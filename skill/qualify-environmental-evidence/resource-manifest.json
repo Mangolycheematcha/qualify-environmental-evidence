@@ -44,11 +44,11 @@
     },
     {
       "path": "schemas/provenance-manifest.schema.json",
-      "sha256": "50fb370fc8c8955cf3e2668f97492ff3788588cd59e39423529fd8e255f98b41"
+      "sha256": "375576182ea73c991e2af0f6c4f17cb123ba11b7bd1e6b157114192ec997e898"
     },
     {
       "path": "schemas/run-state-v2.schema.json",
-      "sha256": "5a7af3f9e09f13e5751bc149741f16c271c2a20fd770f097ff9e7ce05d048288"
+      "sha256": "d0fe592c9e063ef63e76cfc42d40496e11e89d07098512f4e75f584591231ecb"
     },
     {
       "path": "cases/eop101132/case-spec.json",

@@ -104,16 +104,16 @@
     "schemas/approval-verification-v2.schema.json": "2bf12f77209d6da6f05456f5daa95bb322bf2e44d55c1780400d4f80ff13e100",
     "schemas/assessment-output.schema.json": "e6e056dc00fbd6d4000084db6515caa7016ae5f13c5f142fcd244973d2614849",
     "schemas/claim-contract.schema.json": "1db5501c12231f427e89b494700afbb80368d017f07bc43e1a34f821c3320a58",
-    "schemas/provenance-manifest.schema.json": "50fb370fc8c8955cf3e2668f97492ff3788588cd59e39423529fd8e255f98b41",
-    "schemas/run-state-v2.schema.json": "5a7af3f9e09f13e5751bc149741f16c271c2a20fd770f097ff9e7ce05d048288",
+    "schemas/provenance-manifest.schema.json": "375576182ea73c991e2af0f6c4f17cb123ba11b7bd1e6b157114192ec997e898",
+    "schemas/run-state-v2.schema.json": "d0fe592c9e063ef63e76cfc42d40496e11e89d07098512f4e75f584591231ecb",
     "scripts/approval_protocol_v2.py": "a642662e9e983794688448278032a19a14bf4e2224070cd1ee54903bb3f67576",
-    "scripts/freeze_v4_runtime_spec.py": "12426fb699e72ec645b4ae0bcfa20171539fd6cd45e5ce5917fe708820a33bea",
+    "scripts/freeze_v4_runtime_spec.py": "b5fbe7826bfa23b1fb86b7dcb0f866b8a613d1438db97d8d546d221c8df9d906",
     "scripts/github_approval_readonly.py": "5f7997b0189b446bea070bc7994ab54960c68704bca10db06a7ea8835cd54d82",
     "scripts/step2b_acquisition.py": "a2221f7fb2d98f5263123f2e53357a94fb910b201602568a04b6ee7460bf45f6",
     "scripts/step2b_offline.py": "8a26c8ac372ee331e7b1ae7225200ac7d5b6484de3db0cdfadaeddf4fe5a1fa0",
     "scripts/step2b_runtime.py": "d78d86ea9c9d0b1ad6acc18a227ceeaf7a57f4c91b77eda15ca194b284ae6cbc",
     "scripts/step2b_v4_raster.py": "dfa83096fad7ce8a5e91cec8e94f979521e3c33b108d928147dc6169afac0d4b",
-    "scripts/step2b_v4_runtime.py": "c6292019fc05a0636c31a10678690a25a718852348f1b860a8656ea34079321e",
+    "scripts/step2b_v4_runtime.py": "cf62ad5d473a5905f7423842256230a2dab20ceee899583bc211e8411480e2c9",
     "scripts/validate_step1_specs.py": "ecc1fda210403c1681002db100a689ea64f4bf3a6ad7f3cefee6cd29e8ebd3b1",
     "uv.lock": "2dc962c4f49a386ef05e7731fb0b45e10438023163307471cd68bef00d7debe1"
   },
@@ -139,6 +139,7 @@
     "data_network": "CER, STAC, signing and raster access; first attempt persisted before request",
     "maximum_attempts_per_request": 3,
     "network_access_flag_persisted_before_first_request": true,
+    "network_attempt_event": "One pre-request event supplies the event ID and timestamp used by the ledger, run state, failure record and provenance.",
     "other_network_prohibited": true,
     "persisted_retrieval_uri": "canonical unsigned URL without query",
     "raw_timeout_error_is_retryable": true,
@@ -155,6 +156,12 @@
       502,
       503,
       504
+    ],
+    "retryable_transport_exceptions": [
+      "TimeoutError",
+      "ConnectionError including ConnectionResetError",
+      "http.client.RemoteDisconnected",
+      "urllib.error.URLError and equivalent RuntimeFailure wrapper"
     ],
     "retryable_transport_failure": "SOURCE_UNAVAILABLE",
     "signed_urls_in_memory_only": true
@@ -207,7 +214,7 @@
     "rasterio": "1.5.1"
   },
   "runtime_spec_id": "EOP101132_STEP2B_V4_RUNTIME_V1",
-  "runtime_spec_version": "1.1.0",
+  "runtime_spec_version": "1.1.1",
   "security": {
     "failure_resume_same_run_id": false,
     "failure_sealing_preserves_primary_error": true,

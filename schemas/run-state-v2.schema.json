@@ -18,6 +18,9 @@
     "first_authorization_access_attempt_at": {"type": ["string", "null"], "format": "date-time"},
     "data_network_access_attempted": {"type": "boolean"},
     "first_data_network_attempt_at": {"type": ["string", "null"], "format": "date-time"},
+    "first_data_network_attempt_event_id": {"type": ["string", "null"], "pattern": "^NET-[0-9a-f]{32}$"},
+    "last_data_network_attempt_at": {"type": ["string", "null"], "format": "date-time"},
+    "last_data_network_attempt_event_id": {"type": ["string", "null"], "pattern": "^NET-[0-9a-f]{32}$"},
     "network_accessed": {"type": "boolean"}
   },
   "$defs": {"sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}}

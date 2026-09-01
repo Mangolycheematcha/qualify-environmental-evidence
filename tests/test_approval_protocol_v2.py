@@ -261,12 +261,23 @@ def test_approval_failure_does_not_call_environmental_data_client(tmp_path: Path
 def test_first_data_network_attempt_is_persisted_before_request_and_timeout(tmp_path: Path, monkeypatch):
     run_dir = tmp_path / "run"
     (run_dir / "diagnostics").mkdir(parents=True)
-    runtime.write_json(run_dir / "run-state.json", {"first_data_network_attempt_at": None, "data_network_access_attempted": False, "network_accessed": False})
+    runtime.write_json(
+        run_dir / "run-state.json",
+        {
+            "first_data_network_attempt_at": None,
+            "first_data_network_attempt_event_id": None,
+            "last_data_network_attempt_at": None,
+            "last_data_network_attempt_event_id": None,
+            "data_network_access_attempted": False,
+            "network_accessed": False,
+        },
+    )
 
     def request(*_args, **_kwargs):
         state = runtime.read_json(run_dir / "run-state.json")
         assert state["data_network_access_attempted"] is True
         assert state["first_data_network_attempt_at"]
+        assert state["first_data_network_attempt_event_id"]
         raise TimeoutError("timeout")
 
     monkeypatch.setattr(runtime.legacy_io, "http_request", request)
@@ -276,6 +287,9 @@ def test_first_data_network_attempt_is_persisted_before_request_and_timeout(tmp_
     attempts = runtime.read_json(run_dir / "diagnostics" / "data-network-attempts.json")["attempts"]
     assert len(attempts) == 3
     assert all(item["attempted_at_utc"] for item in attempts)
+    state = runtime.read_json(run_dir / "run-state.json")
+    assert state["first_data_network_attempt_event_id"] == attempts[0]["event_id"]
+    assert state["first_data_network_attempt_at"] == attempts[0]["attempted_at_utc"]
 
 
 class FakeResponse:
@@ -315,12 +329,21 @@ def test_authorization_and_data_records_are_separate_and_token_is_not_persisted(
 def test_provenance_schema_and_runtime_bind_request_evidence_and_consumption():
     schema = json.loads((runtime.ROOT / "schemas" / "provenance-manifest.schema.json").read_text())
     properties = schema["$defs"]["run_identity"]["properties"]
-    fields = ("approval_request_sha256", "approval_evidence_sha256", "approval_consumption_sha256", "reserved_run_id")
-    assert all(field in properties for field in fields)
+    binding_fields = (
+        "approval_request_sha256",
+        "approval_evidence_sha256",
+        "approval_consumption_sha256",
+        "reserved_run_id",
+    )
+    network_fields = (
+        "first_data_network_attempt_event_id",
+        "first_data_network_attempt_at",
+    )
+    assert all(field in properties for field in (*binding_fields, *network_fields))
     required = schema["$defs"]["run_identity"]["allOf"][0]["then"]["required"]
-    assert all(field in required for field in fields)
+    assert all(field in required for field in binding_fields)
     source = (runtime.ROOT / "scripts" / "step2b_v4_runtime.py").read_text()
-    assert all(f'"{field}": state["{field}"]' in source for field in fields[:3])
+    assert all(f'"{field}": state["{field}"]' in source for field in binding_fields[:3])
 
 
 def test_historical_policy_science_and_completed_run_hashes_are_preserved():
@@ -336,6 +359,11 @@ def test_historical_policy_science_and_completed_run_hashes_are_preserved():
     if historical.is_dir():
         assert protocol.sha256_file(historical / "assessment.json") == "1b6297f81d1bafc847ef02dac9cb0c2ada91bf03ccedf75759bb07e4002f00dc"
         assert protocol.sha256_file(historical / "provenance-manifest.json") == "5749fc7fd0b6ee55a98732b2f9ab02a47e125f874e1be9d30be8ad3f63dc3926"
+    failed = runtime.ROOT / "runs" / "EOP101132-STEP2B-V4-20260830T095123241799Z-5bb61d381c71a8e9"
+    if failed.is_dir():
+        assert protocol.sha256_file(failed / "run-state.json") == "78713fc98bf7e4176ade72b5c24e112748a19e8e82eacecd42318a02f0d4761f"
+        assert protocol.sha256_file(failed / "diagnostics" / "runtime-failure.json") == "f0e8dc718d038d8fdd5df41e4ddefbe15fe63dc090b73ed6294991984f812ac9"
+        assert protocol.sha256_file(failed / "approval" / "approval-consumption.json") == "9f69cc7d03f37a0d4c5587e562a2eccc373f6d03f69ddd303fbe6319842954ac"
 
 
 def test_readme_uses_exact_governance_verdict_and_pending_status():

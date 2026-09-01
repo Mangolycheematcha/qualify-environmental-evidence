@@ -47,7 +47,11 @@
         "reserved_run_id": {"type": "string", "minLength": 1},
         "github_approval_url": {"type": "string", "pattern": "^https://github\\.com/"},
         "github_approver_login": {"const": "Mangolycheematcha"},
-        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+        "git_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "first_data_network_attempt_event_id": {"type": "string", "pattern": "^NET-[0-9a-f]{32}$"},
+        "first_data_network_attempt_at": {"type": "string", "format": "date-time"},
+        "last_data_network_attempt_event_id": {"type": "string", "pattern": "^NET-[0-9a-f]{32}$"},
+        "last_data_network_attempt_at": {"type": "string", "format": "date-time"}
       }
     },
     "solar_geometry_record": {

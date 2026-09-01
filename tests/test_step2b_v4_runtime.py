@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 import hashlib
+import http.client
 import json
+import urllib.error
 from copy import deepcopy
 from pathlib import Path
 
@@ -14,6 +16,22 @@ from scripts import validate_step1_specs as contracts
 
 ROOT = Path(__file__).resolve().parents[1]
 POLICY = ROOT / "policies" / "eop101132" / "step2b-proposed-policy-v4.json"
+
+
+def _write_audit_state(run_dir: Path) -> None:
+    (run_dir / "diagnostics").mkdir(parents=True, exist_ok=True)
+    runtime.write_json(
+        run_dir / "run-state.json",
+        {
+            "stage": "INITIALIZED",
+            "data_network_access_attempted": False,
+            "first_data_network_attempt_at": None,
+            "first_data_network_attempt_event_id": None,
+            "last_data_network_attempt_at": None,
+            "last_data_network_attempt_event_id": None,
+            "network_accessed": False,
+        },
+    )
 
 
 def _approval(spec_hash: str, commit: str = "a" * 40) -> dict:
@@ -240,6 +258,10 @@ def test_runtime_manifest_carries_three_way_identity_and_validates(tmp_path):
             "git_commit": "a" * 40,
             "created_at_utc": "2026-08-30T00:00:00Z",
             "stage": "RASTER_AGGREGATION_COMPLETE",
+            "first_data_network_attempt_event_id": "NET-" + "1" * 32,
+            "first_data_network_attempt_at": "2026-08-30T00:00:01Z",
+            "last_data_network_attempt_event_id": "NET-" + "2" * 32,
+            "last_data_network_attempt_at": "2026-08-30T00:00:02Z",
         },
     )
     manifest = runtime.build_manifest(run_dir, assessment)
@@ -250,6 +272,8 @@ def test_runtime_manifest_carries_three_way_identity_and_validates(tmp_path):
     assert identity["git_commit"] == "a" * 40
     assert identity["approval_request_sha256"] == request["approval_request_sha256"]
     assert identity["approval_evidence_sha256"] == runtime.sha256_file(run_dir / "approval" / "approval-verification.json")
+    assert identity["first_data_network_attempt_event_id"] == "NET-" + "1" * 32
+    assert identity["first_data_network_attempt_at"] == "2026-08-30T00:00:01Z"
 
 
 def test_offline_replay_recomputes_ndvi_from_safe_aoi_inputs(tmp_path):
@@ -372,10 +396,237 @@ def test_raw_timeout_exhaustion_remains_source_unavailable(monkeypatch):
     assert {attempt["reason_code"] for attempt in attempts} == {"SOURCE_UNAVAILABLE"}
 
 
+def test_connection_reset_retries_once_then_succeeds(tmp_path, monkeypatch):
+    _write_audit_state(tmp_path)
+    calls = []
+    sleeps = []
+
+    def reset_then_succeed(*_args, **_kwargs):
+        calls.append(1)
+        ledger = runtime.read_json(tmp_path / "diagnostics" / "data-network-attempts.json")["attempts"]
+        state = runtime.read_json(tmp_path / "run-state.json")
+        assert state["last_data_network_attempt_event_id"] == ledger[-1]["event_id"]
+        assert state["last_data_network_attempt_at"] == ledger[-1]["attempted_at_utc"]
+        if len(calls) == 1:
+            raise ConnectionResetError(10054, "peer reset")
+        return b"ok", {"http_status": 200}
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", reset_then_succeed)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    raw, metadata = runtime._http_request(
+        "https://planetarycomputer.microsoft.com/test",
+        audit_run_dir=tmp_path,
+        audit_source_category="METADATA_ASSET",
+        audit_operation="GET_METADATA_BLOB",
+    )
+    assert raw == b"ok"
+    assert len(calls) == 2
+    assert sleeps == [2]
+    assert metadata["request_attempt_count"] == 2
+    ledger = runtime.read_json(tmp_path / "diagnostics" / "data-network-attempts.json")["attempts"]
+    state = runtime.read_json(tmp_path / "run-state.json")
+    assert [event["attempt_number"] for event in ledger] == [1, 2]
+    assert state["first_data_network_attempt_event_id"] == ledger[0]["event_id"]
+    assert state["first_data_network_attempt_at"] == ledger[0]["attempted_at_utc"]
+
+
+def test_connection_reset_exhaustion_is_source_unavailable_and_bounded(tmp_path, monkeypatch):
+    _write_audit_state(tmp_path)
+    calls = []
+    sleeps = []
+
+    def persistent_reset(*_args, **_kwargs):
+        calls.append(1)
+        raise ConnectionResetError(10054, "peer reset")
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", persistent_reset)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    with pytest.raises(runtime.V4RuntimeFailure) as error:
+        runtime._http_request("https://planetarycomputer.microsoft.com/test", audit_run_dir=tmp_path)
+    assert error.value.reason_code == "SOURCE_UNAVAILABLE"
+    assert "DETERMINISTIC_PROCESSING_ERROR" not in str(error.value.details)
+    assert len(calls) == runtime.NETWORK_MAX_ATTEMPTS == 3
+    assert sleeps == [2, 5]
+    assert [item["transport_classification"] for item in error.value.details["network_attempts"]] == [
+        "CONNECTION_RESET",
+        "CONNECTION_RESET",
+        "CONNECTION_RESET",
+    ]
+
+
+def test_wrapped_connection_reset_is_retried(monkeypatch):
+    calls = []
+
+    def wrapped_reset_then_succeed(*_args, **_kwargs):
+        calls.append(1)
+        if len(calls) == 1:
+            try:
+                raise urllib.error.URLError(ConnectionResetError(10054, "peer reset"))
+            except urllib.error.URLError as cause:
+                raise runtime.legacy_io.RuntimeFailure("source unavailable", "SOURCE_UNAVAILABLE") from cause
+        return b"ok", {"http_status": 200}
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", wrapped_reset_then_succeed)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
+    assert runtime._http_request("https://planetarycomputer.microsoft.com/test")[0] == b"ok"
+    assert len(calls) == 2
+
+
+def test_remote_disconnected_is_retried(monkeypatch):
+    calls = []
+
+    def disconnected_then_succeed(*_args, **_kwargs):
+        calls.append(1)
+        if len(calls) == 1:
+            raise http.client.RemoteDisconnected("peer closed connection")
+        return b"ok", {"http_status": 200}
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", disconnected_then_succeed)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
+    assert runtime._http_request("https://planetarycomputer.microsoft.com/test")[0] == b"ok"
+    assert len(calls) == 2
+
+
+def test_non_retryable_http_status_is_attempted_once(monkeypatch):
+    calls = []
+    sleeps = []
+
+    def not_found(*_args, **_kwargs):
+        calls.append(1)
+        cause = urllib.error.HTTPError(
+            "https://planetarycomputer.microsoft.com/test",
+            404,
+            "Not Found",
+            hdrs=None,
+            fp=None,
+        )
+        raise runtime.legacy_io.RuntimeFailure("HTTP 404 retrieving source", "SOURCE_UNAVAILABLE") from cause
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", not_found)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    with pytest.raises(runtime.V4RuntimeFailure) as error:
+        runtime._http_request("https://planetarycomputer.microsoft.com/test")
+    assert error.value.reason_code == "SOURCE_UNAVAILABLE"
+    assert len(calls) == 1
+    assert sleeps == []
+    assert error.value.details["network_attempts"][0]["transport_classification"] == "HTTP_STATUS"
+
+
+@pytest.mark.parametrize(
+    "failure",
+    [
+        TypeError("programming defect"),
+        json.JSONDecodeError("invalid JSON", "{", 1),
+        AssertionError("broken invariant"),
+    ],
+)
+def test_non_transport_programming_and_json_errors_are_not_retried(monkeypatch, failure):
+    calls = []
+    sleeps = []
+
+    def fail(*_args, **_kwargs):
+        calls.append(1)
+        raise failure
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", fail)
+    monkeypatch.setattr(runtime.time, "sleep", sleeps.append)
+    with pytest.raises(type(failure)):
+        runtime._http_request("https://planetarycomputer.microsoft.com/test")
+    assert len(calls) == 1
+    assert sleeps == []
+
+
+def test_metadata_semantic_contradiction_is_not_transport_failure():
+    contradictory = b"""<root><BOA_QUANTIFICATION_VALUE>10000</BOA_QUANTIFICATION_VALUE>
+    <BOA_QUANTIFICATION_VALUE>20000</BOA_QUANTIFICATION_VALUE></root>"""
+    with pytest.raises(runtime.V4RuntimeFailure) as error:
+        runtime._parse_radiometry(contradictory, "B04")
+    assert error.value.reason_code == "RADIOMETRY_METADATA_UNRESOLVED"
+
+
+def test_attempt_event_excludes_credentials_and_signed_query(tmp_path, monkeypatch):
+    _write_audit_state(tmp_path)
+    secret = "TOKEN_MUST_NOT_PERSIST"
+
+    def fail(*_args, **_kwargs):
+        raise TimeoutError("timeout")
+
+    monkeypatch.setattr(runtime.legacy_io, "http_request", fail)
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
+    with pytest.raises(runtime.V4RuntimeFailure):
+        runtime._http_request(
+            f"https://blob.example.test/test?sig={secret}",
+            headers={"Authorization": f"Bearer {secret}"},
+            audit_run_dir=tmp_path,
+            audit_source_category="METADATA_ASSET",
+            audit_operation="GET_METADATA_BLOB",
+        )
+    raw = (tmp_path / "diagnostics" / "data-network-attempts.json").read_bytes()
+    assert secret.encode() not in raw
+    assert b"Authorization" not in raw
+    events = runtime.read_json(tmp_path / "diagnostics" / "data-network-attempts.json")["attempts"]
+    assert all(event["request_uri"] == "https://blob.example.test/test" for event in events)
+    assert all(len(event["request_identity_sha256"]) == 64 for event in events)
+
+
+def test_failure_record_reuses_authoritative_attempt_event(tmp_path, monkeypatch):
+    _write_audit_state(tmp_path)
+    monkeypatch.setattr(
+        runtime.legacy_io,
+        "http_request",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(ConnectionResetError(10054, "peer reset")),
+    )
+    monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)
+    with pytest.raises(runtime.V4RuntimeFailure) as caught:
+        runtime._http_request("https://planetarycomputer.microsoft.com/test", audit_run_dir=tmp_path)
+    runtime.record_failure(tmp_path, caught.value)
+    ledger = runtime.read_json(tmp_path / "diagnostics" / "data-network-attempts.json")["attempts"]
+    failure = runtime.read_json(tmp_path / "diagnostics" / "runtime-failure.json")
+    state = runtime.read_json(tmp_path / "run-state.json")
+    assert failure["network_attempt_event_id"] == ledger[-1]["event_id"] == state["last_data_network_attempt_event_id"]
+    assert failure["network_attempted_at_utc"] == ledger[-1]["attempted_at_utc"] == state["last_data_network_attempt_at"]
+
+
+def test_stage_update_cannot_overwrite_authoritative_first_event(tmp_path):
+    _write_audit_state(tmp_path)
+    event = runtime._record_data_network_attempt(
+        tmp_path,
+        "2026-08-30T10:07:37.455380Z",
+        ("https://cer.gov.au/test",),
+        {},
+        source_category="CER_PROJECT_RECORD",
+        operation="GET_PROJECT_PAGE",
+        attempt_number=1,
+    )
+    runtime._update_run_state(tmp_path, stage="RAW_STAC_INVENTORY_COMPLETE")
+    state = runtime.read_json(tmp_path / "run-state.json")
+    assert state["first_data_network_attempt_event_id"] == event["event_id"]
+    assert state["first_data_network_attempt_at"] == event["attempted_at_utc"]
+
+
+def test_metadata_failure_cannot_reach_raster_or_outputs(tmp_path, monkeypatch):
+    runtime.write_json(tmp_path / "run-state.json", {"stage": "RAW_STAC_INVENTORY_COMPLETE"})
+    calls = {"raster": 0}
+    monkeypatch.setattr(runtime, "fetch_sources", lambda _run_dir: None)
+    monkeypatch.setattr(
+        runtime,
+        "evaluate_metadata",
+        lambda _run_dir: (_ for _ in ()).throw(runtime.V4RuntimeFailure("metadata unavailable", "SOURCE_UNAVAILABLE")),
+    )
+    monkeypatch.setattr(runtime, "process_rasters", lambda _run_dir: calls.__setitem__("raster", calls["raster"] + 1))
+    with pytest.raises(runtime.V4RuntimeFailure) as error:
+        runtime.execute_live(tmp_path)
+    assert error.value.reason_code == "SOURCE_UNAVAILABLE"
+    assert calls["raster"] == 0
+    assert not (tmp_path / "assessment.json").exists()
+    assert not (tmp_path / "provenance-manifest.json").exists()
+
+
 def test_network_access_is_persisted_before_first_request(tmp_path, monkeypatch):
     state = {"stage": "INITIALIZED", "network_accessed": False}
     policy = {"project_and_boundary": {"project_page": "https://cer.gov.au/test"}}
     runtime.write_json(tmp_path / "frozen" / "policy.json", policy)
+    runtime.write_json(tmp_path / "run-state.json", state)
     monkeypatch.setattr(runtime, "_run_guard", lambda _run_dir: (state, {}, {}))
     monkeypatch.setattr(runtime.legacy_io, "http_request", lambda *_args, **_kwargs: (_ for _ in ()).throw(TimeoutError("source unavailable")))
     monkeypatch.setattr(runtime.time, "sleep", lambda _seconds: None)

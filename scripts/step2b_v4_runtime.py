@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import http.client
 import importlib.metadata
 import json
 import math
@@ -11,6 +12,7 @@ import shutil
 import subprocess
 import sys
 import time
+import urllib.error
 import urllib.parse
 import xml.etree.ElementTree as ET
 from collections import defaultdict
@@ -41,9 +43,15 @@ BOUNDARY_SHA256 = "3761b2c8b004308db31e06236bb40f2b00c2e0590ec7039554c7339f8820f
 BOUNDARY_BYTES = 10219
 FORBIDDEN_CODES = legacy_io.FORBIDDEN_CODES
 TRANSFORMATION_IDS = legacy_io.TRANSFORMATION_IDS
-RUNTIME_VERSION = "step2b_v4_runtime.py/1.1.0"
+RUNTIME_VERSION = "step2b_v4_runtime.py/1.1.1"
 NETWORK_MAX_ATTEMPTS = 3
 NETWORK_RETRY_DELAYS_SECONDS = (0, 2, 5)
+RETRIABLE_TRANSPORT_EXCEPTIONS = (
+    TimeoutError,
+    ConnectionError,
+    http.client.RemoteDisconnected,
+    urllib.error.URLError,
+)
 
 
 class V4RuntimeFailure(RuntimeError):
@@ -119,7 +127,7 @@ def verify_runtime_spec(
         raise V4RuntimeFailure("local runtime-spec SHA-256 does not match approval", "PROVENANCE_HASH_MISMATCH")
     spec = json.loads(spec_bytes)
     expected = {
-        "runtime_spec_version": "1.1.0",
+        "runtime_spec_version": "1.1.1",
         "runtime_spec_id": RUNTIME_SPEC_ID,
         "policy_id": POLICY_ID,
         "approved_policy_sha256": APPROVED_POLICY_SHA256,
@@ -268,6 +276,9 @@ def initialise_run(approval_path: Path) -> Path:
         "first_authorization_access_attempt_at": read_json(request_dir / "approval-state.json").get("first_authorization_access_attempt_at"),
         "data_network_access_attempted": False,
         "first_data_network_attempt_at": None,
+        "first_data_network_attempt_event_id": None,
+        "last_data_network_attempt_at": None,
+        "last_data_network_attempt_event_id": None,
         "network_accessed": False,
         "raster_pixels_read": False,
     }
@@ -286,53 +297,164 @@ def _safe_error_message(exc: Exception) -> str:
     return url_pattern.sub(lambda match: _strip_query(match.group(0)), message)
 
 
-def _record_data_network_attempt(run_dir: Path, attempted_at: str, args: tuple[Any, ...]) -> None:
+def _update_run_state(run_dir: Path, **changes: Any) -> dict[str, Any]:
+    state = read_json(run_dir / "run-state.json")
+    state.update(changes)
+    write_json(run_dir / "run-state.json", state)
+    return state
+
+
+def _request_identity(args: tuple[Any, ...], kwargs: dict[str, Any]) -> tuple[str, str, str]:
     request_uri = _strip_query(str(args[0])) if args else "UNRESOLVED"
+    method = str(kwargs.get("method", "GET")).upper()
+    body = kwargs.get("body")
+    identity = {"method": method, "request_uri": request_uri}
+    if body is not None:
+        body_bytes = body if isinstance(body, bytes) else str(body).encode("utf-8")
+        identity["body_sha256"] = sha256_bytes(body_bytes)
+    return request_uri, method, sha256_bytes(canonical_bytes(identity))
+
+
+def _record_data_network_attempt(
+    run_dir: Path,
+    attempted_at: str,
+    args: tuple[Any, ...],
+    kwargs: dict[str, Any],
+    *,
+    source_category: str,
+    operation: str,
+    attempt_number: int,
+) -> dict[str, Any]:
+    request_uri, method, request_identity_sha256 = _request_identity(args, kwargs)
     attempts_path = run_dir / "diagnostics" / "data-network-attempts.json"
     attempts = read_json(attempts_path).get("attempts", []) if attempts_path.is_file() else []
-    attempts.append(
-        {
-            "attempt": len(attempts) + 1,
-            "attempted_at_utc": attempted_at,
-            "network_class": "ENVIRONMENTAL_DATA",
-            "request_uri": request_uri,
-        }
-    )
+    sequence = len(attempts) + 1
+    event_seed = {
+        "sequence": sequence,
+        "attempted_at_utc": attempted_at,
+        "source_category": source_category,
+        "operation": operation,
+        "attempt_number": attempt_number,
+        "request_identity_sha256": request_identity_sha256,
+        "network_class": "ENVIRONMENTAL_DATA",
+    }
+    event = {
+        "event_id": f"NET-{sha256_bytes(canonical_bytes(event_seed))[:32]}",
+        "attempt": sequence,
+        **event_seed,
+        "method": method,
+        "request_uri": request_uri,
+    }
+    attempts.append(event)
     write_json(attempts_path, {"attempts": attempts}, canonical=True)
     state = read_json(run_dir / "run-state.json")
-    state.update(data_network_access_attempted=True, network_accessed=True)
+    state.update(
+        data_network_access_attempted=True,
+        network_accessed=True,
+        last_data_network_attempt_event_id=event["event_id"],
+        last_data_network_attempt_at=event["attempted_at_utc"],
+    )
     if state.get("first_data_network_attempt_at") is None:
-        state["first_data_network_attempt_at"] = attempted_at
+        state["first_data_network_attempt_event_id"] = event["event_id"]
+        state["first_data_network_attempt_at"] = event["attempted_at_utc"]
     write_json(run_dir / "run-state.json", state)
+    return event
 
 
-def _http_request(*args: Any, audit_run_dir: Path | None = None, **kwargs: Any) -> tuple[bytes, dict[str, Any]]:
+def _exception_chain(exc: BaseException) -> list[BaseException]:
+    chain: list[BaseException] = []
+    pending: list[BaseException] = [exc]
+    seen: set[int] = set()
+    while pending:
+        current = pending.pop(0)
+        if id(current) in seen:
+            continue
+        seen.add(id(current))
+        chain.append(current)
+        if isinstance(current, urllib.error.URLError) and isinstance(current.reason, BaseException):
+            pending.append(current.reason)
+        if current.__cause__ is not None:
+            pending.append(current.__cause__)
+        elif current.__context__ is not None:
+            pending.append(current.__context__)
+    return chain
+
+
+def _transport_classification(exc: BaseException) -> str:
+    chain = _exception_chain(exc)
+    if any(isinstance(item, urllib.error.HTTPError) for item in chain):
+        return "HTTP_STATUS"
+    if any(isinstance(item, http.client.RemoteDisconnected) for item in chain):
+        return "REMOTE_DISCONNECTED"
+    if any(isinstance(item, ConnectionResetError) for item in chain):
+        return "CONNECTION_RESET"
+    if any(isinstance(item, TimeoutError) for item in chain):
+        return "TIMEOUT"
+    if any(isinstance(item, ConnectionError) for item in chain):
+        return "CONNECTION_ERROR"
+    if any(isinstance(item, urllib.error.URLError) for item in chain):
+        return "URLLIB_TRANSPORT_ERROR"
+    return "NORMALISED_SOURCE_UNAVAILABLE"
+
+
+def _http_error_code(exc: BaseException) -> int | None:
+    error = next((item for item in _exception_chain(exc) if isinstance(item, urllib.error.HTTPError)), None)
+    return error.code if error is not None else None
+
+
+def _http_request(
+    *args: Any,
+    audit_run_dir: Path | None = None,
+    audit_source_category: str = "UNSPECIFIED",
+    audit_operation: str = "HTTP_REQUEST",
+    **kwargs: Any,
+) -> tuple[bytes, dict[str, Any]]:
     attempts: list[dict[str, Any]] = []
     for attempt_number in range(1, NETWORK_MAX_ATTEMPTS + 1):
         delay = NETWORK_RETRY_DELAYS_SECONDS[attempt_number - 1]
         if delay:
             time.sleep(delay)
         attempted_at = utc_now()
+        event = None
         if audit_run_dir is not None:
-            _record_data_network_attempt(audit_run_dir, attempted_at, args)
+            event = _record_data_network_attempt(
+                audit_run_dir,
+                attempted_at,
+                args,
+                kwargs,
+                source_category=audit_source_category,
+                operation=audit_operation,
+                attempt_number=attempt_number,
+            )
         try:
             raw, metadata = legacy_io.http_request(*args, **kwargs)
             metadata["request_attempt_count"] = attempt_number
             metadata["retry_delays_seconds"] = list(NETWORK_RETRY_DELAYS_SECONDS[:attempt_number])
+            if event is not None:
+                metadata["network_attempt_event_id"] = event["event_id"]
+                metadata["network_attempted_at_utc"] = event["attempted_at_utc"]
             return raw, metadata
-        except (legacy_io.RuntimeFailure, TimeoutError) as exc:
+        except (legacy_io.RuntimeFailure, *RETRIABLE_TRANSPORT_EXCEPTIONS) as exc:
             reason_code = getattr(exc, "reason_code", "SOURCE_UNAVAILABLE")
-            attempts.append(
-                {
-                    "attempt": attempt_number,
-                    "attempted_at_utc": attempted_at,
-                    "reason_code": reason_code,
-                    "error": _safe_error_message(exc),
-                }
-            )
-            http_error = exc.__cause__
-            non_retryable_http = getattr(http_error, "code", None) not in (None, 408, 429, 500, 502, 503, 504)
-            if reason_code != "SOURCE_UNAVAILABLE" or non_retryable_http or attempt_number == NETWORK_MAX_ATTEMPTS:
+            attempt_record = {
+                "attempt": attempt_number,
+                "attempted_at_utc": event["attempted_at_utc"] if event is not None else attempted_at,
+                "reason_code": reason_code,
+                "transport_classification": _transport_classification(exc),
+                "error": _safe_error_message(exc),
+            }
+            if event is not None:
+                attempt_record["event_id"] = event["event_id"]
+            attempts.append(attempt_record)
+            http_code = _http_error_code(exc)
+            non_retryable_http = http_code is not None and http_code not in (408, 429, 500, 502, 503, 504)
+            if reason_code != "SOURCE_UNAVAILABLE":
+                raise V4RuntimeFailure(
+                    _safe_error_message(exc),
+                    reason_code,
+                    details={"network_attempts": attempts},
+                ) from exc
+            if non_retryable_http or attempt_number == NETWORK_MAX_ATTEMPTS:
                 raise V4RuntimeFailure(
                     f"source unavailable after {attempt_number} attempt(s): {_safe_error_message(exc)}",
                     reason_code,
@@ -344,7 +466,12 @@ def _http_request(*args: Any, audit_run_dir: Path | None = None, **kwargs: Any) 
 def _sign_asset_url(run_dir: Path, unsigned_url: str) -> tuple[str, dict[str, Any]]:
     canonical = _strip_query(unsigned_url)
     endpoint = "https://planetarycomputer.microsoft.com/api/sas/v1/sign?" + urllib.parse.urlencode({"href": canonical})
-    raw, signing_metadata = _http_request(endpoint, audit_run_dir=run_dir)
+    raw, signing_metadata = _http_request(
+        endpoint,
+        audit_run_dir=run_dir,
+        audit_source_category="SIGNING_SERVICE",
+        audit_operation="SIGN_ASSET",
+    )
     try:
         response = json.loads(raw)
         signed = response["href"]
@@ -368,7 +495,13 @@ def _fetch_signed_asset(run_dir: Path, unsigned_url: str) -> tuple[bytes, dict[s
     host = urllib.parse.urlsplit(signed).hostname
     if not host:
         raise V4RuntimeFailure("signed asset has no hostname", "SOURCE_UNAVAILABLE")
-    raw, metadata = _http_request(signed, extra_hosts={host}, audit_run_dir=run_dir)
+    raw, metadata = _http_request(
+        signed,
+        extra_hosts={host},
+        audit_run_dir=run_dir,
+        audit_source_category="METADATA_ASSET",
+        audit_operation="GET_METADATA_BLOB",
+    )
     safe.update(
         {
             "retrieved_at_utc": metadata["retrieved_at_utc"],
@@ -386,14 +519,23 @@ def fetch_sources(run_dir: Path) -> None:
         raise V4RuntimeFailure("fetch-sources requires an initialized run")
     policy = read_json(run_dir / "frozen" / "policy.json")
     project_url = policy["project_and_boundary"]["project_page"]
-    state.update(stage="SOURCE_FETCH_STARTED")
-    write_json(run_dir / "run-state.json", state)
-    project_raw, project_meta = _http_request(project_url, audit_run_dir=run_dir)
+    _update_run_state(run_dir, stage="SOURCE_FETCH_STARTED")
+    project_raw, project_meta = _http_request(
+        project_url,
+        audit_run_dir=run_dir,
+        audit_source_category="CER_PROJECT_RECORD",
+        audit_operation="GET_PROJECT_PAGE",
+    )
     (run_dir / "source" / "cer-project-page.raw").write_bytes(project_raw)
     project_meta["extracted_project_fields"] = legacy_io._project_fields(project_raw)
     write_json(run_dir / "source" / "cer-project-page.metadata.json", project_meta)
     cea_url = policy["project_and_boundary"]["boundary_artifact_uri"]
-    cea_raw, cea_meta = _http_request(cea_url, audit_run_dir=run_dir)
+    cea_raw, cea_meta = _http_request(
+        cea_url,
+        audit_run_dir=run_dir,
+        audit_source_category="CER_PUBLISHED_CEA",
+        audit_operation="GET_BOUNDARY_ARTIFACT",
+    )
     if sha256_bytes(cea_raw) != BOUNDARY_SHA256 or len(cea_raw) != BOUNDARY_BYTES:
         raise V4RuntimeFailure("CER CEA bytes differ from the frozen artifact", "SOURCE_VERSION_UNRESOLVED")
     cea_path = run_dir / "source" / "eop101132-cea.zip"
@@ -414,7 +556,13 @@ def fetch_sources(run_dir: Path) -> None:
             window,
             policy["temporal_scope"][f"{window}_window"],
             geometry,
-            request_fn=lambda *args, **kwargs: _http_request(*args, audit_run_dir=run_dir, **kwargs),
+            request_fn=lambda *args, **kwargs: _http_request(
+                *args,
+                audit_run_dir=run_dir,
+                audit_source_category="STAC",
+                audit_operation="SEARCH",
+                **kwargs,
+            ),
         )
         unique, duplicate_count = legacy_io._deduplicate_items(items)
         counts[window] = {
@@ -425,14 +573,14 @@ def fetch_sources(run_dir: Path) -> None:
         raw_limit_exceeded |= len(unique) > acquisition.RAW_STAC_ITEMS_PER_WINDOW_MAX
         for item in unique:
             write_json(run_dir / "source" / "item-metadata" / f"{item['id']}.json", item, canonical=True)
-    state.update(
+    _update_run_state(
+        run_dir,
         stage="RAW_STAC_LIMIT_EXCEEDED" if raw_limit_exceeded else "RAW_STAC_INVENTORY_COMPLETE",
         network_accessed=True,
         stac_counts=counts,
         boundary=boundary,
         terminal_reason_codes=["METADATA_INVENTORY_LIMIT_EXCEEDED", "RESOURCE_LIMIT_EXCEEDED"] if raw_limit_exceeded else [],
     )
-    write_json(run_dir / "run-state.json", state)
 
 
 def _local_name(tag: str) -> str:
@@ -687,13 +835,13 @@ def evaluate_metadata(run_dir: Path) -> None:
         )
     )
     permitted = all(window_summary[window]["raster_access_permitted"] for window in ("pre", "post"))
-    state.update(
+    _update_run_state(
+        run_dir,
         stage="METADATA_GATE_PASSED" if permitted else "ACQUISITION_GROUP_LIMIT_EXCEEDED",
         metadata_window_summary=window_summary,
         grouping_output_sha256=grouping_output_hash,
         terminal_reason_codes=[] if permitted else ["RESOURCE_LIMIT_EXCEEDED"],
     )
-    write_json(run_dir / "run-state.json", state)
 
 
 def _coordinate_pairs(value: Any) -> Iterable[tuple[float, float]]:
@@ -955,13 +1103,13 @@ def process_rasters(run_dir: Path) -> None:
     write_json(run_dir / "cache" / "index.json", cache_index, canonical=True)
     write_json(run_dir / "diagnostics" / "scene-raster-statistics.json", scene_diagnostics, canonical=True)
     write_json(run_dir / "diagnostics" / "aggregation.json", aggregation, canonical=True)
-    state.update(
+    _update_run_state(
+        run_dir,
         stage="RASTER_AGGREGATION_COMPLETE",
         raster_pixels_read=True,
         raster_processing_group_counts={key.lower(): len(value) for key, value in arrays_by_window.items()},
         aggregation_sha256=sha256_file(run_dir / "diagnostics" / "aggregation.json"),
     )
-    write_json(run_dir / "run-state.json", state)
 
 
 def _quality_checks(reason_codes: Sequence[str], *, complete_system: bool) -> dict[str, str]:
@@ -1257,6 +1405,10 @@ def build_manifest(run_dir: Path, assessment: dict[str, Any]) -> dict[str, Any]:
             "github_approval_url": read_json(run_dir / "approval" / "approval-verification.json")["github_url"],
             "github_approver_login": read_json(run_dir / "approval" / "approval-verification.json")["github_author_login"],
             "git_commit": state["git_commit"],
+            "first_data_network_attempt_event_id": state.get("first_data_network_attempt_event_id"),
+            "first_data_network_attempt_at": state.get("first_data_network_attempt_at"),
+            "last_data_network_attempt_event_id": state.get("last_data_network_attempt_event_id"),
+            "last_data_network_attempt_at": state.get("last_data_network_attempt_at"),
         },
         "source_records": _source_records(run_dir, policy),
         "processing_representation_records": read_json(run_dir / "grouping" / "processing-representations.json") if (run_dir / "grouping" / "processing-representations.json").exists() else [],
@@ -1329,7 +1481,8 @@ def finalise(run_dir: Path) -> None:
     manifest = build_manifest(run_dir, assessment)
     write_json(run_dir / "provenance-manifest.json", manifest, canonical=True)
     validate_runtime_outputs(run_dir)
-    state.update(
+    _update_run_state(
+        run_dir,
         stage="PRIMARY_SEALED",
         execution_status=assessment["execution_status"],
         evidence_disposition=assessment["evidence_disposition"],
@@ -1337,7 +1490,6 @@ def finalise(run_dir: Path) -> None:
         assessment_sha256=sha256_file(run_dir / "assessment.json"),
         provenance_manifest_sha256=sha256_file(run_dir / "provenance-manifest.json"),
     )
-    write_json(run_dir / "run-state.json", state)
 
 
 def _replay_aggregation(run_dir: Path, spec: dict[str, Any]) -> dict[str, Any]:
@@ -1503,13 +1655,13 @@ def replay(run_dir: Path) -> None:
     manifest = build_manifest(run_dir, read_json(run_dir / "assessment.json"))
     write_json(run_dir / "provenance-manifest.json", manifest, canonical=True)
     validate_runtime_outputs(run_dir)
-    state.update(
+    _update_run_state(
+        run_dir,
         stage="REPLAY_VALIDATED",
         ended_at_utc=utc_now(),
         replay_validation=validation,
         provenance_manifest_sha256=sha256_file(run_dir / "provenance-manifest.json"),
     )
-    write_json(run_dir / "run-state.json", state)
     _security_scan(run_dir)
     _write_checksums(run_dir)
 
@@ -1540,10 +1692,14 @@ def record_failure(run_dir: Path, exc: Exception) -> None:
     details = getattr(exc, "details", None)
     if details is not None:
         failure["details"] = details
+        network_attempts = details.get("network_attempts") if isinstance(details, dict) else None
+        if isinstance(network_attempts, list) and network_attempts:
+            final_attempt = network_attempts[-1]
+            if final_attempt.get("event_id") and final_attempt.get("attempted_at_utc"):
+                failure["network_attempt_event_id"] = final_attempt["event_id"]
+                failure["network_attempted_at_utc"] = final_attempt["attempted_at_utc"]
     write_json(run_dir / "diagnostics" / "runtime-failure.json", failure)
-    state = read_json(run_dir / "run-state.json")
-    state.update(stage="ERROR", terminal_reason_codes=[reason], ended_at_utc=utc_now())
-    write_json(run_dir / "run-state.json", state)
+    _update_run_state(run_dir, stage="ERROR", terminal_reason_codes=[reason], ended_at_utc=utc_now())
     sealing_errors = []
     try:
         _security_scan(run_dir)
