@@ -9,6 +9,7 @@ This is a factual release inventory, not legal advice. The repository owner sele
 | Repository-specific Python | Tracked as source | Apache-2.0 where original and owner-controlled; confirm ownership before public release |
 | JSON Schemas, registries, and tests | Tracked; repository-specific structure and fixtures | Apache-2.0 where original and owner-controlled; source-derived facts retain their own status |
 | Original documentation and diagrams | Markdown tracked; no binary diagrams or fonts found | Apache-2.0 where original and owner-controlled |
+| Curated CER fact snapshots under `data/cer/` | Tracked as small, source-attributed factual extracts; no raw page or complete register export | Do not relicense the underlying CER material; retain source URL, access date, and extraction caveat |
 | CER project pages and CEA boundary files | Canonical identities appear in policy/provenance; complete responses and boundary files are ignored locally | Do not relicense; link and attribute. Publish source bytes only after a separate redistribution review |
 | Sentinel-2 and Planetary Computer metadata | Identifiers, URLs, metadata-derived fields, and hashes appear in contracts/examples | Attribute and preserve source terms; do not imply Microsoft or Copernicus endorsement |
 | Raster inputs and cached arrays | Complete current run package is ignored and local | Keep out of the public Git baseline unless data terms, size, privacy, and disclosure are separately approved |

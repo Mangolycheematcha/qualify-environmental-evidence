@@ -370,7 +370,8 @@ def test_readme_uses_exact_closure_and_governance_status():
     readme = (runtime.ROOT / "README.md").read_text(encoding="utf-8")
     assert "SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN" in readme
     assert "not claimed as fully canonical" in readme
-    assert "Step 3 | Not executed and not approved" in readme
+    assert "Step 3 offline evaluation | Deterministic behavior" in readme
+    assert "Step 3 model/API evaluation | Not executed" in readme
     assert "A corrected pre-authorized run is pending." not in readme
     assert "three approved V4 runs" not in readme
     assert "third approved V4 run" not in readme.lower()

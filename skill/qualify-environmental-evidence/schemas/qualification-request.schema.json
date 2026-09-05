@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/qualify-environmental-evidence/schemas/qualification-request.schema.json",
+  "title": "Evidence Qualification Workflow Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "request_id", "project_id", "claim_family", "question", "requested_output"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "request_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
+    "project_id": {"type": "string", "pattern": "^(EOP|ERF)[0-9]{6}$"},
+    "claim_family": {
+      "enum": [
+        "REGISTRY_FACTS",
+        "OBSERVATIONAL_CONSISTENCY",
+        "ACCU_SMC_SEMANTIC_BOUNDARY",
+        "CAUSAL_ATTRIBUTION",
+        "CARBON_QUANTITY",
+        "ACCU_QUALITY",
+        "ACCU_SMC_EQUIVALENCE",
+        "REGULATORY_COMPLIANCE",
+        "FINANCIAL_ACTION",
+        "TRADING_OR_TOKENISATION"
+      ]
+    },
+    "question": {"type": "string", "minLength": 10, "maxLength": 2000},
+    "requested_output": {"const": "BOUNDED_EVIDENCE_MEMO"}
+  }
+}

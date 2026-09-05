@@ -1,0 +1,39 @@
+# Deployment And Publication
+
+## Supported Today
+
+The supported deployment is a local, offline Python CLI or a copied Codex skill directory. It requires Python 3.10+ and `jsonschema>=4.18,<5`.
+
+Repository CLI:
+
+```text
+python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
+python scripts/evaluate_qualification.py --json
+```
+
+Packaged skill:
+
+```text
+python scripts/package_skill.py
+python scripts/package_skill.py --check
+python skill/qualify-environmental-evidence/scripts/qualification_workflow.py skill/qualify-environmental-evidence/examples/qualification/eop101132-request.json --json
+```
+
+The package manifest binds every managed resource by SHA-256. The standalone package test copies only the skill directory to a temporary location and runs both the workflow and evaluator there.
+
+## CI
+
+`.github/workflows/offline-ci.yml` grants `contents: read`, pins third-party actions to commit SHAs, supplies no secrets, blocks ordinary proxy access during validation, and runs no live EO, CER, STAC, signing, raster, approval, release, or deployment command.
+
+## Not Deployed
+
+- No hosted API, web UI, database, vector store, cloud service, container image, package registry release, GitHub release, or public repository publication exists.
+- No stable live CER API contract has been adopted or tested. Current CER inputs are source-attributed curated snapshots.
+- No background refresh, scheduler, webhook, user authentication, tenancy, or retention policy exists.
+- No model or LLM is in the decision path.
+
+## Production Gate
+
+Before any service deployment, define and test source-refresh semantics, immutable snapshot retention, authentication, authorization, rate limits, dependency and image provenance, secrets handling, observability without sensitive payloads, incident response, data licensing, privacy, rollback, and human escalation. A deployed model must remain outside the deterministic authority and evidence gates until separately evaluated.
+
+Repository publication remains subject to `PUBLIC_RELEASE_CHECKLIST.md`. Passing offline CI does not authorize public visibility or deployment.

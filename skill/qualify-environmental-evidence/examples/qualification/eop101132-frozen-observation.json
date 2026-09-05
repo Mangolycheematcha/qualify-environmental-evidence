@@ -1,0 +1,58 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "EOP101132_STEP2B_V4_FROZEN_SUMMARY",
+  "evidence_type": "FROZEN_OBSERVATION_SUMMARY",
+  "source": {
+    "source_id": "FROZEN_STEP2B_V4_ASSESSMENT",
+    "publisher": "qualify-environmental-evidence local controlled run",
+    "canonical_uri": "urn:qualify-environmental-evidence:run:EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
+    "accessed_on": "2026-09-01",
+    "retrieval_mode": "IMMUTABLE_LOCAL_RUN_DERIVATIVE",
+    "authority_scope": "BOUNDED_OBSERVATION_ONLY"
+  },
+  "subject": {
+    "subject_type": "OBSERVATIONAL_RUN",
+    "subject_id": "EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
+    "name": "EOP101132 frozen Step 2B V4 observational assessment"
+  },
+  "facts": [
+    {
+      "fact_id": "EOP101132_V4.OBSERVATION",
+      "text": "The frozen Step 2B assessment recorded PRE median NDVI 0.6630660903670323, POST median NDVI 0.6432938994009436, POST-minus-PRE delta -0.0197721909660887, primary tau 0.03, and joint coverage 0.9997194163860831.",
+      "claim_families": ["OBSERVATIONAL_CONSISTENCY"],
+      "tags": ["frozen_observation", "ndvi", "coverage"],
+      "project_id": "EOP101132",
+      "authority_scope": "BOUNDED_OBSERVATION_ONLY",
+      "attributes": {
+        "run_id": "EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
+        "pre_median_ndvi": 0.6630660903670323,
+        "post_median_ndvi": 0.6432938994009436,
+        "delta_ndvi": -0.0197721909660887,
+        "primary_tau": 0.03,
+        "joint_coverage": 0.9997194163860831,
+        "execution_status": "ABSTAINED",
+        "evidence_disposition": "INCONCLUSIVE",
+        "reason_code": "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"
+      }
+    },
+    {
+      "fact_id": "EOP101132_V4.INTEGRITY",
+      "text": "Offline replay reproduced the canonical assessment bytes and array hashes; the retained run is science-valid with a documented governance limitation and no rerun requirement.",
+      "claim_families": ["OBSERVATIONAL_CONSISTENCY"],
+      "tags": ["frozen_observation", "replay", "integrity"],
+      "project_id": "EOP101132",
+      "authority_scope": "BOUNDED_OBSERVATION_ONLY",
+      "attributes": {
+        "executable_commit": "9e1fabbf005dd29fba09aa82ea18046e99556e02",
+        "policy_sha256": "3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd",
+        "runtime_spec_sha256": "e7671981e1edbe9b17d2198d68bd873750c40c9489923c403790c34ae9059b51",
+        "assessment_sha256": "759a173dbdbe2bee8a5689996ae38d226fdc7601118e4c60364a3b9f8561c01f",
+        "provenance_sha256": "b42cb95d1fa8aeeae7aff758cc18b41986e3d376a758e1a498218fd88bd2471c",
+        "canonical_assessment_bytes_equal": true,
+        "transport_provenance": "PARTIAL",
+        "frozen_retry_semantics": "NONCOMPLIANT",
+        "closure": "SCIENCE_VALID - GOVERNANCE_LIMITATION - NO_RERUN"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0.0",
+  "request_id": "DEMO-EOP101132-OBSERVATION",
+  "project_id": "EOP101132",
+  "claim_family": "OBSERVATIONAL_CONSISTENCY",
+  "question": "What can the frozen registry and Earth-observation evidence support about the bounded EOP101132 NDVI comparison?",
+  "requested_output": "BOUNDED_EVIDENCE_MEMO"
+}

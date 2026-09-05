@@ -1,0 +1,63 @@
+{
+  "registry_version": "1.0.0",
+  "default_authority_ceiling": "EVIDENCE_QUALIFICATION_ONLY",
+  "source_policies": {
+    "CER_PROJECT_RECORD": {
+      "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS"
+    },
+    "CER_ACCU_SMC_PUBLIC_DEFINITIONS": {
+      "canonical_uri": "https://cer.gov.au/schemes/safeguard-mechanism/safeguard-mechanism-credit-units",
+      "authority_scope": "PUBLIC_UNIT_DEFINITION"
+    },
+    "FROZEN_STEP2B_V4_ASSESSMENT": {
+      "canonical_uri": "urn:qualify-environmental-evidence:run:EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
+      "authority_scope": "BOUNDED_OBSERVATION_ONLY"
+    }
+  },
+  "allowed_claim_families": {
+    "REGISTRY_FACTS": {
+      "required_fact_tags": ["registry", "project_identity"],
+      "permitted_output": "Restate source-attributed public registry facts without evaluating project quality."
+    },
+    "OBSERVATIONAL_CONSISTENCY": {
+      "required_fact_tags": ["frozen_observation", "registry"],
+      "permitted_output": "Report the frozen bounded observation and its existing disposition without causal, carbon, compliance, credit-quality, or financial inference."
+    },
+    "ACCU_SMC_SEMANTIC_BOUNDARY": {
+      "required_fact_tags": ["accu_definition", "smc_definition", "unit_distinction"],
+      "permitted_output": "Explain source-defined differences between ACCUs and SMCs without asserting interchangeability, price equivalence, quality, or trading suitability."
+    }
+  },
+  "refused_claim_families": {
+    "CAUSAL_ATTRIBUTION": "CAUSALITY_UNSUPPORTED",
+    "CARBON_QUANTITY": "CARBON_QUANTITY_UNSUPPORTED",
+    "ACCU_QUALITY": "CREDIT_VALIDITY_UNSUPPORTED",
+    "ACCU_SMC_EQUIVALENCE": "CREDIT_VALIDITY_UNSUPPORTED",
+    "REGULATORY_COMPLIANCE": "COMPLIANCE_UNSUPPORTED",
+    "FINANCIAL_ACTION": "FINANCIAL_DECISION_UNSUPPORTED",
+    "TRADING_OR_TOKENISATION": "FINANCIAL_DECISION_UNSUPPORTED"
+  },
+  "must_not_claim": [
+    "CAUSAL_ATTRIBUTION",
+    "CARBON_QUANTITY",
+    "ADDITIONALITY",
+    "CREDIT_VALIDITY_OR_QUALITY",
+    "REGULATORY_OR_METHODOLOGY_COMPLIANCE",
+    "PERMANENCE",
+    "PROJECT_PERFORMANCE_BEYOND_BOUNDED_OBSERVATION",
+    "GREENWASHING_OR_LEGAL_LIABILITY",
+    "FINANCIAL_RECOMMENDATION",
+    "TOKENISATION_READINESS",
+    "ACCU_SMC_INTERCHANGEABILITY"
+  ],
+  "frozen_step2b_reference": {
+    "run_id": "EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
+    "executable_commit": "9e1fabbf005dd29fba09aa82ea18046e99556e02",
+    "policy_sha256": "3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd",
+    "runtime_spec_sha256": "e7671981e1edbe9b17d2198d68bd873750c40c9489923c403790c34ae9059b51",
+    "assessment_sha256": "759a173dbdbe2bee8a5689996ae38d226fdc7601118e4c60364a3b9f8561c01f",
+    "provenance_sha256": "b42cb95d1fa8aeeae7aff758cc18b41986e3d376a758e1a498218fd88bd2471c",
+    "closure": "SCIENCE_VALID - GOVERNANCE_LIMITATION - NO_RERUN"
+  }
+}

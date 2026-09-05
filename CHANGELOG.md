@@ -24,6 +24,9 @@ All notable contract and platform changes are recorded here. This project has no
 - Preserved the technically valid and reproducible V4 scientific run after it completed live raster processing, NDVI qualification, provenance sealing, and cached-input replay as `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND`; subsequent audit found its approval binding invalid.
 - Added Approval Protocol V2 with independently attributable GitHub evidence, exact reserved-Run-ID binding, expiry, read-only authorization lookup, one-time atomic consumption, and separate authorization/data network-attempt records.
 - Recorded that Step 2B is complete for the approved run and Step 3 was not executed.
+- Added an offline end-to-end qualification workflow over curated CER public facts and a hash-bound frozen Step 2B summary.
+- Added content-addressed evidence memory, deterministic retrieval, exact source policies, ACCU/SMC semantic boundaries, canonical result hashing, and pre-retrieval authority refusal.
+- Added a versioned Step 3 deterministic benchmark for behavior, unsupported-assertion proxies, performance, and security, while leaving LLM/API and human-labelled evaluation explicitly pending.
 
 ## 0.4.0
 

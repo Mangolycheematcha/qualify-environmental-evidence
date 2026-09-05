@@ -6,4 +6,6 @@ No repository text should be interpreted as Microsoft affiliation, Clean Energy 
 
 Raw HTTP payloads, imagery, metadata assets, and raster chips are excluded from the Git baseline until their licensing, redistribution, privacy, credential, and disclosure status is reviewed. Curated examples contain only redacted derivatives that passed local secret, signed-URL, and machine-path scans.
 
+`data/cer/` contains small curated fact snapshots from the official EOP101132 project page and CER ACCU/SMC definition page, both accessed on 2026-09-05. They support the offline demo but are not complete source pages, register exports, continuously refreshed data, or an implemented CER API contract.
+
 See `THIRD_PARTY_NOTICES.md` and `docs/DATA_AND_ARTIFACT_LICENSING.md` for the tracked-material inventory, licence boundary, and unresolved release decisions.

@@ -5,6 +5,7 @@ This file identifies external material and services referenced by the repository
 ## Data And Metadata Sources
 
 - Clean Energy Regulator (CER): project-register facts, project-page identities, and CEA boundary identities are referenced for provenance. Complete CER responses and the CEA archive remain in ignored local run packages and are not included in the tracked repository.
+- Curated CER snapshots under `data/cer/` restate selected EOP101132 registry facts and the public ACCU/SMC distinction with source URLs and access dates. They are not relicensed by Apache-2.0 and do not imply CER endorsement.
 - Copernicus Sentinel-2: product identifiers, acquisition metadata, and derived observations originate from Sentinel-2 L2A products and remain subject to the applicable Copernicus data terms.
 - Microsoft Planetary Computer: STAC metadata and temporary asset-signing services were used by controlled runs. Microsoft does not endorse this repository, and its service and dataset terms continue to apply.
 

@@ -1,0 +1,60 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_ACCU_SMC_DEFINITIONS_2026-09-05",
+  "evidence_type": "CER_PUBLIC_DEFINITION",
+  "source": {
+    "source_id": "CER_ACCU_SMC_PUBLIC_DEFINITIONS",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/safeguard-mechanism/safeguard-mechanism-credit-units",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_UNIT_DEFINITION"
+  },
+  "subject": {
+    "subject_type": "UNIT_CONCEPTS",
+    "subject_id": "ACCU_SMC",
+    "name": "Australian carbon credit units and Safeguard Mechanism credit units"
+  },
+  "facts": [
+    {
+      "fact_id": "CER_UNIT.ACCU_DEFINITION",
+      "text": "The CER describes an ACCU as representing one tonne of carbon dioxide equivalent emissions that would otherwise have been released into the atmosphere.",
+      "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
+      "tags": ["accu_definition", "unit_distinction"],
+      "project_id": null,
+      "authority_scope": "PUBLIC_UNIT_DEFINITION",
+      "attributes": {
+        "unit": "ACCU",
+        "quantity": "one tonne carbon dioxide equivalent",
+        "reference": "emissions otherwise released into the atmosphere"
+      }
+    },
+    {
+      "fact_id": "CER_UNIT.SMC_DEFINITION",
+      "text": "The CER describes an SMC as representing one tonne of carbon dioxide equivalent emissions below a Safeguard facility's baseline.",
+      "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
+      "tags": ["smc_definition", "unit_distinction"],
+      "project_id": null,
+      "authority_scope": "PUBLIC_UNIT_DEFINITION",
+      "attributes": {
+        "unit": "SMC",
+        "quantity": "one tonne carbon dioxide equivalent",
+        "reference": "facility emissions below baseline",
+        "origin": "eligible Safeguard facility"
+      }
+    },
+    {
+      "fact_id": "CER_UNIT.NOT_EQUIVALENT_CONCEPTS",
+      "text": "The CER states that SMCs are accounting units within the Safeguard Mechanism's regulated emissions limit and are not offsets, distinguishing them from ACCUs.",
+      "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
+      "tags": ["unit_distinction", "accu_definition", "smc_definition"],
+      "project_id": null,
+      "authority_scope": "PUBLIC_UNIT_DEFINITION",
+      "attributes": {
+        "smc_is_offset": false,
+        "semantic_equivalence_supported": false,
+        "interchangeability_supported": false
+      }
+    }
+  ]
+}

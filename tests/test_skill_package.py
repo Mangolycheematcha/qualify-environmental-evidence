@@ -21,6 +21,8 @@ from scripts import approval_protocol_v2
 ROOT = Path(__file__).resolve().parents[1]
 SKILL = ROOT / "skill" / "qualify-environmental-evidence"
 CLI = SKILL / "scripts" / "qualify.py"
+WORKFLOW_CLI = SKILL / "scripts" / "qualification_workflow.py"
+EVALUATION_CLI = SKILL / "scripts" / "evaluate_qualification.py"
 PACKAGE_SCRIPT = ROOT / "scripts" / "package_skill.py"
 CASE = ROOT / "cases" / "eop101132" / "case-spec.json"
 
@@ -91,7 +93,7 @@ def test_packaged_resources_match_authoritative_allowlist_and_manifest():
     result = subprocess.run([sys.executable, str(PACKAGE_SCRIPT), "--check"], cwd=ROOT, text=True, capture_output=True, check=False)
     assert result.returncode == 0, result.stderr
     manifest = json.loads((SKILL / "resource-manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest["resources"]) == 19
+    assert len(manifest["resources"]) == 32
     assert [item["path"] for item in manifest["resources"]] == list(dict.fromkeys(item["path"] for item in manifest["resources"]))
 
 
@@ -117,6 +119,30 @@ def test_standalone_skill_copy_runs_without_repository(tmp_path):
     check = run_cli("--check-resources", "--json", cwd=tmp_path, cli=cli)
     assert check.returncode == 0
     assert json.loads(check.stdout)["outcome"] == "RESOURCES_VALID"
+
+
+def test_standalone_skill_runs_qualification_and_evaluation(tmp_path):
+    standalone = tmp_path / "qualify-environmental-evidence"
+    shutil.copytree(SKILL, standalone)
+    request = standalone / "examples" / "qualification" / "eop101132-request.json"
+    workflow_result = run_cli(
+        str(request),
+        "--json",
+        cwd=tmp_path,
+        cli=standalone / "scripts" / "qualification_workflow.py",
+    )
+    assert workflow_result.returncode == 0, workflow_result.stderr
+    payload = json.loads(workflow_result.stdout)
+    assert payload["workflow_status"] == "ABSTAINED"
+    assert payload["qualification"] == "INCONCLUSIVE"
+    assert payload["assurance_checks"]["frozen_result_integrity"] == "PASS"
+
+    evaluation_result = run_cli("--json", cwd=tmp_path, cli=standalone / "scripts" / "evaluate_qualification.py")
+    assert evaluation_result.returncode == 0, evaluation_result.stderr
+    report = json.loads(evaluation_result.stdout)
+    assert report["evaluation_status"] == "PASS"
+    assert report["model_api_used"] is False
+    assert report["network_access"] is False
 
 
 def test_standalone_skill_validates_approval_request_without_network(tmp_path):

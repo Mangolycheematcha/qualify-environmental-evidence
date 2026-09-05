@@ -1,0 +1,98 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_EOP101132_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS"
+  },
+  "subject": {
+    "subject_type": "ACCU_PROJECT",
+    "subject_id": "EOP101132",
+    "name": "Sunday Morning Hills Revegetation"
+  },
+  "facts": [
+    {
+      "fact_id": "CER_EOP101132.IDENTITY",
+      "text": "The CER project record identifies EOP101132 as Sunday Morning Hills Revegetation, a Vegetation project in Victoria.",
+      "claim_families": ["REGISTRY_FACTS", "OBSERVATIONAL_CONSISTENCY"],
+      "tags": ["registry", "project_identity", "location", "method_type"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "project_id": "EOP101132",
+        "project_name": "Sunday Morning Hills Revegetation",
+        "method_type": "Vegetation",
+        "project_location": "Victoria"
+      }
+    },
+    {
+      "fact_id": "CER_EOP101132.METHOD",
+      "text": "The CER record lists the Carbon Credits (Carbon Farming Initiative) (Reforestation by Environmental or Mallee Plantings-FullCAM) Methodology Determination 2014.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "method"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "method": "Carbon Credits (Carbon Farming Initiative) (Reforestation by Environmental or Mallee Plantings-FullCAM) Methodology Determination 2014"
+      }
+    },
+    {
+      "fact_id": "CER_EOP101132.PARTICIPANT",
+      "text": "The CER record lists Greenfleet Australia as Trustee for the Greenfleet Trust as project proponent.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "participant"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "project_proponent": "Greenfleet Australia as Trustee for the Greenfleet Trust"
+      }
+    },
+    {
+      "fact_id": "CER_EOP101132.TIMING",
+      "text": "The CER record lists registration on 31 March 2015, a crediting period from 1 December 2015 to 30 November 2040, and a model start date of 6 October 2017.",
+      "claim_families": ["REGISTRY_FACTS", "OBSERVATIONAL_CONSISTENCY"],
+      "tags": ["registry", "timing", "model_start"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "registration_date": "2015-03-31",
+        "crediting_period_start": "2015-12-01",
+        "crediting_period_end": "2040-11-30",
+        "model_start_date": "2017-10-06"
+      }
+    },
+    {
+      "fact_id": "CER_EOP101132.LOCATION",
+      "text": "The CER record locates the project in Victoria, postcode 3517, in the Loddon local government area and identifies published mapping files.",
+      "claim_families": ["REGISTRY_FACTS", "OBSERVATIONAL_CONSISTENCY"],
+      "tags": ["registry", "location", "mapping"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "state": "Victoria",
+        "postcode": "3517",
+        "local_government_area": "Loddon",
+        "mapping_files_listed": ["Carbon estimation area mapping file", "Project area mapping file"]
+      }
+    },
+    {
+      "fact_id": "CER_EOP101132.ISSUANCE",
+      "text": "The CER project record reports 196 total KACCUs issued and zero KACCUs relinquished for EOP101132 as accessed on 5 September 2026.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "accu", "issuance"],
+      "project_id": "EOP101132",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {
+        "total_kaccus_issued": 196,
+        "total_kaccus_relinquished": 0,
+        "total_nkaccus_issued": 0,
+        "total_nkaccus_relinquished": 0
+      }
+    }
+  ]
+}

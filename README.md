@@ -18,7 +18,8 @@ financial workflows.
 | Scientific result | Retained: `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
 | Cached replay | Assessment bytes, array hashes, grouping, composites, and joint mask reproduced |
 | Canonical/governance status | Governance limitations documented; not claimed as fully canonical |
-| Step 3 | Not executed and not approved |
+| Step 3 offline evaluation | Deterministic behavior, unsupported-assertion proxy, performance, and security benchmark implemented and tested |
+| Step 3 model/API evaluation | Not executed; human-labelled, LLM, live CER refresh, and deployment evaluation remain pending |
 | Public-release readiness | Internal-review-ready; licence, identity, and release decisions remain open |
 
 The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`.
@@ -38,6 +39,8 @@ The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_R
 - Computes a bounded PRE/POST Sentinel-2 NDVI comparison under a frozen policy.
 - Emits structured status, disposition, reason codes, hashes, and human-review requirements.
 - Preserves one-time approval consumption and cached deterministic replay evidence.
+- Runs an offline evidence-memory and qualification workflow over source-attributed CER facts and the frozen Step 2B summary.
+- Enforces the distinction between ACCUs and SMCs before any quality, equivalence, compliance, trading, or financial inference.
 
 ## What It Does Not Do
 
@@ -54,6 +57,13 @@ The shortest supported entry point is offline contract validation:
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/validate_step1_specs.py
 ```
 
+The end-to-end offline qualification demo is:
+
+```text
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_qualification.py --json
+```
+
 The complete offline suite is:
 
 ```text
@@ -67,7 +77,8 @@ uv run --offline --no-project python scripts/freeze_v4_runtime_spec.py --check
 | Commands above | `OFFLINE-ONLY`; use repository fixtures and do not consume approval |
 | Cached replay verification | `OFFLINE-ONLY`; the completed private run package is immutable, so do not invoke the replay writer against it |
 | Live EO runtime | `LIVE/NETWORK` and `APPROVAL-CONSUMING`; intentionally not presented as a quick start |
-| Step 3 evaluation | Not implemented or started; no supported command |
+| Step 3 deterministic evaluation | `OFFLINE-ONLY`; no model or external API is used |
+| Step 3 model/API evaluation | Not implemented or executed |
 
 See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full command boundary.
 
@@ -89,6 +100,8 @@ Offline replay reproduced the assessment bytes and array hashes. The run is not 
 
 Read the [Step 2B closure and impact audit](docs/STEP2B_V4_CLOSURE.md), its [provenance and replay record](docs/STEP2B_V4_CLOSURE.md#provenance-and-replay), and the documented [governance limitations](docs/STEP2B_V4_CLOSURE.md#governance-limitations). Earlier run history remains available in the [historical V4 audit](docs/STEP2B_V4_THIRD_APPROVED_RUN_AUDIT.md) and [approval-binding incident](docs/incidents/STEP2B_V4_APPROVAL_BINDING_FAILURE.md).
 
+The [qualification workflow](docs/QUALIFICATION_WORKFLOW.md) now provides deterministic retrieval and bounded memo generation over curated CER public facts and the frozen summary. The [Step 3 evaluation](docs/STEP3_EVALUATION.md) reports exactly what has and has not been tested; [deployment guidance](docs/DEPLOYMENT.md) describes the supported offline package and future service gates.
+
 ## Repository Layout
 
 - `cases/`: bounded claim contracts.
@@ -98,6 +111,8 @@ Read the [Step 2B closure and impact audit](docs/STEP2B_V4_CLOSURE.md), its [pro
 - `scripts/`: deterministic validators, offline logic, packaging, and controlled runtime code.
 - `tests/`: synthetic offline tests.
 - `examples/`: reviewed derivatives; not complete run packages.
+- `data/cer/`: curated, source-attributed CER public fact snapshots; not raw pages or complete exports.
+- `evaluation/`: versioned offline qualification benchmark.
 - `skill/qualify-environmental-evidence/`: allowlisted packaged skill resources.
 
 Complete live `runs/` directories remain local and ignored. Raw HTTP payloads, caches, raster assets, signed URLs, and credentials are not tracked.
@@ -114,7 +129,10 @@ Original code and other owner-controlled repository material are licensed under 
 - The incorrect projected-area value in `target-grid.json` is diagnostic-only. Bounds, transform, shape, AOI mask, coverage, arrays, composites, NDVI, disposition, and sensitivity did not read that value and were independently reproduced.
 - Request-level provenance does not enumerate GDAL's internal HTTP range requests, and the GDAL retry configuration cannot be claimed as compliant with the frozen logical `0/2/5` retry semantics.
 - Cached array-level replay proves deterministic reconstruction from retained inputs; it does not prove complete original COG transport-byte provenance.
+- CER snapshots are time-stamped curated facts, not a live API or continuously refreshed register mirror.
+- Evidence memory is local and content-addressed; it is not user memory, a vector database, or a claim of semantic completeness.
+- The Step 3 unsupported-assertion metric evaluates the deterministic rule system only, not an LLM hallucination rate.
 - A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- Step 3 evaluation has not started.
+- Step 3 model/API, human-labelled, multi-project, and deployment evaluation has not started.
 
 See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).

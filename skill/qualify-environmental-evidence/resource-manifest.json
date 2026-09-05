@@ -19,8 +19,24 @@
       "sha256": "6dad0049e7090c917d55db25ec8a7fcc52829d1d6caf72e32d6bad69e03185e7"
     },
     {
+      "path": "config/semantic-boundaries.json",
+      "sha256": "d8688a642ca9360b65c8e72dcc2f178d06c24e2fe7466d9bbe48655fd67f7879"
+    },
+    {
       "path": "config/statement-templates.json",
       "sha256": "ff2dcbf8fc565d673bb2907fcd0c1eb2e05c22bb02e732986627a74cfed95d17"
+    },
+    {
+      "path": "schemas/evidence-memory-document.schema.json",
+      "sha256": "d2411aa695eae3e9283a14b4b59c20611f8fdb6da5b56f327c7711936f69e92a"
+    },
+    {
+      "path": "schemas/qualification-request.schema.json",
+      "sha256": "faa8cfe743935a74b4c419a50127eaea80424346528426a4e5c5ececec8a6304"
+    },
+    {
+      "path": "schemas/qualification-result.schema.json",
+      "sha256": "2e181e9ed5b2c076d36719306ee11748120431defc17af349c706b24371c0064"
     },
     {
       "path": "schemas/assessment-output.schema.json",
@@ -55,6 +71,34 @@
       "sha256": "64c7199ad686b2b410c5056bdf0938b613e70f12f1274eda699a2e881fb885f3"
     },
     {
+      "path": "data/cer/README.md",
+      "sha256": "b4a19bd24b67c7312506833da7ff8bdea4515be05cce880716f4c22a51fed552"
+    },
+    {
+      "path": "data/cer/accu-smc-public-definitions.json",
+      "sha256": "113225d435bfc23763edfacf2648f832c416b7de540362074fc71431cf1d6b62"
+    },
+    {
+      "path": "data/cer/eop101132-project-record.json",
+      "sha256": "53ad9bbcbd8844a94d9156767501699c5ff8cff2b7810d65423fb1d4d96f86ef"
+    },
+    {
+      "path": "evaluation/qualification-benchmark.json",
+      "sha256": "93720518f9a96bf04f334aaa950079cf0bea789c91e2c77609aceacac82b8d16"
+    },
+    {
+      "path": "examples/qualification/accu-smc-boundary-request.json",
+      "sha256": "7b94841729099e54b4de47ed69d9aa01f083ff45864d5f3de04847530462b946"
+    },
+    {
+      "path": "examples/qualification/eop101132-frozen-observation.json",
+      "sha256": "d5b1c3790a29ff7f8c17ea1e4c1e8726621738e7c9e6d26f1c56a74cc97b6a4f"
+    },
+    {
+      "path": "examples/qualification/eop101132-request.json",
+      "sha256": "bdcbd2258934c5c861ee62653ffe717fdd987be6b2740e44af179b043e3d74f5"
+    },
+    {
       "path": "policies/eop101132/step2b-proposed-policy.json",
       "sha256": "4a8a138308f0c3b95e8e9f06d448619e9b710882b1233fc71ab5df3158c7ca59"
     },
@@ -65,6 +109,14 @@
     {
       "path": "scripts/approval_protocol_v2.py",
       "sha256": "a642662e9e983794688448278032a19a14bf4e2224070cd1ee54903bb3f67576"
+    },
+    {
+      "path": "scripts/evaluate_qualification.py",
+      "sha256": "1dacc161987a8cb75815419ba0fd74896d457d2bcb127ccb61b05c39db210000"
+    },
+    {
+      "path": "scripts/qualification_workflow.py",
+      "sha256": "0b53ad0aa1e553facdcca88ccf40f05e9bb79a29d3c01493685a55b55be10460"
     },
     {
       "path": "scripts/step2b_acquisition.py",

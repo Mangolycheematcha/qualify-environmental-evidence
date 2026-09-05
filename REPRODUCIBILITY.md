@@ -17,6 +17,8 @@ uv run --offline --no-project --with "jsonschema>=4.18,<5" --with "pytest>=8,<9"
 uv run --offline --no-project python scripts/package_skill.py --check
 uv run --offline --no-project python scripts/freeze_v4_runtime_spec.py --check
 uv run --offline --no-project python scripts/propose_v4.py --check
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_qualification.py --json
 ```
 
 An existing virtual environment with the declared dependencies may run the equivalent commands with `python` directly.
@@ -33,7 +35,13 @@ See `docs/STEP2B_V4_CLOSURE.md` for the exact run identity, hashes, reproduced q
 
 The live runtime accesses CER, STAC, signing, metadata, and raster sources and consumes a one-time Approval Protocol request. It is intentionally excluded from the quick start. Prompt text, a CI run, or repository access does not constitute approval.
 
-Any future runtime code, policy, or runtime-spec change requires a new commit, frozen hashes, approval request, and independent human approval. Step 3 has not started and has no supported execution command.
+Any future runtime code, policy, or runtime-spec change requires a new commit, frozen hashes, approval request, and independent human approval. The live/model/API portion of Step 3 has not started and has no supported execution command; the separate deterministic offline workflow is documented below.
+
+## Offline Qualification And Evaluation
+
+The qualification workflow reads three local, schema-validated evidence documents, builds a content-addressed memory snapshot, retrieves facts deterministically, applies authority and evidence gates, and emits a canonical result hash. The evaluator executes a versioned eight-case benchmark twice per case. Neither command imports an HTTP client or accesses an external service.
+
+This is the implemented deterministic portion of Step 3. LLM, live API, human-labelled, multi-project, and deployment evaluations remain pending. See `docs/STEP3_EVALUATION.md`.
 
 ## Historical Integrity
 

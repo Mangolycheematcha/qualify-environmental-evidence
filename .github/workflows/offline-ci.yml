@@ -38,4 +38,6 @@ jobs:
           python scripts/package_skill.py --check
           python scripts/freeze_v4_runtime_spec.py --check
           python scripts/propose_v4.py --check
+          python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
+          python scripts/evaluate_qualification.py --json
           python scripts/audit_git_baseline.py --json

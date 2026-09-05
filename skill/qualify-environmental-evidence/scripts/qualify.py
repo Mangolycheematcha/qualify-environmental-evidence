@@ -13,6 +13,8 @@ RESOURCE_MANIFEST = SKILL_ROOT / "resource-manifest.json"
 STATIC_PACKAGE_PATHS = {
     "SKILL.md",
     "agents/openai.yaml",
+    "references/accu-smc-boundary.md",
+    "references/assurance-and-memory.md",
     "references/authority-and-review.md",
     "references/contract-and-status.md",
     "references/evidence-identity.md",
