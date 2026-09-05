@@ -1,0 +1,49 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_ERF169256_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF169256",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS",
+    "source_content_sha256": "af651a6125718aab302cd2f6e4dec60e08e9e43c7b3d8480d1f57f4c00556d3e",
+    "source_content_bytes": 148887,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "ACCU_PROJECT", "subject_id": "ERF169256", "name": "Tahmoor Waste Coal Mine Gas Power Station"},
+  "facts": [
+    {
+      "fact_id": "CER_ERF169256.IDENTITY",
+      "text": "The CER record identifies ERF169256 as Tahmoor Waste Coal Mine Gas Power Station, an Industrial Fugitives project in New South Wales.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity", "method"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"project_id": "ERF169256", "project_name": "Tahmoor Waste Coal Mine Gas Power Station", "method_type": "Industrial Fugitives", "method": "Carbon Credits (Carbon Farming Initiative-Coal Mine Waste Gas) Methodology Determination 2015 (Compilation No. 3)", "project_location": "New South Wales"}
+    },
+    {
+      "fact_id": "CER_ERF169256.TIMING",
+      "text": "The CER record lists registration on 21 December 2021 and a crediting period from 1 January 2022 to 31 December 2026; no model start date is listed.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"registration_date": "2021-12-21", "crediting_period_start": "2022-01-01", "crediting_period_end": "2026-12-31", "model_start_date": null}
+    },
+    {
+      "fact_id": "CER_ERF169256.CONTEXT",
+      "text": "The record provides no mapping files and lists 74,874 KACCUs issued with zero relinquished.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "issuance", "mapping_availability"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"mapping_file_types": [], "total_kaccus_issued": 74874, "total_kaccus_relinquished": 0}
+    }
+  ]
+}

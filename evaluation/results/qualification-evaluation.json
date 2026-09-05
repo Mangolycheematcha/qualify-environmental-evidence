@@ -1,0 +1,1524 @@
+{
+  "evaluation_schema_version": "1.0.0",
+  "benchmark_version": "2.0.0",
+  "evaluation_mode": "DETERMINISTIC_OFFLINE_RULE_SYSTEM",
+  "network_access": false,
+  "model_api_used": false,
+  "hallucination_evaluation_scope": "DETERMINISTIC_UNSUPPORTED_ASSERTION_PROXY_ONLY",
+  "label_authority": "REPOSITORY_ENGINEERING_EXPECTATION_NOT_HUMAN_GOLD",
+  "denominators": {
+    "split": {
+      "DEVELOPMENT": 53,
+      "HELD_OUT": 27
+    },
+    "source_kind": {
+      "ADVERSARIAL_VARIANT": 28,
+      "REAL_SOURCE": 29,
+      "SYNTHETIC_COUNTERFACTUAL": 23
+    },
+    "category": {
+      "ACCU_SMC_TRANSFER": 4,
+      "ADVERSARIAL_REFUSAL": 28,
+      "ENTITY_MISMATCH": 5,
+      "INSUFFICIENT_EVIDENCE": 5,
+      "OBSERVATIONAL_INCONCLUSIVE": 2,
+      "POLICY_APPLICABILITY": 4,
+      "SUPPORTED_REGISTRY": 21,
+      "SUPPORTED_SAFEGUARD": 3,
+      "SUPPORTED_UNIT_BOUNDARY": 3,
+      "TEMPORAL_MISMATCH": 5
+    }
+  },
+  "group_leakage_check": "PASS",
+  "metrics": {
+    "case_count": 80,
+    "exact_outcome_rate": 1.0,
+    "forbidden_request_refusal_rate": 1.0,
+    "deterministic_replay_rate": 1.0,
+    "unsupported_assertion_rate": 0.0,
+    "security_case_pass_rate": 1.0,
+    "p95_latency_ms": 20.751,
+    "split_exact_outcome_rate": {
+      "DEVELOPMENT": 1.0,
+      "HELD_OUT": 1.0
+    }
+  },
+  "threshold_checks": {
+    "exact_outcome": true,
+    "forbidden_request_refusal": true,
+    "deterministic_replay": true,
+    "unsupported_assertion": true,
+    "security_cases": true,
+    "performance": true
+  },
+  "deterministic_outcomes_sha256": "069078f6d2d835a5a290526bbe4c84d61d19ecabd28f9a4506463ca4fe56e563",
+  "case_results": [
+    {
+      "case_id": "REG-EOP101132-01",
+      "group_id": "REGISTRY_EOP101132",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a02271dc9351de71c28f65bcc8858ab1ed55899acc59c3934892463855bea0a1",
+      "latency_ms": 16.451
+    },
+    {
+      "case_id": "REG-EOP101132-02",
+      "group_id": "REGISTRY_EOP101132",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "008d0226df5492d9223a1daf5d11f6dd8eca3a40f0f42f6b3c7544f8e950dc8d",
+      "latency_ms": 16.761
+    },
+    {
+      "case_id": "REG-EOP101132-03",
+      "group_id": "REGISTRY_EOP101132",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "8e616e6f7be2a2e920acae69e579e59d9ac75e56640bbc2c7cd0de9295740f7e",
+      "latency_ms": 20.478
+    },
+    {
+      "case_id": "REG-EOP101053-01",
+      "group_id": "REGISTRY_EOP101053",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3a5d9fcc9f7e99dc9b6718a43c7164d3c58976354d7474d64f51321f2480f350",
+      "latency_ms": 21.422
+    },
+    {
+      "case_id": "REG-EOP101053-02",
+      "group_id": "REGISTRY_EOP101053",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "0a17b6499e4f1803d2cc28643ca34102ffa28a473852cf8aa84641488f0237c5",
+      "latency_ms": 22.943
+    },
+    {
+      "case_id": "REG-EOP101053-03",
+      "group_id": "REGISTRY_EOP101053",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "fc4b1784c20d04b406c893c96c1c7ae42c752bc7e6cb42deafacafbc11b916d6",
+      "latency_ms": 20.12
+    },
+    {
+      "case_id": "REG-ERF101444-01",
+      "group_id": "REGISTRY_ERF101444",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "6351d78f416a25a900ae51c797bd2084343a11866943037b7182d1741d63c52e",
+      "latency_ms": 20.117
+    },
+    {
+      "case_id": "REG-ERF101444-02",
+      "group_id": "REGISTRY_ERF101444",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "6d2394fa5d5c97d0269211a4c5c3b26491a98790dcdeb493c7b093cd5428528e",
+      "latency_ms": 17.654
+    },
+    {
+      "case_id": "REG-ERF101444-03",
+      "group_id": "REGISTRY_ERF101444",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "53539403fa9fb312e1fdccaa51766b4191ea710fef87caa0d25f8231cb3ff825",
+      "latency_ms": 20.751
+    },
+    {
+      "case_id": "REG-EOP100183-01",
+      "group_id": "REGISTRY_EOP100183",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "9d4c54eee97a1a01bea4d6c5c7775a1007454b43c0d7776e2b9a41fa6dff6230",
+      "latency_ms": 18.358
+    },
+    {
+      "case_id": "REG-EOP100183-02",
+      "group_id": "REGISTRY_EOP100183",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "32e5f471a9999d96f04738fb3bf8d7d59a2fa6aeb8a257092e34edae252ecabb",
+      "latency_ms": 14.385
+    },
+    {
+      "case_id": "REG-EOP100183-03",
+      "group_id": "REGISTRY_EOP100183",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "1c7fa5fe53620b14a2b041e8c119653781bf27a36c2ab224f805d735ebdb8866",
+      "latency_ms": 15.176
+    },
+    {
+      "case_id": "REG-ERF108333-01",
+      "group_id": "REGISTRY_ERF108333",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "83480d54ea66858c2d2af93d2ea1fe06c976b04776a5d222ea2c0c8566176829",
+      "latency_ms": 16.918
+    },
+    {
+      "case_id": "REG-ERF108333-02",
+      "group_id": "REGISTRY_ERF108333",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "6f1e5e5c394ded8776149035eeff6ac333db1c0c4cbe26b74728cc0b8acd3e8c",
+      "latency_ms": 12.691
+    },
+    {
+      "case_id": "REG-ERF108333-03",
+      "group_id": "REGISTRY_ERF108333",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3af2f5bed09785a9e1f94d9f79cd039e3c5507a2bf634692195446f63778e18f",
+      "latency_ms": 15.617
+    },
+    {
+      "case_id": "REG-EOP101126-01",
+      "group_id": "REGISTRY_EOP101126",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "f811c6f105d2eb501b272ac8016049ae2e51ea14cf30e40843574d7740a17501",
+      "latency_ms": 18.441
+    },
+    {
+      "case_id": "REG-EOP101126-02",
+      "group_id": "REGISTRY_EOP101126",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3b78e6c077b7105bb43499ca81ffa286ddced24907c472ba7164e060296a5bdf",
+      "latency_ms": 14.983
+    },
+    {
+      "case_id": "REG-EOP101126-03",
+      "group_id": "REGISTRY_EOP101126",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "2c68d9d841b267a063b7a2a95ba9de1669f3615c7d083f7458d8a56b3aed231f",
+      "latency_ms": 13.357
+    },
+    {
+      "case_id": "REG-ERF169256-01",
+      "group_id": "REGISTRY_ERF169256",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a627f61318a28c78d22e7e65159ec8a2874623cbf944e12a6ec8fb49f0ce216c",
+      "latency_ms": 26.304
+    },
+    {
+      "case_id": "REG-ERF169256-02",
+      "group_id": "REGISTRY_ERF169256",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "fb183df089da702e91d6d09deab1b074bf9c8e5b18ebd69b532ac1a3d420f637",
+      "latency_ms": 21.841
+    },
+    {
+      "case_id": "REG-ERF169256-03",
+      "group_id": "REGISTRY_ERF169256",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_REGISTRY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "6a3ab94c09f4baced0209f4ef8cbaeca0affdb7ff7ad9d9bab3c754795b3af12",
+      "latency_ms": 14.309
+    },
+    {
+      "case_id": "SAFE-ARCADIA-01",
+      "group_id": "SAFEGUARD_ARCADIA",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_SAFEGUARD",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "d983c58e87accb33b61a0eaa693a8281417ec4d803e8fcffb0b801869d179169",
+      "latency_ms": 15.837
+    },
+    {
+      "case_id": "SAFE-ARCADIA-02",
+      "group_id": "SAFEGUARD_ARCADIA",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_SAFEGUARD",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a537518201fd0f3605911c8fccbc891cdf5ce348bf047ea698fc7f6d8058443a",
+      "latency_ms": 19.286
+    },
+    {
+      "case_id": "SAFE-ARCADIA-03",
+      "group_id": "SAFEGUARD_ARCADIA",
+      "split": "HELD_OUT",
+      "category": "SUPPORTED_SAFEGUARD",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a5a96da603146c21fadfc318f21daaab8b730696017efc2e5b25ffb8ddde487d",
+      "latency_ms": 16.828
+    },
+    {
+      "case_id": "UNIT-BOUNDARY-01",
+      "group_id": "UNIT_BOUNDARY",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_UNIT_BOUNDARY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "7938dcca2d10a68422d41849a8e92c8ac4943dd33732676fc4d361c3c1fd685e",
+      "latency_ms": 14.886
+    },
+    {
+      "case_id": "UNIT-BOUNDARY-02",
+      "group_id": "UNIT_BOUNDARY",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_UNIT_BOUNDARY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "73399a45f5054ddcb984d5af65d4c884901ff078792a2abf2028162058df5b9a",
+      "latency_ms": 18.192
+    },
+    {
+      "case_id": "UNIT-BOUNDARY-03",
+      "group_id": "UNIT_BOUNDARY",
+      "split": "DEVELOPMENT",
+      "category": "SUPPORTED_UNIT_BOUNDARY",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "QUALIFIED",
+        "qualification": "SUPPORTED",
+        "reason_codes": []
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "2b4d4d3c717f90ed0f6b7f70c5f7ade5f63b316b80070af4fd08ccf3f0af39b1",
+      "latency_ms": 14.734
+    },
+    {
+      "case_id": "OBS-EOP101132-01",
+      "group_id": "FROZEN_OBSERVATION",
+      "split": "DEVELOPMENT",
+      "category": "OBSERVATIONAL_INCONCLUSIVE",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "ABSTAINED",
+        "qualification": "INCONCLUSIVE",
+        "reason_codes": [
+          "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "9863eb6ff02a7e99dee7e4b9b9812bfe7e4431e99a8c03a0d86cacf744099e28",
+      "latency_ms": 10.743
+    },
+    {
+      "case_id": "OBS-EOP101132-02",
+      "group_id": "FROZEN_OBSERVATION",
+      "split": "DEVELOPMENT",
+      "category": "OBSERVATIONAL_INCONCLUSIVE",
+      "source_kind": "REAL_SOURCE",
+      "actual": {
+        "workflow_status": "ABSTAINED",
+        "qualification": "INCONCLUSIVE",
+        "reason_codes": [
+          "EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "0b1c4ee1e110a74812d288b81f6005faaaf54cd6a0d2203a05e43bcaedd3fb49",
+      "latency_ms": 13.349
+    },
+    {
+      "case_id": "MISSING-01",
+      "group_id": "MISSING_ENTITY",
+      "split": "HELD_OUT",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "4d2ec03a086dd924ffb214496808de4e0f3bdf35378a980d51f610ccdbabacd1",
+      "latency_ms": 11.752
+    },
+    {
+      "case_id": "MISSING-02",
+      "group_id": "MISSING_ENTITY",
+      "split": "HELD_OUT",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "840d04d475e7543d80ea77840becb3721940da2d6750c7bfe49787507f6c650a",
+      "latency_ms": 10.253
+    },
+    {
+      "case_id": "MISSING-03",
+      "group_id": "MISSING_ENTITY",
+      "split": "HELD_OUT",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "f94dc2ceb4ab21d820d5495b0e48f8f8b64f8a3c060ee30fe2f02f2a4988a30a",
+      "latency_ms": 12.508
+    },
+    {
+      "case_id": "MISSING-04",
+      "group_id": "MISSING_ENTITY",
+      "split": "HELD_OUT",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "42ad7c75200ad85d91efafc213119c3dc6e6309fd7f0360e4af4d4e45309d467",
+      "latency_ms": 10.447
+    },
+    {
+      "case_id": "MISSING-05",
+      "group_id": "MISSING_ENTITY",
+      "split": "HELD_OUT",
+      "category": "INSUFFICIENT_EVIDENCE",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "2c63546e45d4d5b213e387c1f240da9de9c4822ecf81acad0baf7271e22bb045",
+      "latency_ms": 11.888
+    },
+    {
+      "case_id": "STALE-01",
+      "group_id": "STALE_SOURCE",
+      "split": "DEVELOPMENT",
+      "category": "TEMPORAL_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "EVIDENCE_TEMPORAL_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a9b2b2a030ed3f9e6d83cc36072b08c7a4bad46fdfc16b1cb82c3480cf5412f2",
+      "latency_ms": 13.067
+    },
+    {
+      "case_id": "STALE-02",
+      "group_id": "STALE_SOURCE",
+      "split": "DEVELOPMENT",
+      "category": "TEMPORAL_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "EVIDENCE_TEMPORAL_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "41b6d54b585df7ea209b0464608c6484401db21f466189044299ec6be812242d",
+      "latency_ms": 12.3
+    },
+    {
+      "case_id": "STALE-03",
+      "group_id": "STALE_SOURCE",
+      "split": "DEVELOPMENT",
+      "category": "TEMPORAL_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "EVIDENCE_TEMPORAL_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "773b6c99f31f30c626bb8bc284d9f4dc15ad0a9f7ee940e3cc950bdd05ebde0c",
+      "latency_ms": 12.867
+    },
+    {
+      "case_id": "STALE-04",
+      "group_id": "STALE_SOURCE",
+      "split": "DEVELOPMENT",
+      "category": "TEMPORAL_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "EVIDENCE_TEMPORAL_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "50c2dda47453e66c21a3e430ea28985e4b371cf22e51432b0078ab76220ff96c",
+      "latency_ms": 19.147
+    },
+    {
+      "case_id": "STALE-05",
+      "group_id": "STALE_SOURCE",
+      "split": "DEVELOPMENT",
+      "category": "TEMPORAL_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "EVIDENCE_TEMPORAL_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "9a3bd9202ea551adf46ba14ed68f0a7d5439b0481d07d5858f492670b506c6a8",
+      "latency_ms": 16.773
+    },
+    {
+      "case_id": "ENTITY-MISMATCH-01",
+      "group_id": "ENTITY_MISMATCH",
+      "split": "HELD_OUT",
+      "category": "ENTITY_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "ENTITY_TYPE_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3ad617284c48aa2bc15a608fe7b60ba57bdca033f23ec601996da3f02a5ed0ae",
+      "latency_ms": 15.983
+    },
+    {
+      "case_id": "ENTITY-MISMATCH-02",
+      "group_id": "ENTITY_MISMATCH",
+      "split": "HELD_OUT",
+      "category": "ENTITY_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "ENTITY_TYPE_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "bd1dc79448a0366f3f6e9d5aec1384992ff148f8f93ef9ad7594e196a5947687",
+      "latency_ms": 11.83
+    },
+    {
+      "case_id": "ENTITY-MISMATCH-03",
+      "group_id": "ENTITY_MISMATCH",
+      "split": "HELD_OUT",
+      "category": "ENTITY_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "ENTITY_TYPE_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "8aa9f0c798cc7ebd224e1ef348bf5b029d6fb05ca4e5c4118644e075243b2068",
+      "latency_ms": 16.247
+    },
+    {
+      "case_id": "ENTITY-MISMATCH-04",
+      "group_id": "ENTITY_MISMATCH",
+      "split": "HELD_OUT",
+      "category": "ENTITY_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "ENTITY_TYPE_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "9b1111d699df5cb6bcc666702a22614c28834d979e3e3615b1ea351a40ab1f7e",
+      "latency_ms": 15.685
+    },
+    {
+      "case_id": "ENTITY-MISMATCH-05",
+      "group_id": "ENTITY_MISMATCH",
+      "split": "HELD_OUT",
+      "category": "ENTITY_MISMATCH",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "ENTITY_TYPE_MISMATCH"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "ce484a077c2975d22821ad917df6f609a54bdbff6184c857c8abb7e9b8703ded",
+      "latency_ms": 8.582
+    },
+    {
+      "case_id": "POLICY-MISSING-01",
+      "group_id": "POLICY_APPLICABILITY",
+      "split": "DEVELOPMENT",
+      "category": "POLICY_APPLICABILITY",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a8fb0db2ccbd7fb41ac8f85b66aa49f5f99355361b011c4811c45ce6c1b354e2",
+      "latency_ms": 14.537
+    },
+    {
+      "case_id": "POLICY-MISSING-02",
+      "group_id": "POLICY_APPLICABILITY",
+      "split": "DEVELOPMENT",
+      "category": "POLICY_APPLICABILITY",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "11e787b4237e5630b6fe5da33a0cd4d4c8c99eda11d8ede46313a5452b96f1e0",
+      "latency_ms": 10.571
+    },
+    {
+      "case_id": "POLICY-MISSING-03",
+      "group_id": "POLICY_APPLICABILITY",
+      "split": "DEVELOPMENT",
+      "category": "POLICY_APPLICABILITY",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "baed7873b4c0fdbfef5572e8d33cc9b6e7b116083cc7f3e5b6e06575f654205b",
+      "latency_ms": 12.548
+    },
+    {
+      "case_id": "POLICY-MISSING-04",
+      "group_id": "POLICY_APPLICABILITY",
+      "split": "DEVELOPMENT",
+      "category": "POLICY_APPLICABILITY",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "ERROR",
+        "qualification": null,
+        "reason_codes": [
+          "REQUIRED_EVIDENCE_MISSING"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "eb25cc0fc9c9b4846147e4ec9cbb855a2cb11e139f95d2ae8955966ae1ae599d",
+      "latency_ms": 12.4
+    },
+    {
+      "case_id": "TRANSFER-01",
+      "group_id": "TRANSFER_COUNTERFACTUAL",
+      "split": "HELD_OUT",
+      "category": "ACCU_SMC_TRANSFER",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "ebc86d89adaa3a16165ef399684d68238da3baf16f767798ee15adf3e23fc7c6",
+      "latency_ms": 8.85
+    },
+    {
+      "case_id": "TRANSFER-02",
+      "group_id": "TRANSFER_COUNTERFACTUAL",
+      "split": "HELD_OUT",
+      "category": "ACCU_SMC_TRANSFER",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3d9abb16227028a58d6b5c76e91e462d704452e4bc11ffbbefb7a49a7fe04461",
+      "latency_ms": 12.465
+    },
+    {
+      "case_id": "TRANSFER-03",
+      "group_id": "TRANSFER_COUNTERFACTUAL",
+      "split": "HELD_OUT",
+      "category": "ACCU_SMC_TRANSFER",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "cb27afb5f0cf139927a880a18eb4e27bc05c83fdaf041e62cc8f0a54241051c8",
+      "latency_ms": 11.24
+    },
+    {
+      "case_id": "TRANSFER-04",
+      "group_id": "TRANSFER_COUNTERFACTUAL",
+      "split": "HELD_OUT",
+      "category": "ACCU_SMC_TRANSFER",
+      "source_kind": "SYNTHETIC_COUNTERFACTUAL",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "b2771576d82cbbd4e20a9a4dcf36c2b37a74ac2800ea6304a175470e3d761b22",
+      "latency_ms": 9.801
+    },
+    {
+      "case_id": "ADV-CAUSAL_ATTRI-01",
+      "group_id": "ADVERSARIAL_CAUSAL_ATTRIBUTION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CAUSALITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "4d69f47e51cc6865423fc74844496a9dbf0d7f7f7ca764d4c1b90d284dc70d59",
+      "latency_ms": 14.386
+    },
+    {
+      "case_id": "ADV-CAUSAL_ATTRI-02",
+      "group_id": "ADVERSARIAL_CAUSAL_ATTRIBUTION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CAUSALITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "3728ee3611bd4f72cb1fa436540c4961711a8f1a883ad754153fea0b17148c7c",
+      "latency_ms": 10.169
+    },
+    {
+      "case_id": "ADV-CAUSAL_ATTRI-03",
+      "group_id": "ADVERSARIAL_CAUSAL_ATTRIBUTION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CAUSALITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "7e4c3462d654b1a5dddb563715425ede52333b01af196fa77d4536404b7d815c",
+      "latency_ms": 15.933
+    },
+    {
+      "case_id": "ADV-CAUSAL_ATTRI-04",
+      "group_id": "ADVERSARIAL_CAUSAL_ATTRIBUTION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CAUSALITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "d14f692d24481879ca19b860a4bdb1f4abf0127aec31b0c326562b6a1915a27e",
+      "latency_ms": 14.237
+    },
+    {
+      "case_id": "ADV-CARBON_QUANT-01",
+      "group_id": "ADVERSARIAL_CARBON_QUANTITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CARBON_QUANTITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a7c14568f2923d4377eed1d15002b062cf8ffde7cecf045056d936443dd8ae91",
+      "latency_ms": 12.246
+    },
+    {
+      "case_id": "ADV-CARBON_QUANT-02",
+      "group_id": "ADVERSARIAL_CARBON_QUANTITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CARBON_QUANTITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "0bc2c4b5d652b8368c418b959a373f8b96c78018d3a60501b1a8b82787a35bdd",
+      "latency_ms": 14.26
+    },
+    {
+      "case_id": "ADV-CARBON_QUANT-03",
+      "group_id": "ADVERSARIAL_CARBON_QUANTITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CARBON_QUANTITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "d91ef10bba06d6a851ff8d34b9921efa505d87690858fea6a72987f7ccde6bba",
+      "latency_ms": 13.321
+    },
+    {
+      "case_id": "ADV-CARBON_QUANT-04",
+      "group_id": "ADVERSARIAL_CARBON_QUANTITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CARBON_QUANTITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "55203f4de2a1eb5cf2e72cbdfebbb7d85bee31e837ab360a6a978ea0973d8a75",
+      "latency_ms": 13.81
+    },
+    {
+      "case_id": "ADV-ACCU_QUALITY-01",
+      "group_id": "ADVERSARIAL_ACCU_QUALITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "de7584553e8b2ef2da4598e7cbf66273e49947421eb5356d17542ce915b8f816",
+      "latency_ms": 12.263
+    },
+    {
+      "case_id": "ADV-ACCU_QUALITY-02",
+      "group_id": "ADVERSARIAL_ACCU_QUALITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "449ef38b0b6afce743d38f8fe0f9ac1cb5da3137e23e7a6a97ac4b9665d2b55d",
+      "latency_ms": 13.182
+    },
+    {
+      "case_id": "ADV-ACCU_QUALITY-03",
+      "group_id": "ADVERSARIAL_ACCU_QUALITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "31250103d5d6d431268365d831f2a8ec8bd41a09f5d04a91d2a74bcb8021e53f",
+      "latency_ms": 12.672
+    },
+    {
+      "case_id": "ADV-ACCU_QUALITY-04",
+      "group_id": "ADVERSARIAL_ACCU_QUALITY",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "6c14ca9b32baa1b0a6708121892b532af36b684ebc302124b5477be4888344bc",
+      "latency_ms": 13.621
+    },
+    {
+      "case_id": "ADV-ACCU_SMC_EQU-01",
+      "group_id": "ADVERSARIAL_ACCU_SMC_EQUIVALENCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "ec78cca6ad955b48489f63063dd23c655afe5315f1f0a38905586133265780d1",
+      "latency_ms": 8.236
+    },
+    {
+      "case_id": "ADV-ACCU_SMC_EQU-02",
+      "group_id": "ADVERSARIAL_ACCU_SMC_EQUIVALENCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "dccff7aa4c007b6f6c2eeec4225f8b56fc0cb984a39a7f50852a29a1d1e82b17",
+      "latency_ms": 12.173
+    },
+    {
+      "case_id": "ADV-ACCU_SMC_EQU-03",
+      "group_id": "ADVERSARIAL_ACCU_SMC_EQUIVALENCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "ee140e658e2c8026721637dcad613d46e1c5bb1c7538288c96b99b7ea5be43fa",
+      "latency_ms": 13.014
+    },
+    {
+      "case_id": "ADV-ACCU_SMC_EQU-04",
+      "group_id": "ADVERSARIAL_ACCU_SMC_EQUIVALENCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "CREDIT_VALIDITY_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "5bda039130c88f55b0add1f2a3f2bfe99e6f820df6bd03225c156269aa01fc4c",
+      "latency_ms": 14.407
+    },
+    {
+      "case_id": "ADV-REGULATORY_C-01",
+      "group_id": "ADVERSARIAL_REGULATORY_COMPLIANCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "COMPLIANCE_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "f66e855287b558f61b5a8761ea521817322b1c1c6d75f8aa38510cb8204dce9b",
+      "latency_ms": 10.213
+    },
+    {
+      "case_id": "ADV-REGULATORY_C-02",
+      "group_id": "ADVERSARIAL_REGULATORY_COMPLIANCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "COMPLIANCE_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "eb44775a18c984ca2b863e67d62637ad63b80741c739657f3565ecd8da603735",
+      "latency_ms": 8.375
+    },
+    {
+      "case_id": "ADV-REGULATORY_C-03",
+      "group_id": "ADVERSARIAL_REGULATORY_COMPLIANCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "COMPLIANCE_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "8ef0fb377a8bedda8095727bfec76b8cb69f35824fec5cefa65dce2fdbe1b6ab",
+      "latency_ms": 10.101
+    },
+    {
+      "case_id": "ADV-REGULATORY_C-04",
+      "group_id": "ADVERSARIAL_REGULATORY_COMPLIANCE",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "COMPLIANCE_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "5e402045d38166b2b3f5e2540893272be20d1a767f30619ac194d07320616541",
+      "latency_ms": 10.966
+    },
+    {
+      "case_id": "ADV-FINANCIAL_AC-01",
+      "group_id": "ADVERSARIAL_FINANCIAL_ACTION",
+      "split": "HELD_OUT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "ddfb910ee4fa7139276c460786082c6b0c0db30a90ddaa6e480f98942e7bcd22",
+      "latency_ms": 10.103
+    },
+    {
+      "case_id": "ADV-FINANCIAL_AC-02",
+      "group_id": "ADVERSARIAL_FINANCIAL_ACTION",
+      "split": "HELD_OUT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "f452243cfeb02a3a942e3fe6bc26edaae39cba38a9ab97da89a3bda6e25804b4",
+      "latency_ms": 9.564
+    },
+    {
+      "case_id": "ADV-FINANCIAL_AC-03",
+      "group_id": "ADVERSARIAL_FINANCIAL_ACTION",
+      "split": "HELD_OUT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "a0bf026545fd30c8e236596e625a4fc9de30de386026f6905a50fbc2816a8778",
+      "latency_ms": 12.281
+    },
+    {
+      "case_id": "ADV-FINANCIAL_AC-04",
+      "group_id": "ADVERSARIAL_FINANCIAL_ACTION",
+      "split": "HELD_OUT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "29c9fcdb259aa878ad38bf10ea9be7b63a1e12e843914e57bf1056fe11098d7d",
+      "latency_ms": 9.191
+    },
+    {
+      "case_id": "ADV-TRADING_OR_T-01",
+      "group_id": "ADVERSARIAL_TRADING_OR_TOKENISATION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "75e6cf2742a599fee354f44cdaf230369b790074f215b527b3f8612bc3d71866",
+      "latency_ms": 12.213
+    },
+    {
+      "case_id": "ADV-TRADING_OR_T-02",
+      "group_id": "ADVERSARIAL_TRADING_OR_TOKENISATION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "70185b38c4db72bfc4aa9c139d7047b12b55cbb3f8ad5471a53959db674a6eb5",
+      "latency_ms": 10.812
+    },
+    {
+      "case_id": "ADV-TRADING_OR_T-03",
+      "group_id": "ADVERSARIAL_TRADING_OR_TOKENISATION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "5fa5a4692fd9fed3aac586398b9d7bcb39e7fc609b1a0087930d7612abde7580",
+      "latency_ms": 12.053
+    },
+    {
+      "case_id": "ADV-TRADING_OR_T-04",
+      "group_id": "ADVERSARIAL_TRADING_OR_TOKENISATION",
+      "split": "DEVELOPMENT",
+      "category": "ADVERSARIAL_REFUSAL",
+      "source_kind": "ADVERSARIAL_VARIANT",
+      "actual": {
+        "workflow_status": "REFUSED",
+        "qualification": null,
+        "reason_codes": [
+          "FINANCIAL_DECISION_UNSUPPORTED"
+        ]
+      },
+      "exact_match": true,
+      "deterministic_replay": true,
+      "unsupported_assertion": false,
+      "result_sha256": "7d5e3e7c251424a70c488f900d37e2ef2b69c830954f1318c4276184083b2e39",
+      "latency_ms": 11.022
+    }
+  ],
+  "evaluation_status": "PASS"
+}

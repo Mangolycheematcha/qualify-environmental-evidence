@@ -1,0 +1,49 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_ERF101444_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF101444",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS",
+    "source_content_sha256": "713f4b80382da59ade8bc6a1bcaf58c92d11c9398812d40acecb69c2f691e086",
+    "source_content_bytes": 152867,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "ACCU_PROJECT", "subject_id": "ERF101444", "name": "Watson River Station"},
+  "facts": [
+    {
+      "fact_id": "CER_ERF101444.IDENTITY",
+      "text": "The CER record identifies ERF101444 as Watson River Station, a Savanna Fire Management project in Queensland.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity", "method"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"project_id": "ERF101444", "project_name": "Watson River Station", "method_type": "Savanna Fire Management", "method": "Carbon Credits (Carbon Farming Initiative-Emissions Abatement through Savanna Fire Management) Methodology Determination 2015", "project_location": "Queensland"}
+    },
+    {
+      "fact_id": "CER_ERF101444.TIMING",
+      "text": "The CER record lists registration on 7 August 2015 and a crediting period from 1 January 2011 to 31 December 2035; no model start date is listed.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"registration_date": "2015-08-07", "crediting_period_start": "2011-01-01", "crediting_period_end": "2035-12-31", "model_start_date": null}
+    },
+    {
+      "fact_id": "CER_ERF101444.CONTEXT",
+      "text": "The record lists a project area KML, 151,050 KACCUs issued, and an enforceable undertaking effective 28 May 2020.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "issuance", "mapping_availability", "enforceable_undertaking"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"mapping_file_types": ["PROJECT_KML"], "total_kaccus_issued": 151050, "total_kaccus_relinquished": 0, "enforceable_undertaking_effective_date": "2020-05-28"}
+    }
+  ]
+}

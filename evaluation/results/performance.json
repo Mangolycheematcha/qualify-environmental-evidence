@@ -1,0 +1,58 @@
+{
+  "report_version": "1.0.0",
+  "environment": {
+    "python": "3.14.7",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "Intel64 Family 6 Model 140 Stepping 1, GenuineIntel"
+  },
+  "network_access": false,
+  "live_eo_executed": false,
+  "cold_process_end_to_end": {
+    "samples": 8,
+    "p50_ms": 317.5,
+    "p95_ms": 356.887,
+    "min_ms": 278.386,
+    "max_ms": 356.887,
+    "cache_state": "new Python interpreter each sample; operating-system disk cache uncontrolled"
+  },
+  "warm_process_end_to_end": {
+    "samples": 40,
+    "p50_ms": 10.16,
+    "p95_ms": 13.844,
+    "min_ms": 7.625,
+    "max_ms": 16.721,
+    "cache_state": "same Python interpreter; workflow schemas and evidence are intentionally rebuilt each call; OS cache warm"
+  },
+  "warm_in_memory_retrieval": {
+    "lexical": {
+      "samples": 200,
+      "p50_ms": 0.151,
+      "p95_ms": 0.355,
+      "min_ms": 0.142,
+      "max_ms": 0.886
+    },
+    "vector": {
+      "samples": 200,
+      "p50_ms": 0.186,
+      "p95_ms": 0.348,
+      "min_ms": 0.144,
+      "max_ms": 0.535
+    },
+    "hybrid": {
+      "samples": 200,
+      "p50_ms": 0.154,
+      "p95_ms": 0.352,
+      "min_ms": 0.147,
+      "max_ms": 0.742
+    }
+  },
+  "model_provider_latency": {
+    "samples": 0,
+    "status": "NOT_MEASURED_NO_CREDENTIALS"
+  },
+  "model_provider_cost": {
+    "samples": 0,
+    "status": "NOT_MEASURED_NO_CREDENTIALS"
+  },
+  "report_sha256": "bf7db4ecc9a6397abb6535146634491fb5d8f3c91e1ecbd847b80855c5b59dab"
+}

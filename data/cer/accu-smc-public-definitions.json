@@ -8,7 +8,10 @@
     "canonical_uri": "https://cer.gov.au/schemes/safeguard-mechanism/safeguard-mechanism-credit-units",
     "accessed_on": "2026-09-05",
     "retrieval_mode": "CURATED_PUBLIC_FACTS",
-    "authority_scope": "PUBLIC_UNIT_DEFINITION"
+    "authority_scope": "PUBLIC_UNIT_DEFINITION",
+    "source_content_sha256": "6280b2100e1d1b09429c492672bf618f2ca297ca16742c3965bac99b137753fc",
+    "source_content_bytes": 149761,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
   },
   "subject": {
     "subject_type": "UNIT_CONCEPTS",
@@ -21,7 +24,8 @@
       "text": "The CER describes an ACCU as representing one tonne of carbon dioxide equivalent emissions that would otherwise have been released into the atmosphere.",
       "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
       "tags": ["accu_definition", "unit_distinction"],
-      "project_id": null,
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
       "authority_scope": "PUBLIC_UNIT_DEFINITION",
       "attributes": {
         "unit": "ACCU",
@@ -34,7 +38,8 @@
       "text": "The CER describes an SMC as representing one tonne of carbon dioxide equivalent emissions below a Safeguard facility's baseline.",
       "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
       "tags": ["smc_definition", "unit_distinction"],
-      "project_id": null,
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
       "authority_scope": "PUBLIC_UNIT_DEFINITION",
       "attributes": {
         "unit": "SMC",
@@ -48,7 +53,8 @@
       "text": "The CER states that SMCs are accounting units within the Safeguard Mechanism's regulated emissions limit and are not offsets, distinguishing them from ACCUs.",
       "claim_families": ["ACCU_SMC_SEMANTIC_BOUNDARY"],
       "tags": ["unit_distinction", "accu_definition", "smc_definition"],
-      "project_id": null,
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
       "authority_scope": "PUBLIC_UNIT_DEFINITION",
       "attributes": {
         "smc_is_offset": false,

@@ -1,0 +1,797 @@
+{
+  "result_version": "1.0.0",
+  "evaluation_scope": "HELD_OUT_ENGINEERING_RELEVANCE_NOT_HUMAN_GOLD",
+  "benchmark_sha256": "017e668b209d8b4b59731fd683b76b929028d0d2d7ffc6809ba5f78c432944bf",
+  "mode_metrics": {
+    "lexical": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0
+    },
+    "vector": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0
+    },
+    "hybrid": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0
+    }
+  },
+  "decision": "RETAIN_LEXICAL_NO_EXTERNAL_VECTOR_INFRASTRUCTURE",
+  "result_sha256": "a07decfc8f131ffdb46d17bac5f46a1837e08cedb98a270a9c216725a8954d68",
+  "modes": {
+    "lexical": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "records": [
+        {
+          "query_id": "RET-EOP101132-IDENTITY",
+          "expected_fact_id": "CER_EOP101132.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.IDENTITY",
+            "CER_EOP101132.ISSUANCE",
+            "CER_EOP101132.PARTICIPANT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-TIMING",
+          "expected_fact_id": "CER_EOP101132.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.TIMING",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.LOCATION"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-CONTEXT",
+          "expected_fact_id": "CER_EOP101132.ISSUANCE",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.ISSUANCE",
+            "CER_EOP101132.LOCATION",
+            "EOP101132_V4.OBSERVATION"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-IDENTITY",
+          "expected_fact_id": "CER_EOP101053.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.IDENTITY",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-TIMING",
+          "expected_fact_id": "CER_EOP101053.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-CONTEXT",
+          "expected_fact_id": "CER_EOP101053.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-IDENTITY",
+          "expected_fact_id": "CER_ERF101444.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.IDENTITY",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-TIMING",
+          "expected_fact_id": "CER_ERF101444.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-CONTEXT",
+          "expected_fact_id": "CER_ERF101444.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-IDENTITY",
+          "expected_fact_id": "CER_EOP100183.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.IDENTITY",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-TIMING",
+          "expected_fact_id": "CER_EOP100183.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-CONTEXT",
+          "expected_fact_id": "CER_EOP100183.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-IDENTITY",
+          "expected_fact_id": "CER_ERF108333.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.IDENTITY",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-TIMING",
+          "expected_fact_id": "CER_ERF108333.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.TIMING",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-CONTEXT",
+          "expected_fact_id": "CER_ERF108333.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.TIMING",
+            "CER_ERF108333.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-IDENTITY",
+          "expected_fact_id": "CER_EOP101126.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.IDENTITY",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-TIMING",
+          "expected_fact_id": "CER_EOP101126.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.CONTEXT",
+            "CER_EOP101126.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-CONTEXT",
+          "expected_fact_id": "CER_EOP101126.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.CONTEXT",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-IDENTITY",
+          "expected_fact_id": "CER_ERF169256.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.IDENTITY",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-TIMING",
+          "expected_fact_id": "CER_ERF169256.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-CONTEXT",
+          "expected_fact_id": "CER_ERF169256.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-SAFEGUARD-ARCADIA",
+          "expected_fact_id": "CER_SAFEGUARD_ARCADIA.2024-25",
+          "rank": 1,
+          "top3": [
+            "CER_SAFEGUARD_ARCADIA.2024-25"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-ACCU",
+          "expected_fact_id": "CER_UNIT.ACCU_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.ACCU_DEFINITION",
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-SMC",
+          "expected_fact_id": "CER_UNIT.SMC_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.ACCU_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS"
+          ]
+        },
+        {
+          "query_id": "RET-FROZEN-OBSERVATION",
+          "expected_fact_id": "EOP101132_V4.OBSERVATION",
+          "rank": 1,
+          "top3": [
+            "EOP101132_V4.OBSERVATION",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.LOCATION"
+          ]
+        }
+      ]
+    },
+    "vector": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "records": [
+        {
+          "query_id": "RET-EOP101132-IDENTITY",
+          "expected_fact_id": "CER_EOP101132.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.IDENTITY",
+            "CER_EOP101132.PARTICIPANT",
+            "CER_EOP101132.ISSUANCE"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-TIMING",
+          "expected_fact_id": "CER_EOP101132.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.TIMING",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.ISSUANCE"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-CONTEXT",
+          "expected_fact_id": "CER_EOP101132.ISSUANCE",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.ISSUANCE",
+            "CER_EOP101132.PARTICIPANT",
+            "EOP101132_V4.OBSERVATION"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-IDENTITY",
+          "expected_fact_id": "CER_EOP101053.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.IDENTITY",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-TIMING",
+          "expected_fact_id": "CER_EOP101053.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-CONTEXT",
+          "expected_fact_id": "CER_EOP101053.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-IDENTITY",
+          "expected_fact_id": "CER_ERF101444.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.IDENTITY",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-TIMING",
+          "expected_fact_id": "CER_ERF101444.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-CONTEXT",
+          "expected_fact_id": "CER_ERF101444.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-IDENTITY",
+          "expected_fact_id": "CER_EOP100183.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.IDENTITY",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-TIMING",
+          "expected_fact_id": "CER_EOP100183.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-CONTEXT",
+          "expected_fact_id": "CER_EOP100183.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-IDENTITY",
+          "expected_fact_id": "CER_ERF108333.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.IDENTITY",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-TIMING",
+          "expected_fact_id": "CER_ERF108333.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.TIMING",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-CONTEXT",
+          "expected_fact_id": "CER_ERF108333.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.IDENTITY",
+            "CER_ERF108333.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-IDENTITY",
+          "expected_fact_id": "CER_EOP101126.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.IDENTITY",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-TIMING",
+          "expected_fact_id": "CER_EOP101126.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.IDENTITY",
+            "CER_EOP101126.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-CONTEXT",
+          "expected_fact_id": "CER_EOP101126.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.CONTEXT",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-IDENTITY",
+          "expected_fact_id": "CER_ERF169256.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.IDENTITY",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-TIMING",
+          "expected_fact_id": "CER_ERF169256.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-CONTEXT",
+          "expected_fact_id": "CER_ERF169256.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-SAFEGUARD-ARCADIA",
+          "expected_fact_id": "CER_SAFEGUARD_ARCADIA.2024-25",
+          "rank": 1,
+          "top3": [
+            "CER_SAFEGUARD_ARCADIA.2024-25"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-ACCU",
+          "expected_fact_id": "CER_UNIT.ACCU_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.ACCU_DEFINITION",
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-SMC",
+          "expected_fact_id": "CER_UNIT.SMC_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS",
+            "CER_UNIT.ACCU_DEFINITION"
+          ]
+        },
+        {
+          "query_id": "RET-FROZEN-OBSERVATION",
+          "expected_fact_id": "EOP101132_V4.OBSERVATION",
+          "rank": 1,
+          "top3": [
+            "EOP101132_V4.OBSERVATION",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.ISSUANCE"
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "query_count": 25,
+      "top1_accuracy": 1.0,
+      "recall_at_3": 1.0,
+      "mean_reciprocal_rank": 1.0,
+      "records": [
+        {
+          "query_id": "RET-EOP101132-IDENTITY",
+          "expected_fact_id": "CER_EOP101132.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.IDENTITY",
+            "CER_EOP101132.PARTICIPANT",
+            "CER_EOP101132.ISSUANCE"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-TIMING",
+          "expected_fact_id": "CER_EOP101132.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.TIMING",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.LOCATION"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101132-CONTEXT",
+          "expected_fact_id": "CER_EOP101132.ISSUANCE",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101132.ISSUANCE",
+            "CER_EOP101132.PARTICIPANT",
+            "EOP101132_V4.OBSERVATION"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-IDENTITY",
+          "expected_fact_id": "CER_EOP101053.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.IDENTITY",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-TIMING",
+          "expected_fact_id": "CER_EOP101053.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101053-CONTEXT",
+          "expected_fact_id": "CER_EOP101053.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101053.CONTEXT",
+            "CER_EOP101053.TIMING",
+            "CER_EOP101053.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-IDENTITY",
+          "expected_fact_id": "CER_ERF101444.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.IDENTITY",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-TIMING",
+          "expected_fact_id": "CER_ERF101444.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF101444-CONTEXT",
+          "expected_fact_id": "CER_ERF101444.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF101444.CONTEXT",
+            "CER_ERF101444.TIMING",
+            "CER_ERF101444.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-IDENTITY",
+          "expected_fact_id": "CER_EOP100183.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.IDENTITY",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-TIMING",
+          "expected_fact_id": "CER_EOP100183.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP100183-CONTEXT",
+          "expected_fact_id": "CER_EOP100183.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP100183.CONTEXT",
+            "CER_EOP100183.TIMING",
+            "CER_EOP100183.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-IDENTITY",
+          "expected_fact_id": "CER_ERF108333.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.IDENTITY",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.TIMING"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-TIMING",
+          "expected_fact_id": "CER_ERF108333.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.TIMING",
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF108333-CONTEXT",
+          "expected_fact_id": "CER_ERF108333.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF108333.CONTEXT",
+            "CER_ERF108333.TIMING",
+            "CER_ERF108333.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-IDENTITY",
+          "expected_fact_id": "CER_EOP101126.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.IDENTITY",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-TIMING",
+          "expected_fact_id": "CER_EOP101126.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.IDENTITY",
+            "CER_EOP101126.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-EOP101126-CONTEXT",
+          "expected_fact_id": "CER_EOP101126.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_EOP101126.CONTEXT",
+            "CER_EOP101126.TIMING",
+            "CER_EOP101126.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-IDENTITY",
+          "expected_fact_id": "CER_ERF169256.IDENTITY",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.IDENTITY",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-TIMING",
+          "expected_fact_id": "CER_ERF169256.TIMING",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-ERF169256-CONTEXT",
+          "expected_fact_id": "CER_ERF169256.CONTEXT",
+          "rank": 1,
+          "top3": [
+            "CER_ERF169256.CONTEXT",
+            "CER_ERF169256.TIMING",
+            "CER_ERF169256.IDENTITY"
+          ]
+        },
+        {
+          "query_id": "RET-SAFEGUARD-ARCADIA",
+          "expected_fact_id": "CER_SAFEGUARD_ARCADIA.2024-25",
+          "rank": 1,
+          "top3": [
+            "CER_SAFEGUARD_ARCADIA.2024-25"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-ACCU",
+          "expected_fact_id": "CER_UNIT.ACCU_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.ACCU_DEFINITION",
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS"
+          ]
+        },
+        {
+          "query_id": "RET-UNIT-SMC",
+          "expected_fact_id": "CER_UNIT.SMC_DEFINITION",
+          "rank": 1,
+          "top3": [
+            "CER_UNIT.SMC_DEFINITION",
+            "CER_UNIT.ACCU_DEFINITION",
+            "CER_UNIT.NOT_EQUIVALENT_CONCEPTS"
+          ]
+        },
+        {
+          "query_id": "RET-FROZEN-OBSERVATION",
+          "expected_fact_id": "EOP101132_V4.OBSERVATION",
+          "rank": 1,
+          "top3": [
+            "EOP101132_V4.OBSERVATION",
+            "EOP101132_V4.INTEGRITY",
+            "CER_EOP101132.LOCATION"
+          ]
+        }
+      ]
+    }
+  }
+}

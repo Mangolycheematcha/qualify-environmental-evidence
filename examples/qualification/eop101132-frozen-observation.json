@@ -21,7 +21,8 @@
       "text": "The frozen Step 2B assessment recorded PRE median NDVI 0.6630660903670323, POST median NDVI 0.6432938994009436, POST-minus-PRE delta -0.0197721909660887, primary tau 0.03, and joint coverage 0.9997194163860831.",
       "claim_families": ["OBSERVATIONAL_CONSISTENCY"],
       "tags": ["frozen_observation", "ndvi", "coverage"],
-      "project_id": "EOP101132",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
       "authority_scope": "BOUNDED_OBSERVATION_ONLY",
       "attributes": {
         "run_id": "EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
@@ -40,7 +41,8 @@
       "text": "Offline replay reproduced the canonical assessment bytes and array hashes; the retained run is science-valid with a documented governance limitation and no rerun requirement.",
       "claim_families": ["OBSERVATIONAL_CONSISTENCY"],
       "tags": ["frozen_observation", "replay", "integrity"],
-      "project_id": "EOP101132",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
       "authority_scope": "BOUNDED_OBSERVATION_ONLY",
       "attributes": {
         "executable_commit": "9e1fabbf005dd29fba09aa82ea18046e99556e02",

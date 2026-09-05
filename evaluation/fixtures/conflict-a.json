@@ -1,0 +1,48 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "SYNTHETIC.CONFLICT.A",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "SYNTHETIC_CONFLICT_A",
+    "publisher": "Repository test fixture",
+    "canonical_uri": "urn:qualification-test:conflict-a",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "SYNTHETIC_TEST_FIXTURE",
+    "authority_scope": "SYNTHETIC_TEST_ONLY",
+    "redistribution_status": "LOCAL_DERIVATIVE_NOT_SOURCE_BYTES"
+  },
+  "subject": {
+    "subject_type": "ACCU_PROJECT",
+    "subject_id": "SYNTHETIC-CONFLICT",
+    "name": "Synthetic conflict fixture"
+  },
+  "facts": [
+    {
+      "fact_id": "SYNTHETIC.CONFLICT.A.IDENTITY",
+      "text": "Synthetic source A states that the project method type is Vegetation.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "SYNTHETIC-CONFLICT",
+      "authority_scope": "SYNTHETIC_TEST_ONLY",
+      "assertion_key": "project.method_type",
+      "assertion_value": "Vegetation",
+      "attributes": {
+        "project_id": "SYNTHETIC-CONFLICT",
+        "project_name": "Synthetic conflict fixture",
+        "method_type": "Vegetation",
+        "project_location": "Test fixture only"
+      }
+    },
+    {
+      "fact_id": "SYNTHETIC.CONFLICT.A.TIMING",
+      "text": "Synthetic source A states a model start date of 2020-01-01.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "SYNTHETIC-CONFLICT",
+      "authority_scope": "SYNTHETIC_TEST_ONLY",
+      "attributes": {"model_start_date": "2020-01-01"}
+    }
+  ]
+}

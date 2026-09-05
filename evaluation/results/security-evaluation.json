@@ -1,0 +1,76 @@
+{
+  "report_version": "1.0.0",
+  "network_access": false,
+  "executed_case_count": 8,
+  "not_applicable_case_count": 2,
+  "passed_case_count": 10,
+  "records": [
+    {
+      "threat": "indirect_prompt_injection",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "deterministic authority gate precedes retrieval or model use"
+    },
+    {
+      "threat": "malicious_url_redirect_and_ssrf",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "exact source-id-to-canonical-URI allowlist rejects private or redirected identities before acquisition"
+    },
+    {
+      "threat": "path_traversal",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "strict identifier grammar and rooted content stores"
+    },
+    {
+      "threat": "secret_leakage_via_preferences",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "allowlisted preference keys reject credential-like names"
+    },
+    {
+      "threat": "cross_session_leakage",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "workflow-id-separated checkpoint namespaces"
+    },
+    {
+      "threat": "oversized_input_resource_exhaustion",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "schema and evidence document/fact/byte limits"
+    },
+    {
+      "threat": "unsafe_output_rendering",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "structured canonical JSON only; no HTML renderer"
+    },
+    {
+      "threat": "permission_bypass",
+      "status": "PASS",
+      "coverage": "EXECUTED",
+      "control": "claim-family authority is code-controlled, not evidence-controlled"
+    },
+    {
+      "threat": "archive_extraction",
+      "status": "PASS",
+      "coverage": "NOT_APPLICABLE_ATTACK_SURFACE_ABSENT",
+      "control": "no archive upload or extraction interface exists in this PoC"
+    },
+    {
+      "threat": "network_redirect_following",
+      "status": "PASS",
+      "coverage": "NOT_APPLICABLE_OFFLINE_RUNTIME",
+      "control": "qualification runtime performs no network access"
+    }
+  ],
+  "excluded_threat_classes": [
+    "live EO transport interception",
+    "cloud IAM penetration testing",
+    "third-party model-provider infrastructure"
+  ],
+  "status": "PASS",
+  "report_sha256": "17064a0b243297d919ebaa99fbd83f13ee666b59c1c1fd2fc7760370d5c02a66"
+}

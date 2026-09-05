@@ -5,7 +5,7 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "schema_version", "request_id", "project_id", "claim_family", "workflow_status",
+    "schema_version", "request_id", "subject_type", "subject_id", "claim_family", "workflow_status",
     "qualification", "reason_codes", "bounded_statement", "evidence_refs", "retrieval_trace",
     "assurance_checks", "must_not_claim", "limitations", "human_review_required",
     "memory_snapshot_sha256", "result_sha256"
@@ -13,7 +13,8 @@
   "properties": {
     "schema_version": {"const": "1.0.0"},
     "request_id": {"type": "string"},
-    "project_id": {"type": "string"},
+    "subject_type": {"type": "string"},
+    "subject_id": {"type": "string"},
     "claim_family": {"type": "string"},
     "workflow_status": {"enum": ["QUALIFIED", "ABSTAINED", "REFUSED", "ERROR"]},
     "qualification": {"enum": ["SUPPORTED", "CORROBORATING", "CONTRADICTORY", "INCONCLUSIVE", null]},
@@ -49,13 +50,15 @@
     "assurance_checks": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["request_schema", "semantic_authority", "evidence_identity", "source_authority", "evidence_completeness", "non_inference", "frozen_result_integrity", "deterministic_serialization"],
+      "required": ["request_schema", "semantic_authority", "evidence_identity", "source_authority", "evidence_completeness", "source_freshness", "evidence_consistency", "non_inference", "frozen_result_integrity", "deterministic_serialization"],
       "properties": {
         "request_schema": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "semantic_authority": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "evidence_identity": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "source_authority": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "evidence_completeness": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+        "source_freshness": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
+        "evidence_consistency": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "non_inference": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "frozen_result_integrity": {"enum": ["PASS", "FAIL", "NOT_RUN"]},
         "deterministic_serialization": {"enum": ["PASS", "FAIL", "NOT_RUN"]}

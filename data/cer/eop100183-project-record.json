@@ -1,0 +1,49 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_EOP100183_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP100183",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS",
+    "source_content_sha256": "ab375b4b99af61a5f0cc6dae08655ce8aba2ad873cd80ba635170abd17dd332f",
+    "source_content_bytes": 149668,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "ACCU_PROJECT", "subject_id": "EOP100183", "name": "Rochedale Landfill Gas Project"},
+  "facts": [
+    {
+      "fact_id": "CER_EOP100183.IDENTITY",
+      "text": "The CER record identifies EOP100183 as the Rochedale Landfill Gas Project, a Waste project in Queensland.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity", "method"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"project_id": "EOP100183", "project_name": "Rochedale Landfill Gas Project", "method_type": "Waste", "method": "Carbon Credits (Carbon Farming Initiative-Electricity Generation from Landfill Gas) Methodology Determination 2021 (Compilation No. 1)", "project_location": "Queensland"}
+    },
+    {
+      "fact_id": "CER_EOP100183.TIMING",
+      "text": "The CER record lists registration on 22 March 2013 and a crediting period from 13 December 2014 to 12 December 2026; no model start date is listed.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"registration_date": "2013-03-22", "crediting_period_start": "2014-12-13", "crediting_period_end": "2026-12-12", "model_start_date": null}
+    },
+    {
+      "fact_id": "CER_EOP100183.CONTEXT",
+      "text": "The record provides no mapping files and lists 2,614,498 KACCUs issued with zero relinquished.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "issuance", "mapping_availability"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"mapping_file_types": [], "total_kaccus_issued": 2614498, "total_kaccus_relinquished": 0, "contract_status": "COMPLETED"}
+    }
+  ]
+}

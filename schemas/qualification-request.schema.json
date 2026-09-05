@@ -4,16 +4,20 @@
   "title": "Evidence Qualification Workflow Request",
   "type": "object",
   "additionalProperties": false,
-  "required": ["schema_version", "request_id", "project_id", "claim_family", "question", "requested_output"],
+  "required": ["schema_version", "request_id", "subject_type", "subject_id", "claim_family", "question", "requested_output"],
   "properties": {
     "schema_version": {"const": "1.0.0"},
     "request_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,79}$"},
-    "project_id": {"type": "string", "pattern": "^(EOP|ERF)[0-9]{6}$"},
+    "subject_type": {"enum": ["ACCU_PROJECT", "SAFEGUARD_FACILITY", "UNIT_CONCEPTS"]},
+    "subject_id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9._-]{2,119}$"},
+    "minimum_source_date": {"type": "string", "format": "date"},
     "claim_family": {
       "enum": [
         "REGISTRY_FACTS",
+        "SAFEGUARD_FACILITY_FACTS",
         "OBSERVATIONAL_CONSISTENCY",
         "ACCU_SMC_SEMANTIC_BOUNDARY",
+        "POLICY_APPLICABILITY",
         "CAUSAL_ATTRIBUTION",
         "CARBON_QUANTITY",
         "ACCU_QUALITY",

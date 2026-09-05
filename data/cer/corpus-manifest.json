@@ -1,0 +1,121 @@
+{
+  "manifest_version": "1.0.0",
+  "generated_from": "CURATED_FACT_SNAPSHOTS",
+  "document_count": 9,
+  "subject_type_counts": {
+    "ACCU_PROJECT": 7,
+    "SAFEGUARD_FACILITY": 1,
+    "UNIT_CONCEPTS": 1
+  },
+  "public_memory_snapshot_sha256": "60d3990284ff06aa9239859518e2c92b6934b7154dd9d71997c93713d3d7ca58",
+  "records": [
+    {
+      "evidence_id": "CER_ACCU_SMC_DEFINITIONS_2026-09-05",
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
+      "snapshot_path": "data/cer/accu-smc-public-definitions.json",
+      "snapshot_sha256": "cad711bc907233923a5c442419a3820432f48af6ac91612a4cfdbf777a77eefc",
+      "source_uri": "https://cer.gov.au/schemes/safeguard-mechanism/safeguard-mechanism-credit-units",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "6280b2100e1d1b09429c492672bf618f2ca297ca16742c3965bac99b137753fc",
+      "source_content_bytes": 149761,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_EOP100183_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "snapshot_path": "data/cer/eop100183-project-record.json",
+      "snapshot_sha256": "5a0dd9a7ae623c255557043625cc1bd349f9dc22fe4e5c72463fd513a8108cb4",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP100183",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "ab375b4b99af61a5f0cc6dae08655ce8aba2ad873cd80ba635170abd17dd332f",
+      "source_content_bytes": 149668,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_EOP101053_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "snapshot_path": "data/cer/eop101053-project-record.json",
+      "snapshot_sha256": "6a438ccc132d10fd006ac53d6a72231aa913c96c60e27033f81c804bc6669576",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101053",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "98963a9aa47c2ee904c3c2edf50de2c73806832195be3da53348427f71d6b58c",
+      "source_content_bytes": 152712,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_EOP101126_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101126",
+      "snapshot_path": "data/cer/eop101126-project-record.json",
+      "snapshot_sha256": "b95c1c9d9348fdf3ea314cdd8b87ed921d9316134f7f295674c086223ec3453b",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101126",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "e98da272d9fe2a01a1fa6399939b34c8545091ecc63b01a57aa114d3b5f0b70e",
+      "source_content_bytes": 151865,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_EOP101132_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
+      "snapshot_path": "data/cer/eop101132-project-record.json",
+      "snapshot_sha256": "ab0cf8084ff6b798e22c884d0fd695b3488e718f76eba9de59ad974807976d10",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "f59b60c11e81b7a3b7b1ac06f1b4d3feb90c5903ea602468f0bffb4ad1b5101f",
+      "source_content_bytes": 149412,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_ERF101444_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "snapshot_path": "data/cer/erf101444-project-record.json",
+      "snapshot_sha256": "ef38170f976f310195858c89f78601a3fb6790fa24e89868bf09c15bf8866f82",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF101444",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "713f4b80382da59ade8bc6a1bcaf58c92d11c9398812d40acecb69c2f691e086",
+      "source_content_bytes": 152867,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_ERF108333_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "snapshot_path": "data/cer/erf108333-project-record.json",
+      "snapshot_sha256": "47841638bdb557a3b3d904354d255680008825b1a2cac85264310b21d7a1c711",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF108333",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "1eb622bbf058ccccb70f9c5527cdc77d52581af0ac401b97043d83cff8c0f00f",
+      "source_content_bytes": 150167,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_ERF169256_PROJECT_RECORD_2026-09-05",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "snapshot_path": "data/cer/erf169256-project-record.json",
+      "snapshot_sha256": "f4f7b09654e37483d0834c6056754470656df45fc9925fc4272aee0a733ae325",
+      "source_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF169256",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "af651a6125718aab302cd2f6e4dec60e08e9e43c7b3d8480d1f57f4c00556d3e",
+      "source_content_bytes": 148887,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    },
+    {
+      "evidence_id": "CER_SAFEGUARD_2024_25_ARCADIA_2026-09-05",
+      "subject_type": "SAFEGUARD_FACILITY",
+      "subject_id": "SAFEGUARD.2024-25.ARCADIA",
+      "snapshot_path": "data/cer/safeguard-2024-25-arcadia.json",
+      "snapshot_sha256": "24b0897ba08471e99d7c3792d49758a5147ba1bf06d6cfc870c4849d32795e1f",
+      "source_uri": "https://cer.gov.au/document/baselines-and-emissions-table-2024-25",
+      "source_accessed_on": "2026-09-05",
+      "source_content_sha256": "f23282cb79275bd60a437773611f25ae49adb5f7e60f4cfa4adbb83bb0b50ba3",
+      "source_content_bytes": 48056,
+      "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+    }
+  ]
+}

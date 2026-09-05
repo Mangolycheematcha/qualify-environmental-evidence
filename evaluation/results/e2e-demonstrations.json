@@ -1,0 +1,96 @@
+{
+  "report_version": "1.0.0",
+  "network_access": false,
+  "live_eo_executed": false,
+  "journey_count": 4,
+  "journeys": [
+    {
+      "journey": "REAL_ACCU_REGISTRY",
+      "workflow_status": "QUALIFIED",
+      "qualification": "SUPPORTED",
+      "reason_codes": [],
+      "evidence_fact_ids": [
+        "CER_ERF108333.IDENTITY",
+        "CER_ERF108333.TIMING",
+        "CER_ERF108333.CONTEXT"
+      ],
+      "result_sha256": "9405a1d5b65eb202855c0aa4049aaad5143213cce5d09a47771c8f3dee9a4177"
+    },
+    {
+      "journey": "REAL_SAFEGUARD_SMC",
+      "workflow_status": "QUALIFIED",
+      "qualification": "SUPPORTED",
+      "reason_codes": [],
+      "evidence_fact_ids": [
+        "CER_SAFEGUARD_ARCADIA.2024-25"
+      ],
+      "result_sha256": "0859751d26e9d7a68a51d8610aa8ca9769d4629209ed58b56e226adc05ea1ef3"
+    },
+    {
+      "journey": "FAIL_CLOSED_EVIDENCE_FAULTS",
+      "outcomes": {
+        "missing": {
+          "journey": "MISSING",
+          "workflow_status": "ERROR",
+          "qualification": null,
+          "reason_codes": [
+            "REQUIRED_EVIDENCE_MISSING"
+          ],
+          "evidence_fact_ids": [],
+          "result_sha256": "c9ebfa028c7db1416a95b1047096b92f8bc20585f74be3ad726ae0b5ceea5df1"
+        },
+        "stale": {
+          "journey": "STALE",
+          "workflow_status": "ERROR",
+          "qualification": null,
+          "reason_codes": [
+            "EVIDENCE_TEMPORAL_MISMATCH"
+          ],
+          "evidence_fact_ids": [
+            "CER_EOP101132.IDENTITY",
+            "CER_EOP101132.ISSUANCE",
+            "CER_EOP101132.PARTICIPANT",
+            "CER_EOP101132.LOCATION",
+            "CER_EOP101132.METHOD",
+            "CER_EOP101132.TIMING"
+          ],
+          "result_sha256": "3508eab171eb340fe7a1b929bb18da51b19308f98f40c0ea65e8bfc0571f0b56"
+        },
+        "conflict": {
+          "journey": "CONFLICT",
+          "workflow_status": "ERROR",
+          "qualification": null,
+          "reason_codes": [
+            "EVIDENCE_CONFLICT_UNRESOLVED"
+          ],
+          "evidence_fact_ids": [
+            "SYNTHETIC.CONFLICT.A.IDENTITY",
+            "SYNTHETIC.CONFLICT.B.IDENTITY",
+            "SYNTHETIC.CONFLICT.A.TIMING",
+            "SYNTHETIC.CONFLICT.B.TIMING"
+          ],
+          "result_sha256": "9d749910ec9290e74c0aaaffd57df45885ebf288e1336f3605f6011168344bf6"
+        }
+      }
+    },
+    {
+      "journey": "ACCU_SMC_MISMATCH_REFUSAL",
+      "workflow_status": "REFUSED",
+      "qualification": null,
+      "reason_codes": [
+        "CREDIT_VALIDITY_UNSUPPORTED"
+      ],
+      "evidence_fact_ids": [],
+      "result_sha256": "9c27d4173f0f2169f2b4ef75d9f89367722376dec27838c082bd8d9b77fb3d62"
+    }
+  ],
+  "resume_replay": {
+    "paused_status": "PAUSED",
+    "completed_status": "COMPLETED",
+    "replayed_status": "REPLAYED",
+    "canonical_result_bytes_equal": true,
+    "result_sha256": "dd7261c3d322e18097070fe47984a91f9e95b15c429c1042562d08bdeb540e80"
+  },
+  "status": "PASS",
+  "report_sha256": "8316649530d1f8a791f9d503fe4def9f21389be2ea1d17ce6cb989d66c54262f"
+}

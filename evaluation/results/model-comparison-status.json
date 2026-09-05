@@ -1,0 +1,53 @@
+{
+  "report_version": "1.0.0",
+  "evaluation_design": {
+    "held_out_cases": 27,
+    "split": "HELD_OUT",
+    "label_authority": "REPOSITORY_ENGINEERING_EXPECTATION_NOT_HUMAN_GOLD",
+    "b0": "question only",
+    "b1": "question plus matched evidence packet",
+    "t1": "same B1 packet plus deterministic authority gate",
+    "controlled_variables": {
+      "model": "UNSELECTED_SAME_MODEL_REQUIRED",
+      "temperature": 0.0,
+      "max_output_tokens": 500
+    },
+    "b1_t1_evidence_hash_match_count": 27
+  },
+  "provider": {
+    "adapter": "OPENAI_RESPONSES_API",
+    "credential_present": false,
+    "live_adapter_status": "BLOCKED_NO_CREDENTIAL",
+    "fixture_contract_test": "PASS",
+    "fixture_output_status": "FIXTURE_PROVIDER_NOT_BEHAVIOURAL_EVIDENCE",
+    "fixture_is_behavioural_evidence": false
+  },
+  "arms": {
+    "B0": {
+      "planned": 27,
+      "executed": 0,
+      "status": "NOT_RUN"
+    },
+    "B1": {
+      "planned": 27,
+      "executed": 0,
+      "status": "NOT_RUN"
+    },
+    "T1": {
+      "planned": 27,
+      "executed": 0,
+      "status": "NOT_RUN"
+    }
+  },
+  "human_evaluation": {
+    "name": "H1",
+    "planned": 27,
+    "independently_labelled": 0,
+    "status": "BLOCKED_PENDING_INDEPENDENT_HUMAN_LABELS",
+    "self_labels_counted_as_human": false
+  },
+  "network_access": false,
+  "api_cost": null,
+  "status": "LIVE_MODEL_EVALUATION_BLOCKED",
+  "report_sha256": "8fccbea6824884865d573999a000594d5e61104c53917a2f7510c1210674f2e5"
+}
