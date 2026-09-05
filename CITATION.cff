@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+message: >-
+  Please cite this repository, the exact Git commit used, and the access
+  date. No formal software release, DOI, or release version has been
+  assigned.
+title: qualify-environmental-evidence
+type: software
+authors:
+  - family-names: Hoi
+    given-names: Hio Wai
+repository-code: https://github.com/Mangolycheematcha/qualify-environmental-evidence
+abstract: >-
+  A reproducible proof of concept for qualifying, not validating, public
+  registry and Earth-observation evidence before use in regulated financial
+  workflows. It separates bounded scientific observations from authority,
+  compliance, assurance, carbon-credit, and investment conclusions.

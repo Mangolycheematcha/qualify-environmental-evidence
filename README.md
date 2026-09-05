@@ -1,73 +1,120 @@
 # qualify-environmental-evidence
 
-A reproducible proof of concept for qualifying — not validating — public environmental evidence before it enters regulated financial workflows.
+**Evidence before inference.**
 
-The repository constrains evidence identity, transformations, abstention behavior, and authority before any environmental statement can be emitted.
+A reproducible proof of concept for qualifying—not validating—public
+registry and Earth-observation evidence before use in regulated
+financial workflows.
 
-> **No licence has yet been selected. Private repository only. Public reuse permission has not been granted.**
+> **Original, owner-controlled repository material is licensed under Apache-2.0. Third-party data, metadata, source responses, derived artifacts, dependencies, services, and marks remain under their applicable terms and are not relicensed. The repository remains private pending release approval.**
 
-## Current Status
+## Project Status
 
 | Area | Status |
 |---|---|
-| Contract and platform implementation | Contract `0.5.0` and V4 runtime `1.1.0` with Approval Protocol V2 are implemented and tested |
-| Live source runs | Historical V3/V4 runs are preserved locally; the completed V4 scientific run failed subsequent approval-binding audit |
+| Step 1 contract and skill packaging | Contract `0.5.0`; schemas, registries, validator, and packaged skill implemented and tested |
+| Step 2B real EO vertical slice | Completed for EOP101132 under frozen V4 policy and Approval Protocol V2 |
 | Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs |
-| Step 2B qualification | `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
+| Scientific result | Retained: `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
+| Cached replay | Assessment bytes, array hashes, grouping, composites, and joint mask reproduced |
+| Canonical/governance status | Governance limitations documented; not claimed as fully canonical |
 | Step 3 | Not executed and not approved |
-| Green Agent orchestration | Not built |
-| Public release | Not approved |
+| Public-release readiness | Internal-review-ready; licence, identity, and release decisions remain open |
 
-The immutable V3 live run used `DEMO_QUALIFICATION_POLICY_EOP101132_V3` and ended `ABSTAINED / INCONCLUSIVE / RESOURCE_LIMIT_EXCEEDED`. Two early V4 attempts ended on transport and timeout handling failures. Their original approval records are historical artifacts, not independent human-approval evidence under Approval Protocol V2.
+The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`.
 
-The completed V4 scientific run, `EOP101132-STEP2B-V4-20260830T044223516364Z-73144a299e2d5763`, executed commit `bf0b1a33230ff2d6e259aab2cca087bc8c21dbbf`. It read permitted raster pixels, computed a pre-window NDVI median of `0.6630660903670323`, a post-window median of `0.6432938994009436`, and delta NDVI of `-0.0197721909660887`. The primary policy abstained as `INCONCLUSIVE` because the bounded observation fell within the operational indifference band. Offline replay reproduced the assessment bytes. A subsequent audit classified it `VALID_TECHNICAL_RUN_BUT_APPROVAL_BINDING_INVALID`; it is not an approved or canonical run. Step 3 was not executed.
+## In 30 Seconds
 
-The V4 scientific run is technically valid and reproducible. Its original human-approval binding failed a subsequent governance audit. A corrected pre-authorized run is pending.
+- The PoC binds a narrow evidence question to allowlisted sources, frozen transformations, reason codes, and explicit abstention behavior.
+- It executed one real Sentinel-2 vertical slice and retained the resulting bounded scientific assessment.
+- It reproduced that assessment from cached arrays without network access.
+- It records two governance limitations: an erroneous diagnostic-only area value and incomplete request-level visibility into GDAL HTTP range requests and retries.
+- It does not validate carbon credits, prove environmental causality, provide assurance, or make an investment decision.
 
-V4 keeps the 40-acquisition raster-processing limit but applies it after deterministic metadata-only grouping and admissibility checks. Its live runtime is frozen separately so approval can bind the unchanged policy bytes, runtime semantics, and exact Git commit without a self-referential hash.
+## What It Does
 
-V4 policy SHA-256: `3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd`.
+- Validates versioned claim contracts, schemas, registries, and provenance relationships.
+- Resolves metadata-only acquisition groups before raster processing.
+- Computes a bounded PRE/POST Sentinel-2 NDVI comparison under a frozen policy.
+- Emits structured status, disposition, reason codes, hashes, and human-review requirements.
+- Preserves one-time approval consumption and cached deterministic replay evidence.
 
-## Repository Layout
+## What It Does Not Do
 
-- `cases/`: bounded claim contracts.
-- `config/`: evidence, transformation, reason-code, statement, and forbidden-inference registries.
-- `policies/`: immutable historical policies and pending proposals.
-- `schemas/`: JSON Schemas for contract artifacts.
-- `scripts/`: deterministic validators, offline logic, packaging, and proposal generation.
-- `tests/`: synthetic offline tests.
-- `examples/`: reviewed derivatives safe for private baseline tracking.
-- `skill/qualify-environmental-evidence/`: allowlisted packaged skill resources.
+- It does not validate ACCUs, carbon-credit quality, project integrity, or regulatory compliance.
+- It does not establish causality, carbon quantity, additionality, permanence, or scientific truth.
+- It does not provide audit assurance, regulatory approval, lending, trading, or investment advice.
+- It is not a production-ready agent or a general benchmark of environmental claims.
 
-The complete live `runs/` directory remains local and ignored. Raw HTTP payloads, caches, raster assets, signed URLs, and credentials are not tracked.
+## Safe Reproduction
 
-## Reproducibility
-
-Use Python 3.10 or later and `uv`:
+The shortest supported entry point is offline contract validation:
 
 ```text
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/validate_step1_specs.py
+```
+
+The complete offline suite is:
+
+```text
 uv run --offline --no-project --with "jsonschema>=4.18,<5" --with "pytest>=8,<9" --with "pyyaml>=6,<7" --with "numpy==2.5.2" --with "rasterio==1.5.1" python -m pytest -o addopts="" -p no:cacheprovider -q
 uv run --offline --no-project python scripts/package_skill.py --check
 uv run --offline --no-project python scripts/freeze_v4_runtime_spec.py --check
 ```
 
-Regenerate the pending V4 proposal deterministically:
+| Path | Network/approval boundary |
+|---|---|
+| Commands above | `OFFLINE-ONLY`; use repository fixtures and do not consume approval |
+| Cached replay verification | `OFFLINE-ONLY`; the completed private run package is immutable, so do not invoke the replay writer against it |
+| Live EO runtime | `LIVE/NETWORK` and `APPROVAL-CONSUMING`; intentionally not presented as a quick start |
+| Step 3 evaluation | Not implemented or started; no supported command |
 
-```text
-uv run --offline --no-project python scripts/propose_v4.py --check
-```
+See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full command boundary.
 
-Automated tests use static synthetic metadata and make no CER, STAC, EO, signing, raster, LLM, or model API request. Live run artifacts remain local and ignored.
+## Step 2B Result
 
-## Data Sources And Attribution
+The retained run is `EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f`, executed at commit `9e1fabbf005dd29fba09aa82ea18046e99556e02` with:
 
-The contract identifies official Clean Energy Regulator project records and Microsoft Planetary Computer Sentinel-2 L2A metadata as allowed sources. Source identity in a policy or example is attribution and provenance, not affiliation, endorsement, partnership, regulatory approval, or scientific validation. Sentinel-2 data remains subject to its source terms. Raw source payloads require separate licensing and disclosure review before any public release.
+- policy SHA-256 `3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd`;
+- runtime-spec SHA-256 `e7671981e1edbe9b17d2198d68bd873750c40c9489923c403790c34ae9059b51`;
+- PRE median NDVI `0.6630660903670323`;
+- POST median NDVI `0.6432938994009436`;
+- POST-minus-PRE delta `-0.0197721909660887`;
+- joint coverage `0.9997194163860831`;
+- frozen primary tau `0.03`.
+
+Under the frozen primary policy, the result is `ABSTAINED / INCONCLUSIVE` because the observation falls within the operational indifference band. This is a qualification outcome, not a scientific detection threshold.
+
+Offline replay reproduced the assessment bytes and array hashes. The run is not claimed as fully canonical under Approval Protocol V2 because one diagnostic area field was erroneous and GDAL internal HTTP range requests and retries were not fully represented in request-level transport provenance.
+
+Read the [Step 2B closure and impact audit](docs/STEP2B_V4_CLOSURE.md), its [provenance and replay record](docs/STEP2B_V4_CLOSURE.md#provenance-and-replay), and the documented [governance limitations](docs/STEP2B_V4_CLOSURE.md#governance-limitations). Earlier run history remains available in the [historical V4 audit](docs/STEP2B_V4_THIRD_APPROVED_RUN_AUDIT.md) and [approval-binding incident](docs/incidents/STEP2B_V4_APPROVAL_BINDING_FAILURE.md).
+
+## Repository Layout
+
+- `cases/`: bounded claim contracts.
+- `config/`: evidence, transformation, reason-code, statement, and forbidden-inference registries.
+- `policies/`: immutable historical policies and proposals.
+- `schemas/`: JSON Schemas for contract artifacts.
+- `scripts/`: deterministic validators, offline logic, packaging, and controlled runtime code.
+- `tests/`: synthetic offline tests.
+- `examples/`: reviewed derivatives; not complete run packages.
+- `skill/qualify-environmental-evidence/`: allowlisted packaged skill resources.
+
+Complete live `runs/` directories remain local and ignored. Raw HTTP payloads, caches, raster assets, signed URLs, and credentials are not tracked.
+
+## Data, Licensing, And Citation
+
+The contract identifies official Clean Energy Regulator records and Microsoft Planetary Computer Sentinel-2 L2A metadata as allowed sources. Source identity is attribution and provenance, not affiliation, endorsement, partnership, regulatory approval, or scientific validation.
+
+Original code and other owner-controlled repository material are licensed under [Apache-2.0](LICENSE). That licence does not relicense CER material, Sentinel-2 or Planetary Computer data and metadata, raw network responses, derived or cached artifacts, third-party dependencies, services, or marks. See the [licence scope inventory](docs/DATA_AND_ARTIFACT_LICENSING.md), [third-party notices](THIRD_PARTY_NOTICES.md), [NOTICE](NOTICE), and [CITATION.cff](CITATION.cff).
 
 ## Limitations
 
-- The completed V4 scientific result is one bounded observational comparison with invalid approval binding; it does not generalise beyond the frozen claim, AOI, windows, sources, and policy.
-- A single bounded PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- V4 corrects an engineering unit of account; it does not invalidate V3 or retrospectively alter either failed V4 run.
+- The result is one bounded observational comparison and does not generalise beyond its frozen claim, AOI, windows, sources, and policy.
+- The incorrect projected-area value in `target-grid.json` is diagnostic-only. Bounds, transform, shape, AOI mask, coverage, arrays, composites, NDVI, disposition, and sensitivity did not read that value and were independently reproduced.
+- Request-level provenance does not enumerate GDAL's internal HTTP range requests, and the GDAL retry configuration cannot be claimed as compliant with the frozen logical `0/2/5` retry semantics.
+- Cached array-level replay proves deterministic reconstruction from retained inputs; it does not prove complete original COG transport-byte provenance.
+- A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
+- Step 3 evaluation has not started.
 
-See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [REPRODUCIBILITY.md](REPRODUCIBILITY.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).
+See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).

@@ -366,9 +366,11 @@ def test_historical_policy_science_and_completed_run_hashes_are_preserved():
         assert protocol.sha256_file(failed / "approval" / "approval-consumption.json") == "9f69cc7d03f37a0d4c5587e562a2eccc373f6d03f69ddd303fbe6319842954ac"
 
 
-def test_readme_uses_exact_governance_verdict_and_pending_status():
+def test_readme_uses_exact_closure_and_governance_status():
     readme = (runtime.ROOT / "README.md").read_text(encoding="utf-8")
-    assert "VALID_TECHNICAL_RUN_BUT_APPROVAL_BINDING_INVALID" in readme
-    assert "A corrected pre-authorized run is pending." in readme
+    assert "SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN" in readme
+    assert "not claimed as fully canonical" in readme
+    assert "Step 3 | Not executed and not approved" in readme
+    assert "A corrected pre-authorized run is pending." not in readme
     assert "three approved V4 runs" not in readme
     assert "third approved V4 run" not in readme.lower()

@@ -1,6 +1,6 @@
 # Security Policy
 
-This is a private, pre-release research and engineering repository.
+This is a private, pre-release research PoC. It does not promise enterprise security controls, continuous monitoring, or a response SLA.
 
 ## Sensitive Material
 
@@ -12,4 +12,4 @@ Full runtime directories, raw HTTP responses, raster assets, and AOI chips remai
 
 Report a suspected leak privately to the repository owner. Do not open a public issue or paste the material into chat, logs, commits, or CI output. Rotate exposed credentials before history remediation.
 
-No security support window or public vulnerability disclosure programme is promised while the repository remains private and unlicensed.
+No security support window or public vulnerability disclosure programme is promised while the repository remains private. Repository visibility must remain private until identity, data-disclosure, repository-settings, and release decisions are complete.
