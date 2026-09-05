@@ -1,0 +1,42 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_SAFEGUARD_2024_25_ARCADIA_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_SAFEGUARD_2024_25",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/document/baselines-and-emissions-table-2024-25",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_SAFEGUARD_FACTS",
+    "source_content_sha256": "f23282cb79275bd60a437773611f25ae49adb5f7e60f4cfa4adbb83bb0b50ba3",
+    "source_content_bytes": 48056,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "SAFEGUARD_FACILITY", "subject_id": "SAFEGUARD.2024-25.ARCADIA", "name": "Arcadia"},
+  "facts": [
+    {
+      "fact_id": "CER_SAFEGUARD_ARCADIA.2024-25",
+      "text": "The CER 2024-25 Safeguard table records Arcadia, operated by Santos Limited in Queensland, with baseline emissions of 144,203 tCO2-e, covered emissions of 134,510 tCO2-e and 9,693 SMCs issued.",
+      "claim_families": ["SAFEGUARD_FACILITY_FACTS"],
+      "tags": ["safeguard", "facility_identity", "smc_issuance", "reporting_period"],
+      "subject_type": "SAFEGUARD_FACILITY",
+      "subject_id": "SAFEGUARD.2024-25.ARCADIA",
+      "authority_scope": "PUBLIC_SAFEGUARD_FACTS",
+      "attributes": {
+        "facility_name": "Arcadia",
+        "responsible_emitter": "Santos Limited",
+        "state": "QLD",
+        "reporting_period": "2024-25",
+        "baseline_emissions": 144203,
+        "covered_emissions": 134510,
+        "net_emissions": 134510,
+        "net_position": -9693,
+        "smcs_issued": 9693,
+        "smcs_surrendered": 0,
+        "accus_issued": 0,
+        "accus_surrendered": 0
+      }
+    }
+  ]
+}

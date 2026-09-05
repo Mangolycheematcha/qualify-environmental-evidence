@@ -15,6 +15,7 @@ except ModuleNotFoundError:  # Support `python -m scripts.evaluate_qualification
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_BENCHMARK = ROOT / "evaluation" / "qualification-benchmark.json"
+DEFAULT_OUTPUT = ROOT / "evaluation" / "results" / "qualification-evaluation.json"
 
 
 def _rate(numerator: int, denominator: int) -> float:
@@ -33,12 +34,21 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
     cases = benchmark.get("cases")
     if not isinstance(cases, list) or not cases:
         raise workflow.QualificationError("benchmark must contain at least one case")
+    if benchmark.get("case_count") != len(cases):
+        raise workflow.QualificationError("benchmark case_count does not match cases")
+    group_splits: dict[str, str] = {}
+    for case in cases:
+        prior = group_splits.setdefault(case["group_id"], case["split"])
+        if prior != case["split"]:
+            raise workflow.QualificationError(f"group leakage across splits: {case['group_id']}")
     case_results: list[dict[str, Any]] = []
     exact = deterministic = unsupported = security_passed = 0
     security_total = 0
     refusal_total = refusal_passed = 0
     latencies: list[float] = []
     deterministic_records: list[dict[str, Any]] = []
+    denominators: dict[str, dict[str, int]] = {"split": {}, "source_kind": {}, "category": {}}
+    exact_by_split: dict[str, int] = {}
 
     for case in cases:
         start = time.perf_counter()
@@ -61,6 +71,7 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
         )
         if exact_match:
             exact += 1
+            exact_by_split[case["split"]] = exact_by_split.get(case["split"], 0) + 1
         if deterministic_match:
             deterministic += 1
         if unsupported_assertion:
@@ -75,6 +86,10 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
                 refusal_passed += 1
         record = {
             "case_id": case["case_id"],
+            "group_id": case["group_id"],
+            "split": case["split"],
+            "category": case["category"],
+            "source_kind": case["source_kind"],
             "actual": actual,
             "exact_match": exact_match,
             "deterministic_replay": deterministic_match,
@@ -83,6 +98,9 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
         }
         deterministic_records.append(record)
         case_results.append({**record, "latency_ms": round(latency_ms, 3)})
+        for dimension in denominators:
+            key = case[dimension]
+            denominators[dimension][key] = denominators[dimension].get(key, 0) + 1
 
     total = len(cases)
     metrics = {
@@ -93,6 +111,10 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
         "unsupported_assertion_rate": _rate(unsupported, total),
         "security_case_pass_rate": _rate(security_passed, security_total),
         "p95_latency_ms": round(_percentile_nearest_rank(latencies, 0.95), 3),
+        "split_exact_outcome_rate": {
+            split: _rate(exact_by_split.get(split, 0), count)
+            for split, count in sorted(denominators["split"].items())
+        },
     }
     thresholds = benchmark["thresholds"]
     checks = {
@@ -114,6 +136,9 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
         "network_access": False,
         "model_api_used": False,
         "hallucination_evaluation_scope": "DETERMINISTIC_UNSUPPORTED_ASSERTION_PROXY_ONLY",
+        "label_authority": benchmark["label_authority"],
+        "denominators": {dimension: dict(sorted(values.items())) for dimension, values in denominators.items()},
+        "group_leakage_check": "PASS",
         "metrics": metrics,
         "threshold_checks": checks,
         "deterministic_outcomes_sha256": outcome_sha256,
@@ -126,6 +151,7 @@ def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description="Evaluate the offline qualification workflow.")
     parser.add_argument("--benchmark", type=Path, default=DEFAULT_BENCHMARK)
     parser.add_argument("--json", action="store_true", help="Emit compact JSON.")
+    parser.add_argument("--write", action="store_true", help="Write the evaluation report artifact.")
     return parser
 
 
@@ -136,6 +162,9 @@ def main(argv: list[str] | None = None) -> int:
     except workflow.QualificationError as exc:
         print(json.dumps({"outcome": "INVALID_EVALUATION_INPUT", "detail": str(exc)}, sort_keys=True))
         return 2
+    if args.write:
+        DEFAULT_OUTPUT.parent.mkdir(parents=True, exist_ok=True)
+        DEFAULT_OUTPUT.write_text(json.dumps(report, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
     print(json.dumps(report, sort_keys=True, separators=(",", ":")) if args.json else json.dumps(report, indent=2))
     return 0 if report["evaluation_status"] == "PASS" else 1
 

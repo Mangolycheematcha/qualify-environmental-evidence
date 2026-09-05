@@ -13,12 +13,11 @@ from jsonschema import Draft202012Validator, FormatChecker
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_EVIDENCE_PATHS = (
-    ROOT / "data" / "cer" / "eop101132-project-record.json",
-    ROOT / "data" / "cer" / "accu-smc-public-definitions.json",
-    ROOT / "examples" / "qualification" / "eop101132-frozen-observation.json",
-)
 TOKEN_RE = re.compile(r"[a-z0-9]+")
+MAX_EVIDENCE_DOCUMENTS = 100
+MAX_EVIDENCE_FACTS = 1000
+MAX_EVIDENCE_BYTES = 1_000_000
+MAX_QUESTION_CHARS = 2_000
 
 
 class QualificationError(ValueError):
@@ -102,7 +101,10 @@ class EvidenceMemory:
         self.documents: dict[str, dict[str, Any]] = {}
         self.facts: dict[str, dict[str, Any]] = {}
         snapshot: list[dict[str, str]] = []
+        fact_count = 0
         for path, document in documents:
+            if path.stat().st_size > MAX_EVIDENCE_BYTES:
+                raise QualificationError(f"evidence document exceeds {MAX_EVIDENCE_BYTES} bytes: {path}")
             validate_schema(document, schema, f"evidence document {path}")
             evidence_id = document["evidence_id"]
             if evidence_id in self.documents:
@@ -111,7 +113,8 @@ class EvidenceMemory:
             source_policy = source_policies.get(source["source_id"])
             if source_policy is None:
                 raise QualificationError(f"unregistered evidence source: {source['source_id']}")
-            if source["canonical_uri"] != source_policy["canonical_uri"]:
+            allowed_uris = source_policy.get("canonical_uris", [source_policy.get("canonical_uri")])
+            if source["canonical_uri"] not in allowed_uris:
                 raise QualificationError(f"canonical URI mismatch for source: {source['source_id']}")
             if source["authority_scope"] != source_policy["authority_scope"]:
                 raise QualificationError(f"authority scope mismatch for source: {source['source_id']}")
@@ -120,6 +123,9 @@ class EvidenceMemory:
             self.documents[evidence_id] = record
             snapshot.append({"evidence_id": evidence_id, "document_sha256": document_hash})
             for fact in document["facts"]:
+                fact_count += 1
+                if fact_count > MAX_EVIDENCE_FACTS:
+                    raise QualificationError(f"evidence fact count exceeds {MAX_EVIDENCE_FACTS}")
                 fact_id = fact["fact_id"]
                 if fact_id in self.facts:
                     raise QualificationError(f"duplicate fact_id: {fact_id}")
@@ -143,12 +149,15 @@ class EvidenceMemory:
         resolved = [Path(path).resolve() for path in paths]
         if not resolved:
             raise QualificationError("at least one evidence document is required")
+        if len(resolved) > MAX_EVIDENCE_DOCUMENTS:
+            raise QualificationError(f"evidence document count exceeds {MAX_EVIDENCE_DOCUMENTS}")
         return cls(((path, load_json(path)) for path in resolved), schema, source_policies)
 
     def retrieve(
         self,
         *,
-        project_id: str,
+        subject_type: str,
+        subject_id: str,
         claim_family: str,
         question: str,
         required_tags: list[str],
@@ -159,12 +168,12 @@ class EvidenceMemory:
         for fact_id, fact in self.facts.items():
             if claim_family not in fact["claim_families"]:
                 continue
-            if fact["project_id"] not in {None, project_id}:
+            if fact["subject_type"] != subject_type or fact["subject_id"] != subject_id:
                 continue
             tags = set(fact["tags"])
             fact_tokens = set(tokenize(fact["text"] + " " + " ".join(fact["tags"])))
             score = 100 * len(tags & required)
-            score += 20 if fact["project_id"] == project_id else 0
+            score += 20
             score += len(set(query_tokens) & fact_tokens)
             candidates.append((score, fact_id, fact))
         candidates.sort(key=lambda item: (-item[0], item[1]))
@@ -179,11 +188,11 @@ class EvidenceMemory:
 
 
 def default_evidence_paths(root: Path = ROOT) -> tuple[Path, ...]:
-    return (
-        root / "data" / "cer" / "eop101132-project-record.json",
-        root / "data" / "cer" / "accu-smc-public-definitions.json",
-        root / "examples" / "qualification" / "eop101132-frozen-observation.json",
+    public_documents = tuple(
+        path for path in sorted((root / "data" / "cer").glob("*.json"))
+        if path.name != "corpus-manifest.json"
     )
+    return public_documents + (root / "examples" / "qualification" / "eop101132-frozen-observation.json",)
 
 
 def _check_frozen_reference(facts: list[dict[str, Any]], policy: dict[str, Any]) -> bool:
@@ -217,15 +226,33 @@ def _evidence_refs(facts: list[dict[str, Any]]) -> list[dict[str, str]]:
     ]
 
 
+def _evidence_is_consistent(facts: list[dict[str, Any]]) -> bool:
+    assertions: dict[str, set[bytes]] = {}
+    for fact in facts:
+        key = fact.get("assertion_key")
+        if key is not None:
+            assertions.setdefault(key, set()).add(canonical_bytes(fact.get("assertion_value")))
+    return all(len(values) == 1 for values in assertions.values())
+
+
 def _build_statement(claim_family: str, facts: list[dict[str, Any]]) -> tuple[str, str, str, list[str]]:
     by_id = {fact["fact_id"]: fact for fact in facts}
     if claim_family == "REGISTRY_FACTS":
-        identity = by_id["CER_EOP101132.IDENTITY"]["attributes"]
-        timing = by_id["CER_EOP101132.TIMING"]["attributes"]
+        identity = next(fact["attributes"] for fact in facts if "project_identity" in fact["tags"])
+        timing = next(fact["attributes"] for fact in facts if "timing" in fact["tags"])
         statement = (
             f"The CER public record identifies {identity['project_id']} as {identity['project_name']}, "
             f"a {identity['method_type']} project in {identity['project_location']}, with model start date "
-            f"{timing['model_start_date']}. This is a registry-fact restatement, not a project-quality conclusion."
+            f"{timing.get('model_start_date') or 'not listed'}. This is a registry-fact restatement, not a project-quality conclusion."
+        )
+        return "QUALIFIED", "SUPPORTED", statement, []
+    if claim_family == "SAFEGUARD_FACILITY_FACTS":
+        record = next(fact["attributes"] for fact in facts if "facility_identity" in fact["tags"])
+        statement = (
+            f"For the {record['reporting_period']} Safeguard publication, the CER record lists {record['facility_name']} "
+            f"with baseline emissions {record['baseline_emissions']}, covered emissions {record['covered_emissions']}, "
+            f"and {record['smcs_issued']} SMCs issued. This is a facility-period record, not an ACCU project record "
+            "or a general prediction of future SMC eligibility."
         )
         return "QUALIFIED", "SUPPORTED", statement, []
     if claim_family == "ACCU_SMC_SEMANTIC_BOUNDARY":
@@ -265,6 +292,8 @@ def run_qualification(
     result_schema = load_json(root / "schemas" / "qualification-result.schema.json")
     policy = load_json(root / "config" / "semantic-boundaries.json")
     validate_schema(request, request_schema, "qualification request")
+    if len(request["question"]) > MAX_QUESTION_CHARS:
+        raise QualificationError(f"question exceeds {MAX_QUESTION_CHARS} characters")
     memory = EvidenceMemory.from_paths(
         evidence_paths or default_evidence_paths(root),
         document_schema,
@@ -274,7 +303,8 @@ def run_qualification(
     common = {
         "schema_version": "1.0.0",
         "request_id": request["request_id"],
-        "project_id": request["project_id"],
+        "subject_type": request["subject_type"],
+        "subject_id": request["subject_id"],
         "claim_family": claim_family,
         "must_not_claim": policy["must_not_claim"],
         "human_review_required": True,
@@ -300,6 +330,8 @@ def run_qualification(
                 "evidence_identity": "NOT_RUN",
                 "source_authority": "NOT_RUN",
                 "evidence_completeness": "NOT_RUN",
+                "source_freshness": "NOT_RUN",
+                "evidence_consistency": "NOT_RUN",
                 "non_inference": "PASS",
                 "frozen_result_integrity": "NOT_RUN",
                 "deterministic_serialization": "PASS",
@@ -312,8 +344,38 @@ def run_qualification(
         return _finalize(result, result_schema)
 
     rule = policy["allowed_claim_families"][claim_family]
+    if request["subject_type"] not in rule["permitted_subject_types"]:
+        result = {
+            **common,
+            "workflow_status": "ERROR",
+            "qualification": None,
+            "reason_codes": ["ENTITY_TYPE_MISMATCH"],
+            "bounded_statement": None,
+            "evidence_refs": [],
+            "retrieval_trace": {
+                "query_tokens": tokenize(request["question"]),
+                "required_tags": sorted(rule["required_fact_tags"]),
+                "candidate_fact_count": 0,
+                "selected_fact_ids": [],
+            },
+            "assurance_checks": {
+                "request_schema": "PASS",
+                "semantic_authority": "FAIL",
+                "evidence_identity": "NOT_RUN",
+                "source_authority": "NOT_RUN",
+                "evidence_completeness": "NOT_RUN",
+                "source_freshness": "NOT_RUN",
+                "evidence_consistency": "NOT_RUN",
+                "non_inference": "PASS",
+                "frozen_result_integrity": "NOT_RUN",
+                "deterministic_serialization": "PASS",
+            },
+            "limitations": ["The claim family is not valid for the requested entity type."],
+        }
+        return _finalize(result, result_schema)
     facts, trace = memory.retrieve(
-        project_id=request["project_id"],
+        subject_type=request["subject_type"],
+        subject_id=request["subject_id"],
         claim_family=claim_family,
         question=request["question"],
         required_tags=rule["required_fact_tags"],
@@ -322,13 +384,19 @@ def run_qualification(
     complete = set(rule["required_fact_tags"]).issubset(observed_tags)
     allowed_authority = {
         "REGISTRY_FACTS": {"PUBLIC_REGISTRY_FACTS"},
+        "SAFEGUARD_FACILITY_FACTS": {"PUBLIC_SAFEGUARD_FACTS"},
         "OBSERVATIONAL_CONSISTENCY": {"PUBLIC_REGISTRY_FACTS", "BOUNDED_OBSERVATION_ONLY"},
         "ACCU_SMC_SEMANTIC_BOUNDARY": {"PUBLIC_UNIT_DEFINITION"},
+        "POLICY_APPLICABILITY": {"PUBLIC_REGISTRY_FACTS"},
     }[claim_family]
     source_authority_ok = bool(facts) and all(fact["authority_scope"] in allowed_authority for fact in facts)
     frozen_ok = claim_family != "OBSERVATIONAL_CONSISTENCY" or _check_frozen_reference(facts, policy)
-    if not complete or not source_authority_ok or not frozen_ok:
-        reason = "PROVENANCE_HASH_MISMATCH" if not frozen_ok else "EVIDENCE_SOURCE_NOT_ALLOWED" if not source_authority_ok else "REQUIRED_EVIDENCE_MISSING"
+    source_date_ok = not request.get("minimum_source_date") or (
+        bool(facts) and all(fact["_source"]["accessed_on"] >= request["minimum_source_date"] for fact in facts)
+    )
+    evidence_consistent = _evidence_is_consistent(facts)
+    if not complete or not source_authority_ok or not frozen_ok or not source_date_ok or not evidence_consistent:
+        reason = "REQUIRED_EVIDENCE_MISSING" if not facts else "EVIDENCE_CONFLICT_UNRESOLVED" if not evidence_consistent else "PROVENANCE_HASH_MISMATCH" if not frozen_ok else "EVIDENCE_TEMPORAL_MISMATCH" if not source_date_ok else "EVIDENCE_SOURCE_NOT_ALLOWED" if not source_authority_ok else "REQUIRED_EVIDENCE_MISSING"
         result = {
             **common,
             "workflow_status": "ERROR",
@@ -343,6 +411,8 @@ def run_qualification(
                 "evidence_identity": "PASS" if facts else "FAIL",
                 "source_authority": "PASS" if source_authority_ok else "FAIL",
                 "evidence_completeness": "PASS" if complete else "FAIL",
+                "source_freshness": "PASS" if source_date_ok else "FAIL",
+                "evidence_consistency": "PASS" if evidence_consistent else "FAIL",
                 "non_inference": "PASS",
                 "frozen_result_integrity": "PASS" if frozen_ok else "FAIL",
                 "deterministic_serialization": "PASS",
@@ -375,6 +445,8 @@ def run_qualification(
             "evidence_identity": "PASS",
             "source_authority": "PASS",
             "evidence_completeness": "PASS",
+            "source_freshness": "PASS",
+            "evidence_consistency": "PASS",
             "non_inference": "PASS",
             "frozen_result_integrity": "PASS" if claim_family == "OBSERVATIONAL_CONSISTENCY" else "NOT_RUN",
             "deterministic_serialization": "PASS",

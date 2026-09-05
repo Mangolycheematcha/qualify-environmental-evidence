@@ -10,7 +10,7 @@ Use this skill when the user asks to:
 - qualify whether allowlisted CER and Earth-observation evidence could support a bounded observational claim;
 - check whether an evidence question exceeds the observational authority ceiling;
 - validate a claim contract, assessment, or provenance manifest for this PoC;
-- run the offline EOP101132 qualification demo against curated CER public facts and the frozen Step 2B summary;
+- run the offline qualification demo against curated facts for seven ACCU projects, one Safeguard facility-period row, unit definitions, and the frozen EOP101132 Step 2B summary;
 - explain the CER-defined semantic boundary between ACCUs and SMCs without treating them as interchangeable;
 - produce an auditable specification-mode status with registered reason codes.
 
@@ -23,10 +23,10 @@ Do not trigger it for general GIS or remote-sensing instruction, broad ESG resea
 3. Read [accu-smc-boundary.md](references/accu-smc-boundary.md) for any ACCU/SMC question.
 4. Read [contract-and-status.md](references/contract-and-status.md) for legacy contract/status semantics.
 5. Read [evidence-identity.md](references/evidence-identity.md) and [provenance-and-cli.md](references/provenance-and-cli.md) before reporting evidence or hashes.
-6. Run `python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json` for the packaged offline demo. Run `python scripts/evaluate_qualification.py --json` for the deterministic Step 3 benchmark.
+6. Run `python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json` for a packaged offline demo. Run `python scripts/evaluate_qualification.py --json` for the 80-case deterministic Step 3 benchmark, `python scripts/evaluate_retrieval.py --json` for the 25-query comparison, or `python scripts/run_e2e_demos.py --json` for four end-to-end journeys.
 7. Use `python scripts/qualify.py <case.json> --json` for legacy contract validation. Add both `--assessment` and `--manifest` only for authoritative linked validation.
 8. Report structured status, reason codes, selected fact IDs, canonical source identities, document/result hashes, limitations, and review requirements. Never request or store private chain-of-thought.
 
-The legacy case specification remains `runtime_ready=false` and contract-only. The separate workflow layer reads curated CER public facts and a hash-bound derivative of the completed frozen Step 2B assessment. It does not run EO processing, modify the historical run, consume approval, or turn a registry fact into an empirical, compliance, credit-quality, or financial conclusion.
+The legacy case specification remains `runtime_ready=false` and contract-only. The separate workflow layer reads curated CER public facts and a hash-bound derivative of the completed frozen Step 2B assessment. Evidence, checkpoints, and user preferences use separate local stores; completed session replay is bound to content-addressed evidence snapshots. It does not run EO processing, modify the historical run, consume approval, or turn a registry or Safeguard fact into an empirical, compliance, credit-quality, tokenisation, or financial conclusion.
 
 ABSTAIN when required evidence is unresolved or the frozen assessment is inconclusive. REFUSE before retrieval when the requested conclusion exceeds evidence-qualification authority. Stop for human or specialist review at every trigger listed in the authority reference. The packaged workflow can replay evidence qualification, but scientific execution remains unavailable and no new empirical result may be generated.

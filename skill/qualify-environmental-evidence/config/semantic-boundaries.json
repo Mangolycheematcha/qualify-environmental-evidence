@@ -3,8 +3,20 @@
   "default_authority_ceiling": "EVIDENCE_QUALIFICATION_ONLY",
   "source_policies": {
     "CER_PROJECT_RECORD": {
-      "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+      "canonical_uris": [
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP100183",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101053",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101126",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101132",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF101444",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF108333",
+        "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF169256"
+      ],
       "authority_scope": "PUBLIC_REGISTRY_FACTS"
+    },
+    "CER_SAFEGUARD_2024_25": {
+      "canonical_uri": "https://cer.gov.au/document/baselines-and-emissions-table-2024-25",
+      "authority_scope": "PUBLIC_SAFEGUARD_FACTS"
     },
     "CER_ACCU_SMC_PUBLIC_DEFINITIONS": {
       "canonical_uri": "https://cer.gov.au/schemes/safeguard-mechanism/safeguard-mechanism-credit-units",
@@ -13,20 +25,41 @@
     "FROZEN_STEP2B_V4_ASSESSMENT": {
       "canonical_uri": "urn:qualify-environmental-evidence:run:EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f",
       "authority_scope": "BOUNDED_OBSERVATION_ONLY"
+    },
+    "SYNTHETIC_CONFLICT_A": {
+      "canonical_uri": "urn:qualification-test:conflict-a",
+      "authority_scope": "SYNTHETIC_TEST_ONLY"
+    },
+    "SYNTHETIC_CONFLICT_B": {
+      "canonical_uri": "urn:qualification-test:conflict-b",
+      "authority_scope": "SYNTHETIC_TEST_ONLY"
     }
   },
   "allowed_claim_families": {
     "REGISTRY_FACTS": {
+      "permitted_subject_types": ["ACCU_PROJECT"],
       "required_fact_tags": ["registry", "project_identity"],
       "permitted_output": "Restate source-attributed public registry facts without evaluating project quality."
     },
+    "SAFEGUARD_FACILITY_FACTS": {
+      "permitted_subject_types": ["SAFEGUARD_FACILITY"],
+      "required_fact_tags": ["safeguard", "facility_identity", "smc_issuance"],
+      "permitted_output": "Restate one source-attributed Safeguard facility-period record without transferring ACCU project semantics or predicting eligibility."
+    },
     "OBSERVATIONAL_CONSISTENCY": {
+      "permitted_subject_types": ["ACCU_PROJECT"],
       "required_fact_tags": ["frozen_observation", "registry"],
       "permitted_output": "Report the frozen bounded observation and its existing disposition without causal, carbon, compliance, credit-quality, or financial inference."
     },
     "ACCU_SMC_SEMANTIC_BOUNDARY": {
+      "permitted_subject_types": ["UNIT_CONCEPTS"],
       "required_fact_tags": ["accu_definition", "smc_definition", "unit_distinction"],
       "permitted_output": "Explain source-defined differences between ACCUs and SMCs without asserting interchangeability, price equivalence, quality, or trading suitability."
+    },
+    "POLICY_APPLICABILITY": {
+      "permitted_subject_types": ["ACCU_PROJECT", "SAFEGUARD_FACILITY"],
+      "required_fact_tags": ["applicable_policy"],
+      "permitted_output": "Report policy applicability only when an authoritative policy-applicability fact is present."
     }
   },
   "refused_claim_families": {

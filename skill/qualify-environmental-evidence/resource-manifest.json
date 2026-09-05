@@ -20,7 +20,7 @@
     },
     {
       "path": "config/semantic-boundaries.json",
-      "sha256": "d8688a642ca9360b65c8e72dcc2f178d06c24e2fe7466d9bbe48655fd67f7879"
+      "sha256": "9647fc91b3756baba54353fb623e8cb054cc2b736d893001ef2e9b5414c371ba"
     },
     {
       "path": "config/statement-templates.json",
@@ -28,15 +28,15 @@
     },
     {
       "path": "schemas/evidence-memory-document.schema.json",
-      "sha256": "d2411aa695eae3e9283a14b4b59c20611f8fdb6da5b56f327c7711936f69e92a"
+      "sha256": "45e5555e87bb038cd1fb9eb2d0d7b068d04ad3ac1bc54717dfadf2c259f2d10d"
     },
     {
       "path": "schemas/qualification-request.schema.json",
-      "sha256": "faa8cfe743935a74b4c419a50127eaea80424346528426a4e5c5ececec8a6304"
+      "sha256": "bd1f4dce41be3bbb35366fb34d8cf92472fff0da5339661d35fbdc33ba96b19d"
     },
     {
       "path": "schemas/qualification-result.schema.json",
-      "sha256": "2e181e9ed5b2c076d36719306ee11748120431defc17af349c706b24371c0064"
+      "sha256": "4a0c62c141cc3a44e9c0b7a5fa2ea89ddcbdfe616cc631252d5f7ac7b8b2b95a"
     },
     {
       "path": "schemas/assessment-output.schema.json",
@@ -76,27 +76,67 @@
     },
     {
       "path": "data/cer/accu-smc-public-definitions.json",
-      "sha256": "113225d435bfc23763edfacf2648f832c416b7de540362074fc71431cf1d6b62"
+      "sha256": "cad711bc907233923a5c442419a3820432f48af6ac91612a4cfdbf777a77eefc"
+    },
+    {
+      "path": "data/cer/corpus-manifest.json",
+      "sha256": "d2ff086f0f7ae1c8516df896b1f9a5798ad2b9deac7fe994470a5275b8199b79"
+    },
+    {
+      "path": "data/cer/eop100183-project-record.json",
+      "sha256": "5a0dd9a7ae623c255557043625cc1bd349f9dc22fe4e5c72463fd513a8108cb4"
+    },
+    {
+      "path": "data/cer/eop101053-project-record.json",
+      "sha256": "6a438ccc132d10fd006ac53d6a72231aa913c96c60e27033f81c804bc6669576"
+    },
+    {
+      "path": "data/cer/eop101126-project-record.json",
+      "sha256": "b95c1c9d9348fdf3ea314cdd8b87ed921d9316134f7f295674c086223ec3453b"
     },
     {
       "path": "data/cer/eop101132-project-record.json",
-      "sha256": "53ad9bbcbd8844a94d9156767501699c5ff8cff2b7810d65423fb1d4d96f86ef"
+      "sha256": "ab0cf8084ff6b798e22c884d0fd695b3488e718f76eba9de59ad974807976d10"
+    },
+    {
+      "path": "data/cer/erf101444-project-record.json",
+      "sha256": "ef38170f976f310195858c89f78601a3fb6790fa24e89868bf09c15bf8866f82"
+    },
+    {
+      "path": "data/cer/erf108333-project-record.json",
+      "sha256": "47841638bdb557a3b3d904354d255680008825b1a2cac85264310b21d7a1c711"
+    },
+    {
+      "path": "data/cer/erf169256-project-record.json",
+      "sha256": "f4f7b09654e37483d0834c6056754470656df45fc9925fc4272aee0a733ae325"
+    },
+    {
+      "path": "data/cer/safeguard-2024-25-arcadia.json",
+      "sha256": "24b0897ba08471e99d7c3792d49758a5147ba1bf06d6cfc870c4849d32795e1f"
+    },
+    {
+      "path": "evaluation/held-out-freeze.json",
+      "sha256": "6e0da30e581ede49903c17280070f83b64543e5965ef407abae07424f2672ecc"
     },
     {
       "path": "evaluation/qualification-benchmark.json",
-      "sha256": "93720518f9a96bf04f334aaa950079cf0bea789c91e2c77609aceacac82b8d16"
+      "sha256": "5b173b5d4146428aff0c1da78392234b3d83e2573773d216c6cd04b6f788dc46"
+    },
+    {
+      "path": "evaluation/retrieval-benchmark.json",
+      "sha256": "3653de551a5b8c5a4fd19f385dbae3d4bd1406ef6c1c51b405eaced426404043"
     },
     {
       "path": "examples/qualification/accu-smc-boundary-request.json",
-      "sha256": "7b94841729099e54b4de47ed69d9aa01f083ff45864d5f3de04847530462b946"
+      "sha256": "0da7475383241ff3cbfbda65b494629a0eb3c637ba4a8fff09da39e37f22fc0c"
     },
     {
       "path": "examples/qualification/eop101132-frozen-observation.json",
-      "sha256": "d5b1c3790a29ff7f8c17ea1e4c1e8726621738e7c9e6d26f1c56a74cc97b6a4f"
+      "sha256": "fe9cae5c53caf6a207b1b02616d087943c75957f3a8473bb78677b7261076cd7"
     },
     {
       "path": "examples/qualification/eop101132-request.json",
-      "sha256": "bdcbd2258934c5c861ee62653ffe717fdd987be6b2740e44af179b043e3d74f5"
+      "sha256": "907cef2ccc05faa60ed1b2196527f245be2a3b9807c78f614ea1df3ecf414f47"
     },
     {
       "path": "policies/eop101132/step2b-proposed-policy.json",
@@ -112,11 +152,27 @@
     },
     {
       "path": "scripts/evaluate_qualification.py",
-      "sha256": "1dacc161987a8cb75815419ba0fd74896d457d2bcb127ccb61b05c39db210000"
+      "sha256": "dfbe6c826fd36cbe948e14d3f15d1feb99142fe0c414a2e81035e9da217f803f"
+    },
+    {
+      "path": "scripts/evaluate_retrieval.py",
+      "sha256": "4ada6b7c166f3649fa5c047829483f6c334704d061d3d78ebd84843d6d93b836"
+    },
+    {
+      "path": "scripts/qualification_session.py",
+      "sha256": "115539e6d11d2449ff700c3f4b2149a30b230ec1176717902776c9b31aadaa35"
     },
     {
       "path": "scripts/qualification_workflow.py",
-      "sha256": "0b53ad0aa1e553facdcca88ccf40f05e9bb79a29d3c01493685a55b55be10460"
+      "sha256": "7ad1d326f7299eda4444feb09bdc0fc2364f0947093c4ad2e99fe3931dc660db"
+    },
+    {
+      "path": "scripts/retrieval_memory.py",
+      "sha256": "65e4593545ce438d41226a24d2256c44396d4659046c9d75cc7cd408769ce12c"
+    },
+    {
+      "path": "scripts/run_e2e_demos.py",
+      "sha256": "4b612cabe9f86ff1805c54443991cb7a221cab0c02b0b583c4d6a67bb5e309b0"
     },
     {
       "path": "scripts/step2b_acquisition.py",

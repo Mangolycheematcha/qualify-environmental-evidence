@@ -1,7 +1,8 @@
 {
   "schema_version": "1.0.0",
   "request_id": "DEMO-ACCU-SMC-BOUNDARY",
-  "project_id": "EOP101132",
+  "subject_type": "UNIT_CONCEPTS",
+  "subject_id": "ACCU_SMC",
   "claim_family": "ACCU_SMC_SEMANTIC_BOUNDARY",
   "question": "What semantic boundary must be preserved between an ACCU and a Safeguard Mechanism credit unit?",
   "requested_output": "BOUNDED_EVIDENCE_MEMO"

@@ -18,9 +18,12 @@ financial workflows.
 | Scientific result | Retained: `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
 | Cached replay | Assessment bytes, array hashes, grouping, composites, and joint mask reproduced |
 | Canonical/governance status | Governance limitations documented; not claimed as fully canonical |
-| Step 3 offline evaluation | Deterministic behavior, unsupported-assertion proxy, performance, and security benchmark implemented and tested |
-| Step 3 model/API evaluation | Not executed; human-labelled, LLM, live CER refresh, and deployment evaluation remain pending |
-| Public-release readiness | Internal-review-ready; licence, identity, and release decisions remain open |
+| CER qualification corpus | Seven real ACCU projects across six method types plus one real 2024-25 Safeguard facility-period row |
+| Step 3 deterministic evaluation | 80/80 engineering cases; 27 group-held-out; 25-query retrieval comparison; four E2E journeys |
+| Security and performance | 8 executed security cases plus 2 explicit N/A surfaces; measured cold/warm p50/p95 |
+| Step 3 model/API evaluation | Adapter and matched B0/B1/T1 design implemented; 0/27 live cases per arm because no credential is configured |
+| Independent human evaluation | H1 0/27; blocked pending independent annotation; repository expectations are not human gold |
+| Public release and hosting | Prepared documentation and offline package only; no push, release, visibility change, API service, or deployment |
 
 The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`.
 
@@ -62,6 +65,7 @@ The end-to-end offline qualification demo is:
 ```text
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_qualification.py --json
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/run_e2e_demos.py --json
 ```
 
 The complete offline suite is:
@@ -78,7 +82,7 @@ uv run --offline --no-project python scripts/freeze_v4_runtime_spec.py --check
 | Cached replay verification | `OFFLINE-ONLY`; the completed private run package is immutable, so do not invoke the replay writer against it |
 | Live EO runtime | `LIVE/NETWORK` and `APPROVAL-CONSUMING`; intentionally not presented as a quick start |
 | Step 3 deterministic evaluation | `OFFLINE-ONLY`; no model or external API is used |
-| Step 3 model/API evaluation | Not implemented or executed |
+| Step 3 model/API evaluation | Adapter implemented; no call executed; requires explicit authorization, credential and selected model |
 
 See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full command boundary.
 
@@ -133,6 +137,6 @@ Original code and other owner-controlled repository material are licensed under 
 - Evidence memory is local and content-addressed; it is not user memory, a vector database, or a claim of semantic completeness.
 - The Step 3 unsupported-assertion metric evaluates the deterministic rule system only, not an LLM hallucination rate.
 - A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- Step 3 model/API, human-labelled, multi-project, and deployment evaluation has not started.
+- Step 3 B0/B1/T1 live model evaluation and H1 independent annotation have not run. Multi-project deterministic evaluation has run; hosting has not.
 
 See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).

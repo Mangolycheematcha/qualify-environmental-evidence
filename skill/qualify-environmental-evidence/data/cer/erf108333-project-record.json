@@ -1,0 +1,49 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_ERF108333_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/ERF108333",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS",
+    "source_content_sha256": "1eb622bbf058ccccb70f9c5527cdc77d52581af0ac401b97043d83cff8c0f00f",
+    "source_content_bytes": 150167,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "ACCU_PROJECT", "subject_id": "ERF108333", "name": "Bonnie Doone Soil Carbon Project"},
+  "facts": [
+    {
+      "fact_id": "CER_ERF108333.IDENTITY",
+      "text": "The CER record identifies ERF108333 as the Bonnie Doone Soil Carbon Project, an Agriculture project in Queensland.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity", "method"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"project_id": "ERF108333", "project_name": "Bonnie Doone Soil Carbon Project", "method_type": "Agriculture", "method": "Carbon Credits (Carbon Farming Initiative-Estimation of Soil Organic Carbon Sequestration using Measurement and Models) Methodology Determination 2021", "project_location": "Queensland"}
+    },
+    {
+      "fact_id": "CER_ERF108333.TIMING",
+      "text": "The CER record lists registration on 25 January 2017, a crediting period through 24 January 2042, and a 25-year permanence period beginning 7 September 2023.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"registration_date": "2017-01-25", "crediting_period_start": "2017-01-25", "crediting_period_end": "2042-01-24", "model_start_date": null, "permanence_period_years": 25}
+    },
+    {
+      "fact_id": "CER_ERF108333.CONTEXT",
+      "text": "The record lists carbon estimation area and project area mapping files and 94,666 KACCUs issued with zero relinquished.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "issuance", "mapping_availability"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"mapping_file_types": ["CEA_ZIP", "PROJECT_KML"], "total_kaccus_issued": 94666, "total_kaccus_relinquished": 0}
+    }
+  ]
+}

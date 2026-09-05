@@ -1,0 +1,49 @@
+{
+  "document_schema_version": "1.0.0",
+  "evidence_id": "CER_EOP101053_PROJECT_RECORD_2026-09-05",
+  "evidence_type": "CER_PUBLIC_RECORD",
+  "source": {
+    "source_id": "CER_PROJECT_RECORD",
+    "publisher": "Clean Energy Regulator",
+    "canonical_uri": "https://cer.gov.au/schemes/australian-carbon-credit-unit-scheme/accu-project-and-contract-register/project/EOP101053",
+    "accessed_on": "2026-09-05",
+    "retrieval_mode": "CURATED_PUBLIC_FACTS",
+    "authority_scope": "PUBLIC_REGISTRY_FACTS",
+    "source_content_sha256": "98963a9aa47c2ee904c3c2edf50de2c73806832195be3da53348427f71d6b58c",
+    "source_content_bytes": 152712,
+    "redistribution_status": "FACTUAL_EXTRACT_ONLY_NO_RAW_REDISTRIBUTION"
+  },
+  "subject": {"subject_type": "ACCU_PROJECT", "subject_id": "EOP101053", "name": "Moquilambo Native Forest Protection Project"},
+  "facts": [
+    {
+      "fact_id": "CER_EOP101053.IDENTITY",
+      "text": "The CER record identifies EOP101053 as the Moquilambo Native Forest Protection Project, a Vegetation project in New South Wales under the Avoided Deforestation 1.1 method.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "project_identity", "method"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"project_id": "EOP101053", "project_name": "Moquilambo Native Forest Protection Project", "method_type": "Vegetation", "method": "Carbon Credits (Carbon Farming Initiative-Avoided Deforestation 1.1) Methodology Determination 2015", "project_location": "New South Wales"}
+    },
+    {
+      "fact_id": "CER_EOP101053.TIMING",
+      "text": "The CER record lists registration on 18 February 2015 and a crediting period from 1 July 2010 to 30 June 2025; no model start date is listed.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "timing"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"registration_date": "2015-02-18", "crediting_period_start": "2010-07-01", "crediting_period_end": "2025-06-30", "model_start_date": null}
+    },
+    {
+      "fact_id": "CER_EOP101053.CONTEXT",
+      "text": "The record lists carbon estimation area and project area mapping files and 1,102,347 KACCUs issued with zero relinquished.",
+      "claim_families": ["REGISTRY_FACTS"],
+      "tags": ["registry", "issuance", "mapping_availability"],
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "authority_scope": "PUBLIC_REGISTRY_FACTS",
+      "attributes": {"mapping_file_types": ["CEA_ZIP", "PROJECT_KML"], "total_kaccus_issued": 1102347, "total_kaccus_relinquished": 0, "project_area_changed_on": "2026-05-07"}
+    }
+  ]
+}

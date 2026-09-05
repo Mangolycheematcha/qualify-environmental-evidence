@@ -6,6 +6,8 @@ No repository text should be interpreted as Microsoft affiliation, Clean Energy 
 
 Raw HTTP payloads, imagery, metadata assets, and raster chips are excluded from the Git baseline until their licensing, redistribution, privacy, credential, and disclosure status is reviewed. Curated examples contain only redacted derivatives that passed local secret, signed-URL, and machine-path scans.
 
-`data/cer/` contains small curated fact snapshots from the official EOP101132 project page and CER ACCU/SMC definition page, both accessed on 2026-09-05. They support the offline demo but are not complete source pages, register exports, continuously refreshed data, or an implemented CER API contract.
+`data/cer/` contains small curated factual snapshots from seven official ACCU project pages, the CER ACCU/SMC definition page, and one row from the official 2024-25 Safeguard baselines and emissions CSV, accessed on 2026-09-05. The project sample spans six method types, mapping availability, issuance variation, a revoked project, and an enforceable undertaking. `data/cer/corpus-manifest.json` records each local snapshot hash plus the independently captured raw source byte hash and byte count. Raw source responses are not redistributed.
+
+These snapshots support the offline demo but are not complete source pages, complete register exports, continuously refreshed data, or an implemented stable CER API. The Safeguard row is a facility-period record and must not be transferred into ACCU project semantics.
 
 See `THIRD_PARTY_NOTICES.md` and `docs/DATA_AND_ARTIFACT_LICENSING.md` for the tracked-material inventory, licence boundary, and unresolved release decisions.

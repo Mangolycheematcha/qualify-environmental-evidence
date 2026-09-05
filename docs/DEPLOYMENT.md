@@ -9,6 +9,7 @@ Repository CLI:
 ```text
 python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
 python scripts/evaluate_qualification.py --json
+python scripts/run_e2e_demos.py --json
 ```
 
 Packaged skill:
@@ -28,9 +29,11 @@ The package manifest binds every managed resource by SHA-256. The standalone pac
 ## Not Deployed
 
 - No hosted API, web UI, database, vector store, cloud service, container image, package registry release, GitHub release, or public repository publication exists.
-- No stable live CER API contract has been adopted or tested. Current CER inputs are source-attributed curated snapshots.
+- No stable live CER API contract has been adopted or tested. Current CER inputs are source-attributed curated snapshots from seven projects, one Safeguard row and unit definitions.
 - No background refresh, scheduler, webhook, user authentication, tenancy, or retention policy exists.
-- No model or LLM is in the decision path.
+- No model or LLM is in the decision path. An OpenAI Responses provider adapter exists but has not made a live call in this tranche.
+
+The repository is deployment-prepared only in the sense that offline entry points, dependency bounds, CI, artifact manifests, security notes and production gates are documented. It is not deployable as an authenticated multi-user service and no hosting target has been selected.
 
 ## Production Gate
 

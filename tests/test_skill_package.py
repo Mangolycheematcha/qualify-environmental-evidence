@@ -93,7 +93,7 @@ def test_packaged_resources_match_authoritative_allowlist_and_manifest():
     result = subprocess.run([sys.executable, str(PACKAGE_SCRIPT), "--check"], cwd=ROOT, text=True, capture_output=True, check=False)
     assert result.returncode == 0, result.stderr
     manifest = json.loads((SKILL / "resource-manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest["resources"]) == 32
+    assert len(manifest["resources"]) == 46
     assert [item["path"] for item in manifest["resources"]] == list(dict.fromkeys(item["path"] for item in manifest["resources"]))
 
 

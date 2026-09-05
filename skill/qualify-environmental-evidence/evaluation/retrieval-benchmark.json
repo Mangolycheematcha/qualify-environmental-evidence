@@ -1,0 +1,209 @@
+{
+  "benchmark_version": "1.0.0",
+  "split": "HELD_OUT",
+  "label_authority": "REPOSITORY_ENGINEERING_RELEVANCE_EXPECTATION_NOT_HUMAN_GOLD",
+  "query_count": 25,
+  "cases_sha256": "017e668b209d8b4b59731fd683b76b929028d0d2d7ffc6809ba5f78c432944bf",
+  "cases": [
+    {
+      "query_id": "RET-EOP101132-IDENTITY",
+      "group_id": "RET-EOP101132",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
+      "question": "What is the registered name and method type for EOP101132 Sunday Morning Hills Revegetation?",
+      "expected_fact_id": "CER_EOP101132.IDENTITY"
+    },
+    {
+      "query_id": "RET-EOP101132-TIMING",
+      "group_id": "RET-EOP101132",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
+      "question": "When was EOP101132 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_EOP101132.TIMING"
+    },
+    {
+      "query_id": "RET-EOP101132-CONTEXT",
+      "group_id": "RET-EOP101132",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
+      "question": "What mapping availability and KACCU issuance context is recorded for EOP101132?",
+      "expected_fact_id": "CER_EOP101132.ISSUANCE"
+    },
+    {
+      "query_id": "RET-EOP101053-IDENTITY",
+      "group_id": "RET-EOP101053",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "question": "What is the registered name and method type for EOP101053 Moquilambo Native Forest Protection Project?",
+      "expected_fact_id": "CER_EOP101053.IDENTITY"
+    },
+    {
+      "query_id": "RET-EOP101053-TIMING",
+      "group_id": "RET-EOP101053",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "question": "When was EOP101053 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_EOP101053.TIMING"
+    },
+    {
+      "query_id": "RET-EOP101053-CONTEXT",
+      "group_id": "RET-EOP101053",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101053",
+      "question": "What mapping availability and KACCU issuance context is recorded for EOP101053?",
+      "expected_fact_id": "CER_EOP101053.CONTEXT"
+    },
+    {
+      "query_id": "RET-ERF101444-IDENTITY",
+      "group_id": "RET-ERF101444",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "question": "What is the registered name and method type for ERF101444 Watson River Station?",
+      "expected_fact_id": "CER_ERF101444.IDENTITY"
+    },
+    {
+      "query_id": "RET-ERF101444-TIMING",
+      "group_id": "RET-ERF101444",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "question": "When was ERF101444 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_ERF101444.TIMING"
+    },
+    {
+      "query_id": "RET-ERF101444-CONTEXT",
+      "group_id": "RET-ERF101444",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF101444",
+      "question": "What mapping availability and KACCU issuance context is recorded for ERF101444?",
+      "expected_fact_id": "CER_ERF101444.CONTEXT"
+    },
+    {
+      "query_id": "RET-EOP100183-IDENTITY",
+      "group_id": "RET-EOP100183",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "question": "What is the registered name and method type for EOP100183 Rochedale Landfill Gas Project?",
+      "expected_fact_id": "CER_EOP100183.IDENTITY"
+    },
+    {
+      "query_id": "RET-EOP100183-TIMING",
+      "group_id": "RET-EOP100183",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "question": "When was EOP100183 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_EOP100183.TIMING"
+    },
+    {
+      "query_id": "RET-EOP100183-CONTEXT",
+      "group_id": "RET-EOP100183",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP100183",
+      "question": "What mapping availability and KACCU issuance context is recorded for EOP100183?",
+      "expected_fact_id": "CER_EOP100183.CONTEXT"
+    },
+    {
+      "query_id": "RET-ERF108333-IDENTITY",
+      "group_id": "RET-ERF108333",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "question": "What is the registered name and method type for ERF108333 Bonnie Doone Soil Carbon Project?",
+      "expected_fact_id": "CER_ERF108333.IDENTITY"
+    },
+    {
+      "query_id": "RET-ERF108333-TIMING",
+      "group_id": "RET-ERF108333",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "question": "When was ERF108333 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_ERF108333.TIMING"
+    },
+    {
+      "query_id": "RET-ERF108333-CONTEXT",
+      "group_id": "RET-ERF108333",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF108333",
+      "question": "What mapping availability and KACCU issuance context is recorded for ERF108333?",
+      "expected_fact_id": "CER_ERF108333.CONTEXT"
+    },
+    {
+      "query_id": "RET-EOP101126-IDENTITY",
+      "group_id": "RET-EOP101126",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101126",
+      "question": "What is the registered name and method type for EOP101126 AHG Land Transport Emissions Reduction?",
+      "expected_fact_id": "CER_EOP101126.IDENTITY"
+    },
+    {
+      "query_id": "RET-EOP101126-TIMING",
+      "group_id": "RET-EOP101126",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101126",
+      "question": "When was EOP101126 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_EOP101126.TIMING"
+    },
+    {
+      "query_id": "RET-EOP101126-CONTEXT",
+      "group_id": "RET-EOP101126",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101126",
+      "question": "What mapping availability and KACCU issuance context is recorded for EOP101126?",
+      "expected_fact_id": "CER_EOP101126.CONTEXT"
+    },
+    {
+      "query_id": "RET-ERF169256-IDENTITY",
+      "group_id": "RET-ERF169256",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "question": "What is the registered name and method type for ERF169256 Tahmoor Waste Coal Mine Gas Power Station?",
+      "expected_fact_id": "CER_ERF169256.IDENTITY"
+    },
+    {
+      "query_id": "RET-ERF169256-TIMING",
+      "group_id": "RET-ERF169256",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "question": "When was ERF169256 registered and what is its crediting period timing?",
+      "expected_fact_id": "CER_ERF169256.TIMING"
+    },
+    {
+      "query_id": "RET-ERF169256-CONTEXT",
+      "group_id": "RET-ERF169256",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "ERF169256",
+      "question": "What mapping availability and KACCU issuance context is recorded for ERF169256?",
+      "expected_fact_id": "CER_ERF169256.CONTEXT"
+    },
+    {
+      "query_id": "RET-SAFEGUARD-ARCADIA",
+      "group_id": "RET-SAFEGUARD",
+      "subject_type": "SAFEGUARD_FACILITY",
+      "subject_id": "SAFEGUARD.2024-25.ARCADIA",
+      "question": "Arcadia 2024-25 baseline covered emissions and SMC issuance",
+      "expected_fact_id": "CER_SAFEGUARD_ARCADIA.2024-25"
+    },
+    {
+      "query_id": "RET-UNIT-ACCU",
+      "group_id": "RET-UNIT",
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
+      "question": "CER definition of an ACCU and emissions otherwise released",
+      "expected_fact_id": "CER_UNIT.ACCU_DEFINITION"
+    },
+    {
+      "query_id": "RET-UNIT-SMC",
+      "group_id": "RET-UNIT",
+      "subject_type": "UNIT_CONCEPTS",
+      "subject_id": "ACCU_SMC",
+      "question": "CER definition of an SMC below a Safeguard facility baseline",
+      "expected_fact_id": "CER_UNIT.SMC_DEFINITION"
+    },
+    {
+      "query_id": "RET-FROZEN-OBSERVATION",
+      "group_id": "RET-FROZEN",
+      "subject_type": "ACCU_PROJECT",
+      "subject_id": "EOP101132",
+      "question": "EOP101132 frozen PRE POST median NDVI delta and joint coverage",
+      "expected_fact_id": "EOP101132_V4.OBSERVATION"
+    }
+  ]
+}
