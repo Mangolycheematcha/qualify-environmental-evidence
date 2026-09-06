@@ -9,9 +9,12 @@ This ledger is updated by the implementation agent before commit. It records sta
 - `handoff_parent_commit`: `47bbeaf5375c365eee758bbf8f6eda9f0c217dbe`
 - `handoff_document_commit`: resolve with `git log -1 --format=%H -- HANDOFF.md`
 - `working_tree_at_handoff_creation`: publication-closure files modified from the clean implementation baseline; these changes are intended to be committed together as `Close public-release governance findings`
-- `next_authorised_phase`: `STEP_3_AUTHORISED_BUT_NOT_STARTED`
+- `step_3_readiness`: `READY`
+- `step_3_execution_authority`: `NOT_AUTHORISED`
+- `step_3_execution_status`: `NOT_STARTED`
+- `current_status`: `STEP_3_READY_BUT_NOT_AUTHORISED_OR_STARTED`
 
-The publication authorization in GitHub Issue #3 does not itself authorize Step 3 behavioural execution. B0/B1/T1 and H1 remain `NOT_EXECUTED` and require their separately documented prerequisites.
+Publication closure is independent of Step 3 execution. The repository owner authorized continued public availability in GitHub Issue #3, but did not authorize Step 3. B0/B1/T1 and H1 remain `NOT_EXECUTED`; a separate explicit human authorization is required before execution. No model, EO, or approval workflow was invoked during publication closure.
 
 ## Publication Closure Evidence
 
