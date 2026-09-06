@@ -8,13 +8,13 @@
 
 The implemented workflow has three explicit stages: request validation, immutable evidence snapshotting, and deterministic qualification. It has no autonomous tool loop, multi-agent routing, or live EO action. The principal requirements are fail-closed semantics, byte-stable replay, reviewable checkpoints, minimal dependencies, and an optional model-provider boundary.
 
-Current evidence was reviewed on 2026-09-05:
+Current evidence was rechecked on 2026-09-06:
 
 | Option | Current official evidence | Fit | Cost and risk |
 |---|---|---|---|
-| Repository state machine | Python standard library plus existing JSON Schema dependency; explicit content-addressed evidence and append-only checkpoints | Direct fit for three deterministic stages | Project owns persistence and observability code |
-| LangGraph | [Official concepts](https://docs.langchain.com/oss/python/concepts/products) describe a low-level runtime for long-running stateful agents, durable execution, persistence, and human-in-the-loop; [official releases](https://github.com/langchain-ai/langgraph/releases) show active 1.x maintenance | Capable, but its graph/runtime surface exceeds present needs | New dependency, migration and checkpoint-format surface without demonstrated evaluation gain |
-| Microsoft Agent Framework | [Official overview](https://learn.microsoft.com/en-us/agent-framework/overview/) provides agents, sessions, middleware and graph workflows and explicitly advises using a function when a function can handle the task; [hosting guidance](https://learn.microsoft.com/en-us/agent-framework/hosting/) says current Python self-hosting packages are prerelease | Attractive if the PoC becomes a hosted multi-provider agent or multi-function workflow | Prerelease Python hosting path, additional abstractions, and no current behavioural evidence of benefit |
+| Repository state machine | Python standard library plus existing JSON Schema dependency; explicit content-addressed evidence and strictly monotonic checkpoints | Direct fit for three deterministic stages | Project owns persistence and observability code |
+| LangGraph | [Official concepts](https://docs.langchain.com/oss/python/concepts/products) describe a low-level runtime for long-running stateful agents, durable execution, persistence, and human-in-the-loop; the [official release page](https://github.com/langchain-ai/langgraph/releases) displayed `langgraph==1.2.11` when checked on 2026-09-06 | Capable, but its graph/runtime surface exceeds present needs | New dependency, migration and checkpoint-format surface without demonstrated evaluation gain |
+| Microsoft Agent Framework | [Official overview](https://learn.microsoft.com/en-us/agent-framework/overview/) provides agents, sessions, middleware and graph workflows and explicitly advises using a function when a function can handle the task; the overview and [hosting guidance](https://learn.microsoft.com/en-us/agent-framework/hosting/) were last updated 2026-08-25, and hosting says current Python self-hosting packages are prerelease | Attractive if the PoC becomes a hosted multi-provider agent or multi-function workflow | Prerelease Python hosting path, additional abstractions, and no current behavioural evidence of benefit |
 
 Neither optional framework package nor LangGraph is installed in the repository environment. Framework marketing claims are not treated as project evidence.
 
@@ -25,7 +25,7 @@ Retain the lightweight deterministic state machine for this tranche. Keep the mo
 The selected path is demonstrated by:
 
 - content-addressed immutable evidence snapshots;
-- append-only, workflow-id-scoped checkpoints;
+- monotonically appended, workflow-id-scoped checkpoints with idempotent equal-byte replay;
 - pause after evidence snapshot, resume, and byte-equal completed-result replay;
 - deterministic gates before any optional model call;
 - no framework telemetry or hidden persistence.

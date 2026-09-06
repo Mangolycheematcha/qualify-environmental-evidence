@@ -1,5 +1,5 @@
 {
-  "report_version": "1.0.0",
+  "report_version": "2.0.0",
   "network_access": false,
   "live_eo_executed": false,
   "journey_count": 4,
@@ -24,7 +24,7 @@
       "evidence_fact_ids": [
         "CER_SAFEGUARD_ARCADIA.2024-25"
       ],
-      "result_sha256": "0859751d26e9d7a68a51d8610aa8ca9769d4629209ed58b56e226adc05ea1ef3"
+      "result_sha256": "c0bcf3d62d726c3f57f8d55f575845a02fab1ed31d915b691bc33765fb05ef6c"
     },
     {
       "journey": "FAIL_CLOSED_EVIDENCE_FAULTS",
@@ -89,8 +89,14 @@
     "completed_status": "COMPLETED",
     "replayed_status": "REPLAYED",
     "canonical_result_bytes_equal": true,
+    "checkpoint_files_before_replay": 3,
+    "checkpoint_files_after_replay": 3,
+    "evidence_files_before_replay": 10,
+    "evidence_files_after_replay": 10,
+    "external_action_count": 0,
+    "replay_created_no_files": true,
     "result_sha256": "dd7261c3d322e18097070fe47984a91f9e95b15c429c1042562d08bdeb540e80"
   },
   "status": "PASS",
-  "report_sha256": "8316649530d1f8a791f9d503fe4def9f21389be2ea1d17ce6cb989d66c54262f"
+  "report_sha256": "a2b6245a0a135f554f4fb6e625473cec32fa57dd53b237b9008f3430adf12aa4"
 }

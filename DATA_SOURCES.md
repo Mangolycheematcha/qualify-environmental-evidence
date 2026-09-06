@@ -8,6 +8,6 @@ Raw HTTP payloads, imagery, metadata assets, and raster chips are excluded from 
 
 `data/cer/` contains small curated factual snapshots from seven official ACCU project pages, the CER ACCU/SMC definition page, and one row from the official 2024-25 Safeguard baselines and emissions CSV, accessed on 2026-09-05. The project sample spans six method types, mapping availability, issuance variation, a revoked project, and an enforceable undertaking. `data/cer/corpus-manifest.json` records each local snapshot hash plus the independently captured raw source byte hash and byte count. Raw source responses are not redistributed.
 
-These snapshots support the offline demo but are not complete source pages, complete register exports, continuously refreshed data, or an implemented stable CER API. The Safeguard row is a facility-period record and must not be transferred into ACCU project semantics.
+These snapshots support the offline demo but are not complete source pages, complete register exports, continuously refreshed data, or an implemented stable CER API. The Safeguard row is a facility-period record and must not be transferred into ACCU project semantics. Its `SMCs issued = 9,693` value is a faithful extract from the cited CER CSV row, not independent repository proof of an issuance event.
 
 See `THIRD_PARTY_NOTICES.md` and `docs/DATA_AND_ARTIFACT_LICENSING.md` for the tracked-material inventory, licence boundary, and unresolved release decisions.

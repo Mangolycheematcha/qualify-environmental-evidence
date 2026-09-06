@@ -1,18 +1,25 @@
 # Implementation verification
 
-Date: 2026-09-05. Branch: `main`. Initial continuation commit: `a965ad4d76493d8db169ab6d7e64ca5ebe8bdac7`.
+Publication audit date: 2026-09-06. Branch: `main`. Audit initial HEAD: `a33c252cb1df79029dd946354046c0bcc2bc8d4d`.
 
 ## Executed verification
 
-- Full test suite: 312 passed in 20.69 seconds.
+- Full test suite: 313 passed in 58.53 seconds after correcting one time-dependent approval fixture and two stale README expectations.
 - Corpus generator check: 9 documents, including 7 ACCU projects and 1 Safeguard facility-period record.
-- Evaluation generator check: 80 cases, 27 held out, no group leakage.
-- Retrieval generator check: 25 held-out queries.
+- Independent source check: all 9 cited official CER responses matched their recorded source byte counts and SHA-256 values on 2026-09-06; raw responses were not saved.
+- Evaluation generator check: 80 rows across 22 groups, 53 development and 27 held out, with no group, template-family, subject-partition or target-evidence overlap.
+- Retrieval generator check: 25 repository-authored controlled queries; fact-text-only ranking; no expected fact ID, project ID or project name in query text.
+- Retrieval Top-1: lexical 22/25, local TF-IDF 22/25, hybrid 23/25. One query has only one filtered candidate. The 1/25 hybrid gain is below a 5% materiality threshold added during this audit, not a preregistered research threshold.
+- E2E: 4/4 journeys passed; completed replay was byte-equal and left checkpoint/evidence file counts unchanged at 3/10.
+- Security: 7 executed controls and 3 explicitly not-applicable surfaces; all 10 records passed. No penetration-test claim is made.
+- Performance: raw samples are recorded for 8 cold, 40 warm, and 200 calls per retrieval mode; p50 uses `statistics.median` and p95 uses nearest-rank ceiling.
 - Skill package check: 46 managed resources, no drift.
 - Frozen policy and runtime-spec builders: PASS.
 - Strict JSON finite-value parse: 85 repository JSON files; no NaN or Infinity numeric value.
 - Frozen run checksum manifest: 336/336 generated files, 0 missing, 0 extra, 0 mismatched.
-- No live EO, STAC, signed-raster or GDAL access occurred. Public CER pages/CSV and official documentation were accessed only to build and review the new qualification corpus and architecture/stakeholder sources.
+- Candidate baseline scan: 195 files, 2,124,421 bytes, no secret/path failures, binaries, symlinks, executables, or files over 10 MB; only three clearly synthetic signed-URL fixtures under `tests/` were identified.
+- Full-history content scan: 385 Git objects, no secret/path pattern hit, binary blob, or blob over 10 MB.
+- No live EO, STAC, signed-raster or GDAL access occurred. Public CER pages/CSV and official framework documentation were read only to verify citations and hashes.
 
 ## Frozen identities
 
@@ -28,13 +35,13 @@ Date: 2026-09-05. Branch: `main`. Initial continuation commit: `a965ad4d76493d8d
 
 | Class | Changed surface |
 |---|---|
-| Runtime implementation | Offline qualification, retrieval, resumable session, model-provider boundary, evaluators and resource limits |
-| Policy/schema/registry | Multi-entity request/result/evidence schemas and exact source/claim boundaries; frozen Step 2B policy unchanged |
-| Empirical/public input | Curated factual extracts and hashes for seven CER ACCU projects and one Safeguard row; no raw third-party response redistributed |
-| Evaluation output | 80-case, retrieval, E2E, security, performance and provider-status artifacts |
-| Test expectation only | README status wording and skill resource-count assertions updated to their new explicit values |
-| Documentation only | Framework ADR, stakeholder matrix, Step 3, deployment, data-source, README and gap/status records |
-| Packaging/CI | 46-resource skill manifest and offline generator/evaluator checks |
+| Runtime implementation | Retrieval ranking text, monotonic checkpoint enforcement, bounded Safeguard statement, evaluators, and evidence reports |
+| Policy/schema/registry | No frozen policy, runtime specification, schema, or semantic registry changed |
+| Empirical/public input | No curated factual value or source hash changed; no raw third-party response added |
+| Evaluation output | Partitioned 80-row benchmark; controlled retrieval, E2E, security, performance and qualification reports regenerated |
+| Test expectation only | Leakage mutation tests, store-sequencing tests, recorded-sample recomputation, stable-time approval fixture, and README expectations |
+| Documentation only | Retrieval/evaluation limitations, storage semantics, Safeguard evidence boundary, framework source versions, licensing notice and reproduction state |
+| Packaging/CI | Existing 46-resource skill package resynchronised; no workflow expansion |
 
 ## External blockers
 
@@ -42,11 +49,15 @@ Date: 2026-09-05. Branch: `main`. Initial continuation commit: `a965ad4d76493d8d
 - H1: 0/27 independent labels. Repository expectations are engineering labels, not human gold.
 - CER API: no stable authenticated API contract was identified or exercised; inputs are exact public pages and one raw CSV publication.
 - Hosting/publication: no authenticated service, cloud target, push, release, visibility change or production controls were authorized.
+- Publication rights: ownership and redistribution rights for every tracked artifact still require accountable human confirmation.
+- Git identity: the four commits from `9d12ff0` through `a33c252` use the configured noreply identity, but older reachable commits include `e28581919@gmail.com`. Rewriting history was prohibited; the owner must accept that disclosure or choose a separate publication process.
+- Release authority: GitHub settings and third-party terms still require review, and no explicit approval to publish or change visibility has been given.
 
-## Local commits
+## Commit attribution
 
-- `9d12ff0`: deterministic qualification baseline.
-- `be3c39e`: multi-entity corpus, workflow and evaluation implementation.
-- `cd5e0a3`: package, CI, architecture and release-status documentation.
+- `9d12ff0`: deterministic qualification baseline; parent `a965ad4`.
+- `be3c39e`: multi-entity corpus, workflow and evaluation implementation; parent `9d12ff0`.
+- `cd5e0a3`: package, CI, architecture and release-status documentation; parent `be3c39e`.
+- `a33c252`: master-prompt verification status; parent `cd5e0a3`.
 
-All commits use `Hio Wai Hoi <288892596+Mangolycheematcha@users.noreply.github.com>`. No push was performed.
+Those four commits use `Hio Wai Hoi <288892596+Mangolycheematcha@users.noreply.github.com>` and form the expected linear chain. Earlier history contains the personal email noted above. No push was performed.

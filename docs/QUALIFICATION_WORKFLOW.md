@@ -30,7 +30,8 @@ This layer is deterministic assurance in the software-control sense. It is not a
 
 | Evidence | Status | Authority |
 |---|---|---|
-| Curated EOP101132 CER project record | Real public CER facts, accessed 2026-09-05 | Registry facts only |
+| Seven curated CER ACCU project records | Real public CER facts across six method types, accessed 2026-09-05 | Registry facts only |
+| Curated Arcadia 2024-25 Safeguard row | One field-level extract from the official CER CSV, accessed 2026-09-05 | Facility-period facts only; reports `SMCs issued = 9,693` but does not independently prove an issuance event |
 | Curated CER ACCU/SMC definitions | Real public CER definitions, accessed 2026-09-05 | Unit semantics only |
 | Frozen Step 2B V4 summary | Hash-bound derivative of the immutable local run | Bounded observation only |
 

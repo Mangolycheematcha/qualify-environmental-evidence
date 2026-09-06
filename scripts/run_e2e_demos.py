@@ -90,8 +90,16 @@ def build(root: Path = ROOT) -> dict[str, Any]:
         state_root = Path(temporary)
         paused = session.run_resumable(resumable_request, state_root=state_root, workflow_id="E2E-RESUME", root=root, stop_after="EVIDENCE_SNAPSHOTTED")
         completed = session.run_resumable(resumable_request, state_root=state_root, workflow_id="E2E-RESUME", root=root)
+        checkpoints_before_replay = len(list((state_root / "checkpoints").rglob("*.json")))
+        evidence_before_replay = len(list((state_root / "evidence").glob("*.json")))
         replayed = session.run_resumable(resumable_request, state_root=state_root, workflow_id="E2E-RESUME", root=root)
+        checkpoints_after_replay = len(list((state_root / "checkpoints").rglob("*.json")))
+        evidence_after_replay = len(list((state_root / "evidence").glob("*.json")))
         replay_equal = workflow.canonical_bytes(completed["result"]) == workflow.canonical_bytes(replayed["result"])
+        replay_side_effect_free = (
+            checkpoints_before_replay == checkpoints_after_replay
+            and evidence_before_replay == evidence_after_replay
+        )
 
     expected = {
         "REAL_ACCU_REGISTRY": "QUALIFIED",
@@ -103,7 +111,7 @@ def build(root: Path = ROOT) -> dict[str, Any]:
         ["REQUIRED_EVIDENCE_MISSING"], ["EVIDENCE_TEMPORAL_MISMATCH"], ["EVIDENCE_CONFLICT_UNRESOLVED"]
     ]
     report = {
-        "report_version": "1.0.0",
+        "report_version": "2.0.0",
         "network_access": False,
         "live_eo_executed": False,
         "journey_count": 4,
@@ -113,9 +121,15 @@ def build(root: Path = ROOT) -> dict[str, Any]:
             "completed_status": completed["session_status"],
             "replayed_status": replayed["session_status"],
             "canonical_result_bytes_equal": replay_equal,
+            "checkpoint_files_before_replay": checkpoints_before_replay,
+            "checkpoint_files_after_replay": checkpoints_after_replay,
+            "evidence_files_before_replay": evidence_before_replay,
+            "evidence_files_after_replay": evidence_after_replay,
+            "external_action_count": 0,
+            "replay_created_no_files": replay_side_effect_free,
             "result_sha256": completed["result"]["result_sha256"],
         },
-        "status": "PASS" if ordinary_ok and faults_ok and replay_equal else "FAIL",
+        "status": "PASS" if ordinary_ok and faults_ok and replay_equal and replay_side_effect_free else "FAIL",
     }
     report["report_sha256"] = workflow.sha256_bytes(workflow.canonical_bytes(report))
     return report

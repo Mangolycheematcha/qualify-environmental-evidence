@@ -1,5 +1,5 @@
 {
-  "freeze_version": "1.0.0",
+  "freeze_version": "2.0.0",
   "frozen_on": "2026-09-05",
   "label_authority": "REPOSITORY_ENGINEERING_EXPECTATION_NOT_HUMAN_GOLD",
   "held_out_case_count": 27,
@@ -41,5 +41,28 @@
     "ADV-FINANCIAL_AC-03",
     "ADV-FINANCIAL_AC-04"
   ],
-  "held_out_cases_sha256": "ee0f159acedd4336d8b9df6d6c191f80c0d03124137876c6096f860ebb3ecd7c"
+  "held_out_template_families": [
+    "ACCU_SMC_TRANSFER",
+    "ADVERSARIAL_HELD_OUT",
+    "ENTITY_MISMATCH",
+    "INSUFFICIENT_EVIDENCE",
+    "REGISTRY_HELD_OUT",
+    "SUPPORTED_SAFEGUARD"
+  ],
+  "held_out_subject_partition_keys": [
+    "EOP101126",
+    "EOP999991",
+    "EOP999992",
+    "EOP999993",
+    "EOP999994",
+    "EOP999995",
+    "ERF169256",
+    "SAFEGUARD.2024-25.ARCADIA"
+  ],
+  "held_out_target_evidence_ids": [
+    "CER_EOP101126_PROJECT_RECORD_2026-09-05",
+    "CER_ERF169256_PROJECT_RECORD_2026-09-05",
+    "CER_SAFEGUARD_2024_25_ARCADIA_2026-09-05"
+  ],
+  "held_out_cases_sha256": "fb3274d1b5f3afed92ca09c21d2c33924b2934d46dbcb350f0e2faa9159fa93d"
 }

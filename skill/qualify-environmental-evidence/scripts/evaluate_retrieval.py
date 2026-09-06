@@ -19,8 +19,14 @@ RESULT = ROOT / "evaluation" / "results" / "retrieval-comparison.json"
 
 
 def evaluate(benchmark: dict[str, Any], root: Path = ROOT) -> dict[str, Any]:
-    if benchmark.get("split") != "HELD_OUT" or benchmark.get("query_count") != len(benchmark.get("cases", [])):
-        raise workflow.QualificationError("retrieval benchmark is not a valid held-out set")
+    if benchmark.get("split") != "CONTROLLED_FROZEN_QUERY_SET" or benchmark.get("query_count") != len(benchmark.get("cases", [])):
+        raise workflow.QualificationError("retrieval benchmark is not a valid controlled query set")
+    if benchmark.get("direct_label_leakage_check") != "PASS" or benchmark.get("ranking_text_fields") != ["text"]:
+        raise workflow.QualificationError("retrieval benchmark leakage controls are missing")
+    for case in benchmark["cases"]:
+        question = case["question"].lower()
+        if case["expected_fact_id"].lower() in question or case["subject_id"].lower() in question:
+            raise workflow.QualificationError(f"direct query-label leakage: {case['query_id']}")
     index = retrieval_memory.build_index(root)
     modes: dict[str, Any] = {}
     for mode in ("lexical", "vector", "hybrid"):
@@ -41,7 +47,7 @@ def evaluate(benchmark: dict[str, Any], root: Path = ROOT) -> dict[str, Any]:
             top1 += int(rank == 1)
             recall3 += int(rank is not None and rank <= 3)
             reciprocal_ranks.append(1 / rank if rank else 0.0)
-            records.append({"query_id": case["query_id"], "expected_fact_id": expected, "rank": rank, "top3": ranked_ids[:3]})
+            records.append({"query_id": case["query_id"], "expected_fact_id": expected, "candidate_count": len(ranked_ids), "rank": rank, "top3": ranked_ids[:3]})
         count = len(benchmark["cases"])
         modes[mode] = {
             "query_count": count,
@@ -53,15 +59,26 @@ def evaluate(benchmark: dict[str, Any], root: Path = ROOT) -> dict[str, Any]:
     lexical = modes["lexical"]
     vector = modes["vector"]
     hybrid = modes["hybrid"]
-    material_gain = max(vector["top1_accuracy"], hybrid["top1_accuracy"]) > lexical["top1_accuracy"]
+    best_alternative = max(vector["top1_accuracy"], hybrid["top1_accuracy"])
+    top1_gain = best_alternative - lexical["top1_accuracy"]
+    material_gain_min = 0.05
+    material_gain = top1_gain >= material_gain_min
     deterministic = {
         "benchmark_sha256": benchmark["cases_sha256"],
         "mode_metrics": {mode: {key: value for key, value in result.items() if key != "records"} for mode, result in modes.items()},
+        "best_alternative_top1_gain": top1_gain,
+        "material_top1_gain_min": material_gain_min,
+        "materiality_threshold_provenance": "ADDED_DURING_2026-09-06_AUDIT_NOT_PREREGISTERED",
+        "single_candidate_query_count": sum(record["candidate_count"] == 1 for record in lexical["records"]),
         "decision": "EVALUATE_VECTOR_FOR_PRODUCTION" if material_gain else "RETAIN_LEXICAL_NO_EXTERNAL_VECTOR_INFRASTRUCTURE",
     }
     return {
-        "result_version": "1.0.0",
-        "evaluation_scope": "HELD_OUT_ENGINEERING_RELEVANCE_NOT_HUMAN_GOLD",
+        "result_version": "2.0.0",
+        "evaluation_scope": "CONTROLLED_ENGINEERING_RELEVANCE_NOT_INDEPENDENT_HUMAN_GOLD",
+        "query_provenance": benchmark["query_provenance"],
+        "ranking_text_fields": benchmark["ranking_text_fields"],
+        "metadata_filters": benchmark["metadata_filters"],
+        "direct_label_leakage_check": benchmark["direct_label_leakage_check"],
         **deterministic,
         "result_sha256": workflow.sha256_bytes(workflow.canonical_bytes(deterministic)),
         "modes": modes,

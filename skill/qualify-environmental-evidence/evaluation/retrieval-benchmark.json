@@ -1,16 +1,25 @@
 {
-  "benchmark_version": "1.0.0",
-  "split": "HELD_OUT",
+  "benchmark_version": "2.0.0",
+  "split": "CONTROLLED_FROZEN_QUERY_SET",
   "label_authority": "REPOSITORY_ENGINEERING_RELEVANCE_EXPECTATION_NOT_HUMAN_GOLD",
+  "query_provenance": "REPOSITORY_AUTHORED_AFTER_CORPUS_NOT_INDEPENDENT_HUMAN_QUERIES",
+  "ranking_text_fields": [
+    "text"
+  ],
+  "metadata_filters": [
+    "subject_type",
+    "subject_id"
+  ],
+  "direct_label_leakage_check": "PASS",
   "query_count": 25,
-  "cases_sha256": "017e668b209d8b4b59731fd683b76b929028d0d2d7ffc6809ba5f78c432944bf",
+  "cases_sha256": "8d71fbef83e8a48656ea1fe686abbd62b8a99d585c14b7001e27f9a5d4c5a0fb",
   "cases": [
     {
       "query_id": "RET-EOP101132-IDENTITY",
       "group_id": "RET-EOP101132",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101132",
-      "question": "What is the registered name and method type for EOP101132 Sunday Morning Hills Revegetation?",
+      "question": "Which record gives this project's registered name, method category, and jurisdiction?",
       "expected_fact_id": "CER_EOP101132.IDENTITY"
     },
     {
@@ -18,7 +27,7 @@
       "group_id": "RET-EOP101132",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101132",
-      "question": "When was EOP101132 registered and what is its crediting period timing?",
+      "question": "Which fact records this project's registration and crediting-period dates?",
       "expected_fact_id": "CER_EOP101132.TIMING"
     },
     {
@@ -26,7 +35,7 @@
       "group_id": "RET-EOP101132",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101132",
-      "question": "What mapping availability and KACCU issuance context is recorded for EOP101132?",
+      "question": "Which fact reports mapping availability and issued-unit context for this project?",
       "expected_fact_id": "CER_EOP101132.ISSUANCE"
     },
     {
@@ -34,7 +43,7 @@
       "group_id": "RET-EOP101053",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101053",
-      "question": "What is the registered name and method type for EOP101053 Moquilambo Native Forest Protection Project?",
+      "question": "Which fact identifies this project by registered name, method and state?",
       "expected_fact_id": "CER_EOP101053.IDENTITY"
     },
     {
@@ -42,7 +51,7 @@
       "group_id": "RET-EOP101053",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101053",
-      "question": "When was EOP101053 registered and what is its crediting period timing?",
+      "question": "Find the public timing fields for registration, crediting start, and crediting end.",
       "expected_fact_id": "CER_EOP101053.TIMING"
     },
     {
@@ -50,7 +59,7 @@
       "group_id": "RET-EOP101053",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101053",
-      "question": "What mapping availability and KACCU issuance context is recorded for EOP101053?",
+      "question": "Find the register context about project mapping and issuance totals.",
       "expected_fact_id": "CER_EOP101053.CONTEXT"
     },
     {
@@ -58,7 +67,7 @@
       "group_id": "RET-ERF101444",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF101444",
-      "question": "What is the registered name and method type for ERF101444 Watson River Station?",
+      "question": "Which public-register fact states the project identity, method family, and state?",
       "expected_fact_id": "CER_ERF101444.IDENTITY"
     },
     {
@@ -66,7 +75,7 @@
       "group_id": "RET-ERF101444",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF101444",
-      "question": "When was ERF101444 registered and what is its crediting period timing?",
+      "question": "What register evidence describes the project's key dates and crediting period?",
       "expected_fact_id": "CER_ERF101444.TIMING"
     },
     {
@@ -74,7 +83,7 @@
       "group_id": "RET-ERF101444",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF101444",
-      "question": "What mapping availability and KACCU issuance context is recorded for ERF101444?",
+      "question": "What evidence records the project's map status and credited-unit context?",
       "expected_fact_id": "CER_ERF101444.CONTEXT"
     },
     {
@@ -82,7 +91,7 @@
       "group_id": "RET-EOP100183",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP100183",
-      "question": "What is the registered name and method type for EOP100183 Rochedale Landfill Gas Project?",
+      "question": "Return the source-backed project identity fields, including method type and location.",
       "expected_fact_id": "CER_EOP100183.IDENTITY"
     },
     {
@@ -90,7 +99,7 @@
       "group_id": "RET-EOP100183",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP100183",
-      "question": "When was EOP100183 registered and what is its crediting period timing?",
+      "question": "Return the fact containing registration timing and the crediting-period window.",
       "expected_fact_id": "CER_EOP100183.TIMING"
     },
     {
@@ -98,7 +107,7 @@
       "group_id": "RET-EOP100183",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP100183",
-      "question": "What mapping availability and KACCU issuance context is recorded for EOP100183?",
+      "question": "Return the contextual register fact about map availability and issuance.",
       "expected_fact_id": "CER_EOP100183.CONTEXT"
     },
     {
@@ -106,7 +115,7 @@
       "group_id": "RET-ERF108333",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF108333",
-      "question": "What is the registered name and method type for ERF108333 Bonnie Doone Soil Carbon Project?",
+      "question": "What identity information does the register provide for this project?",
       "expected_fact_id": "CER_ERF108333.IDENTITY"
     },
     {
@@ -114,7 +123,7 @@
       "group_id": "RET-ERF108333",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF108333",
-      "question": "When was ERF108333 registered and what is its crediting period timing?",
+      "question": "Which source-backed statement gives this project's registration and crediting dates?",
       "expected_fact_id": "CER_ERF108333.TIMING"
     },
     {
@@ -122,7 +131,7 @@
       "group_id": "RET-ERF108333",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF108333",
-      "question": "What mapping availability and KACCU issuance context is recorded for ERF108333?",
+      "question": "Which source-backed statement covers mapping and unit-issuance context?",
       "expected_fact_id": "CER_ERF108333.CONTEXT"
     },
     {
@@ -130,7 +139,7 @@
       "group_id": "RET-EOP101126",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101126",
-      "question": "What is the registered name and method type for EOP101126 AHG Land Transport Emissions Reduction?",
+      "question": "Find the fact that describes this project's name, scheme category, and operating area.",
       "expected_fact_id": "CER_EOP101126.IDENTITY"
     },
     {
@@ -138,7 +147,7 @@
       "group_id": "RET-EOP101126",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101126",
-      "question": "When was EOP101126 registered and what is its crediting period timing?",
+      "question": "Locate the project timing record, including registration and crediting period.",
       "expected_fact_id": "CER_EOP101126.TIMING"
     },
     {
@@ -146,7 +155,7 @@
       "group_id": "RET-EOP101126",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101126",
-      "question": "What mapping availability and KACCU issuance context is recorded for EOP101126?",
+      "question": "Locate the project context record for mapping and credited units.",
       "expected_fact_id": "CER_EOP101126.CONTEXT"
     },
     {
@@ -154,7 +163,7 @@
       "group_id": "RET-ERF169256",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF169256",
-      "question": "What is the registered name and method type for ERF169256 Tahmoor Waste Coal Mine Gas Power Station?",
+      "question": "Which evidence item identifies the project and its method and location?",
       "expected_fact_id": "CER_ERF169256.IDENTITY"
     },
     {
@@ -162,7 +171,7 @@
       "group_id": "RET-ERF169256",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF169256",
-      "question": "When was ERF169256 registered and what is its crediting period timing?",
+      "question": "Which evidence item contains the project's registration and scheme timing?",
       "expected_fact_id": "CER_ERF169256.TIMING"
     },
     {
@@ -170,7 +179,7 @@
       "group_id": "RET-ERF169256",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "ERF169256",
-      "question": "What mapping availability and KACCU issuance context is recorded for ERF169256?",
+      "question": "Which evidence item describes map availability and issuance context?",
       "expected_fact_id": "CER_ERF169256.CONTEXT"
     },
     {
@@ -178,7 +187,7 @@
       "group_id": "RET-SAFEGUARD",
       "subject_type": "SAFEGUARD_FACILITY",
       "subject_id": "SAFEGUARD.2024-25.ARCADIA",
-      "question": "Arcadia 2024-25 baseline covered emissions and SMC issuance",
+      "question": "Which facility-period fact contains baseline, covered emissions, net position, and SMC issuance?",
       "expected_fact_id": "CER_SAFEGUARD_ARCADIA.2024-25"
     },
     {
@@ -186,7 +195,7 @@
       "group_id": "RET-UNIT",
       "subject_type": "UNIT_CONCEPTS",
       "subject_id": "ACCU_SMC",
-      "question": "CER definition of an ACCU and emissions otherwise released",
+      "question": "Which definition describes a unit for emissions that otherwise would have entered the atmosphere?",
       "expected_fact_id": "CER_UNIT.ACCU_DEFINITION"
     },
     {
@@ -194,7 +203,7 @@
       "group_id": "RET-UNIT",
       "subject_type": "UNIT_CONCEPTS",
       "subject_id": "ACCU_SMC",
-      "question": "CER definition of an SMC below a Safeguard facility baseline",
+      "question": "Which definition describes a below-baseline facility unit that is not an offset?",
       "expected_fact_id": "CER_UNIT.SMC_DEFINITION"
     },
     {
@@ -202,7 +211,7 @@
       "group_id": "RET-FROZEN",
       "subject_type": "ACCU_PROJECT",
       "subject_id": "EOP101132",
-      "question": "EOP101132 frozen PRE POST median NDVI delta and joint coverage",
+      "question": "Which frozen observation reports PRE and POST NDVI, delta, threshold disposition, and joint coverage?",
       "expected_fact_id": "EOP101132_V4.OBSERVATION"
     }
   ]

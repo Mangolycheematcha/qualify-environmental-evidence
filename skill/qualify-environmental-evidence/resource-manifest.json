@@ -72,7 +72,7 @@
     },
     {
       "path": "data/cer/README.md",
-      "sha256": "b4a19bd24b67c7312506833da7ff8bdea4515be05cce880716f4c22a51fed552"
+      "sha256": "b1bd63c3bfdcdc831fa5000f8fa8db05ae52ee5947c7a791c076bb9b5b715743"
     },
     {
       "path": "data/cer/accu-smc-public-definitions.json",
@@ -116,15 +116,15 @@
     },
     {
       "path": "evaluation/held-out-freeze.json",
-      "sha256": "6e0da30e581ede49903c17280070f83b64543e5965ef407abae07424f2672ecc"
+      "sha256": "a2e870cd787e6aef20f7e0094ebdcac8a2a9e45557636f14a799aecb94b1c668"
     },
     {
       "path": "evaluation/qualification-benchmark.json",
-      "sha256": "5b173b5d4146428aff0c1da78392234b3d83e2573773d216c6cd04b6f788dc46"
+      "sha256": "6d03a6bde4ee618e87ba209e2e7fc99036b371be06cb305a1a544ec076a3b38a"
     },
     {
       "path": "evaluation/retrieval-benchmark.json",
-      "sha256": "3653de551a5b8c5a4fd19f385dbae3d4bd1406ef6c1c51b405eaced426404043"
+      "sha256": "21bc5f5dcdd2643a8aea750fbe4481cffc34bb357f1e3b58a62f47bae9fa6769"
     },
     {
       "path": "examples/qualification/accu-smc-boundary-request.json",
@@ -152,11 +152,11 @@
     },
     {
       "path": "scripts/evaluate_qualification.py",
-      "sha256": "dfbe6c826fd36cbe948e14d3f15d1feb99142fe0c414a2e81035e9da217f803f"
+      "sha256": "66238089a368513f0f4052fb963c89ba6dae09936d49aae1b485a41d553f69c4"
     },
     {
       "path": "scripts/evaluate_retrieval.py",
-      "sha256": "4ada6b7c166f3649fa5c047829483f6c334704d061d3d78ebd84843d6d93b836"
+      "sha256": "3278bc5675f7baa37d73cd3d9fc990e67b14cf1f0d59ca63f9c1836c2c3dee3f"
     },
     {
       "path": "scripts/qualification_session.py",
@@ -164,15 +164,15 @@
     },
     {
       "path": "scripts/qualification_workflow.py",
-      "sha256": "7ad1d326f7299eda4444feb09bdc0fc2364f0947093c4ad2e99fe3931dc660db"
+      "sha256": "4f83fb2db112320ae5a1a953515e101620b7ca426d6e507f1dd2988eb7b0fda5"
     },
     {
       "path": "scripts/retrieval_memory.py",
-      "sha256": "65e4593545ce438d41226a24d2256c44396d4659046c9d75cc7cd408769ce12c"
+      "sha256": "74804a6635846327c3f26095b27a85d52da1205d8fcce5a8e115b6f4867e3a21"
     },
     {
       "path": "scripts/run_e2e_demos.py",
-      "sha256": "4b612cabe9f86ff1805c54443991cb7a221cab0c02b0b583c4d6a67bb5e309b0"
+      "sha256": "a42f73e6ba437d803b883223d433a0059150cbe678068df078a49dbe830a8d39"
     },
     {
       "path": "scripts/step2b_acquisition.py",

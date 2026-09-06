@@ -40,7 +40,15 @@ def measure(action: Callable[[], Any], count: int) -> list[float]:
 
 
 def summary(values: list[float]) -> dict[str, Any]:
-    return {"samples": len(values), "p50_ms": round(statistics.median(values), 3), "p95_ms": round(percentile(values, 0.95), 3), "min_ms": round(min(values), 3), "max_ms": round(max(values), 3)}
+    recorded = [round(value, 6) for value in values]
+    return {
+        "samples": len(recorded),
+        "samples_ms": recorded,
+        "p50_ms": round(statistics.median(recorded), 3),
+        "p95_ms": round(percentile(recorded, 0.95), 3),
+        "min_ms": round(min(recorded), 3),
+        "max_ms": round(max(recorded), 3),
+    }
 
 
 def benchmark(root: Path = ROOT, cold_samples: int = 8, warm_samples: int = 40, retrieval_samples: int = 200) -> dict[str, Any]:
@@ -54,10 +62,11 @@ def benchmark(root: Path = ROOT, cold_samples: int = 8, warm_samples: int = 40, 
         values = measure(lambda mode=mode: index.rank("EOP101132 frozen observational NDVI disposition", mode, subject_type="ACCU_PROJECT", subject_id="EOP101132"), retrieval_samples)
         retrieval[mode] = summary(values)
     report = {
-        "report_version": "1.0.0",
+        "report_version": "2.0.0",
         "environment": {"python": platform.python_version(), "platform": platform.platform(), "processor": platform.processor() or os.environ.get("PROCESSOR_IDENTIFIER", "unknown")},
         "network_access": False,
         "live_eo_executed": False,
+        "statistics": {"p50_method": "statistics.median", "p95_method": "nearest_rank_ceiling"},
         "cold_process_end_to_end": {**summary(cold), "cache_state": "new Python interpreter each sample; operating-system disk cache uncontrolled"},
         "warm_process_end_to_end": {**summary(warm), "cache_state": "same Python interpreter; workflow schemas and evidence are intentionally rebuilt each call; OS cache warm"},
         "warm_in_memory_retrieval": retrieval,

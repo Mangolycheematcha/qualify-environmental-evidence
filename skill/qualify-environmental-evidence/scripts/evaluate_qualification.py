@@ -30,17 +30,32 @@ def _percentile_nearest_rank(values: list[float], percentile: float) -> float:
     return ordered[index]
 
 
+def validate_partitions(cases: list[dict[str, Any]]) -> dict[str, str]:
+    dimensions = {
+        "group_id": lambda item: [item["group_id"]],
+        "template_family": lambda item: [item["template_family"]],
+        "subject_partition_keys": lambda item: item["subject_partition_keys"],
+        "target_evidence_ids": lambda item: item["target_evidence_ids"],
+    }
+    checks: dict[str, str] = {}
+    for dimension, values_for_case in dimensions.items():
+        split_by_key: dict[str, str] = {}
+        for case in cases:
+            for key in values_for_case(case):
+                prior = split_by_key.setdefault(key, case["split"])
+                if prior != case["split"]:
+                    raise workflow.QualificationError(f"{dimension} leakage across splits: {key}")
+        checks[dimension] = "PASS"
+    return checks
+
+
 def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
     cases = benchmark.get("cases")
     if not isinstance(cases, list) or not cases:
         raise workflow.QualificationError("benchmark must contain at least one case")
     if benchmark.get("case_count") != len(cases):
         raise workflow.QualificationError("benchmark case_count does not match cases")
-    group_splits: dict[str, str] = {}
-    for case in cases:
-        prior = group_splits.setdefault(case["group_id"], case["split"])
-        if prior != case["split"]:
-            raise workflow.QualificationError(f"group leakage across splits: {case['group_id']}")
+    partition_checks = validate_partitions(cases)
     case_results: list[dict[str, Any]] = []
     exact = deterministic = unsupported = security_passed = 0
     security_total = 0
@@ -105,6 +120,8 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
     total = len(cases)
     metrics = {
         "case_count": total,
+        "semantic_group_count": len({case["group_id"] for case in cases}),
+        "template_family_count": len({case["template_family"] for case in cases}),
         "exact_outcome_rate": _rate(exact, total),
         "forbidden_request_refusal_rate": _rate(refusal_passed, refusal_total),
         "deterministic_replay_rate": _rate(deterministic, total),
@@ -138,7 +155,7 @@ def evaluate(benchmark: dict[str, Any], *, root: Path = ROOT) -> dict[str, Any]:
         "hallucination_evaluation_scope": "DETERMINISTIC_UNSUPPORTED_ASSERTION_PROXY_ONLY",
         "label_authority": benchmark["label_authority"],
         "denominators": {dimension: dict(sorted(values.items())) for dimension, values in denominators.items()},
-        "group_leakage_check": "PASS",
+        "partition_checks": partition_checks,
         "metrics": metrics,
         "threshold_checks": checks,
         "deterministic_outcomes_sha256": outcome_sha256,

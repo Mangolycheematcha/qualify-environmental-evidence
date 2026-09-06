@@ -19,8 +19,8 @@ financial workflows.
 | Cached replay | Assessment bytes, array hashes, grouping, composites, and joint mask reproduced |
 | Canonical/governance status | Governance limitations documented; not claimed as fully canonical |
 | CER qualification corpus | Seven real ACCU projects across six method types plus one real 2024-25 Safeguard facility-period row |
-| Step 3 deterministic evaluation | 80/80 engineering cases; 27 group-held-out; 25-query retrieval comparison; four E2E journeys |
-| Security and performance | 8 executed security cases plus 2 explicit N/A surfaces; measured cold/warm p50/p95 |
+| Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups; 27 held out by group, template, subject and target evidence; four E2E journeys |
+| Retrieval, security and performance | controlled 25-query Top-1: lexical 22, TF-IDF 22, hybrid 23; 7 executed security cases plus 3 explicit N/A surfaces; reproducible p50/p95 samples |
 | Step 3 model/API evaluation | Adapter and matched B0/B1/T1 design implemented; 0/27 live cases per arm because no credential is configured |
 | Independent human evaluation | H1 0/27; blocked pending independent annotation; repository expectations are not human gold |
 | Public release and hosting | Prepared documentation and offline package only; no push, release, visibility change, API service, or deployment |
@@ -136,6 +136,8 @@ Original code and other owner-controlled repository material are licensed under 
 - CER snapshots are time-stamped curated facts, not a live API or continuously refreshed register mirror.
 - Evidence memory is local and content-addressed; it is not user memory, a vector database, or a claim of semantic completeness.
 - The Step 3 unsupported-assertion metric evaluates the deterministic rule system only, not an LLM hallucination rate.
+- The 80 rows are repository-authored deterministic regression cases across 22 semantic groups, not 80 independent substantive scenarios, expert labels, or comparative model evidence.
+- The 25 retrieval queries are a small repository-authored controlled set with structured subject filters, not independent human queries; the hybrid Top-1 gain was 1/25.
 - A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
 - Step 3 B0/B1/T1 live model evaluation and H1 independent annotation have not run. Multi-project deterministic evaluation has run; hosting has not.
 

@@ -66,6 +66,14 @@ class CheckpointStore:
             raise workflow.QualificationError("checkpoint sequence out of range")
         payload = workflow.canonical_bytes(state)
         path = self.root / workflow_id / f"{sequence:06d}.json"
+        if path.exists():
+            _write_new_or_equal(path, payload)
+            return workflow.sha256_bytes(payload)
+        directory = path.parent
+        existing = sorted(directory.glob("[0-9][0-9][0-9][0-9][0-9][0-9].json")) if directory.is_dir() else []
+        expected = int(existing[-1].stem) + 1 if existing else 1
+        if sequence != expected:
+            raise workflow.QualificationError(f"checkpoint sequence must append at {expected}")
         _write_new_or_equal(path, payload)
         return workflow.sha256_bytes(payload)
 
@@ -107,7 +115,7 @@ class PreferenceStore:
 
 
 def fact_text(fact: dict[str, Any]) -> str:
-    return " ".join((fact["fact_id"], fact["text"], " ".join(fact["tags"]))).lower()
+    return fact["text"].lower()
 
 
 class LocalRetrievalIndex:

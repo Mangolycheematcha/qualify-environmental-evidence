@@ -306,8 +306,9 @@ class FakeResponse:
         return self.raw
 
 
-def test_authorization_and_data_records_are_separate_and_token_is_not_persisted(tmp_path: Path):
+def test_authorization_and_data_records_are_separate_and_token_is_not_persisted(tmp_path: Path, monkeypatch):
     request_dir, request = make_request_dir(tmp_path)
+    monkeypatch.setattr(protocol, "utc_now", lambda: RETRIEVED)
     token = "TEST_TOKEN_MUST_NOT_PERSIST"
     captured = {}
 
@@ -370,7 +371,7 @@ def test_readme_uses_exact_closure_and_governance_status():
     readme = (runtime.ROOT / "README.md").read_text(encoding="utf-8")
     assert "SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN" in readme
     assert "not claimed as fully canonical" in readme
-    assert "Step 3 deterministic evaluation | 80/80 engineering cases" in readme
+    assert "Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups" in readme
     assert "Step 3 model/API evaluation | Adapter and matched B0/B1/T1 design implemented" in readme
     assert "A corrected pre-authorized run is pending." not in readme
     assert "three approved V4 runs" not in readme

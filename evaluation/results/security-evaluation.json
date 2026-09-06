@@ -1,8 +1,8 @@
 {
-  "report_version": "1.0.0",
+  "report_version": "2.0.0",
   "network_access": false,
-  "executed_case_count": 8,
-  "not_applicable_case_count": 2,
+  "executed_case_count": 7,
+  "not_applicable_case_count": 3,
   "passed_case_count": 10,
   "records": [
     {
@@ -12,10 +12,10 @@
       "control": "deterministic authority gate precedes retrieval or model use"
     },
     {
-      "threat": "malicious_url_redirect_and_ssrf",
+      "threat": "untrusted_source_uri_ssrf_input",
       "status": "PASS",
       "coverage": "EXECUTED",
-      "control": "exact source-id-to-canonical-URI allowlist rejects private or redirected identities before acquisition"
+      "control": "exact source-id-to-canonical-URI allowlist rejects a private URI before the offline workflow loads evidence"
     },
     {
       "threat": "path_traversal",
@@ -39,13 +39,13 @@
       "threat": "oversized_input_resource_exhaustion",
       "status": "PASS",
       "coverage": "EXECUTED",
-      "control": "schema and evidence document/fact/byte limits"
+      "control": "executed question-character, evidence-document-count, fact-count, and per-document-byte limits"
     },
     {
       "threat": "unsafe_output_rendering",
       "status": "PASS",
-      "coverage": "EXECUTED",
-      "control": "structured canonical JSON only; no HTML renderer"
+      "coverage": "NOT_APPLICABLE_ATTACK_SURFACE_ABSENT",
+      "control": "no HTML renderer or browser output surface exists in this PoC"
     },
     {
       "threat": "permission_bypass",
@@ -72,5 +72,5 @@
     "third-party model-provider infrastructure"
   ],
   "status": "PASS",
-  "report_sha256": "17064a0b243297d919ebaa99fbd83f13ee666b59c1c1fd2fc7760370d5c02a66"
+  "report_sha256": "d6c58b74efe82dcda133c501cbd37dc09b9125858f5edb34107c98f70916aad9"
 }

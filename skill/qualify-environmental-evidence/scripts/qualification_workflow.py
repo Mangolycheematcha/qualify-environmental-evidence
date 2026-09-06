@@ -251,8 +251,9 @@ def _build_statement(claim_family: str, facts: list[dict[str, Any]]) -> tuple[st
         statement = (
             f"For the {record['reporting_period']} Safeguard publication, the CER record lists {record['facility_name']} "
             f"with baseline emissions {record['baseline_emissions']}, covered emissions {record['covered_emissions']}, "
-            f"and {record['smcs_issued']} SMCs issued. This is a facility-period record, not an ACCU project record "
-            "or a general prediction of future SMC eligibility."
+            f"and {record['smcs_issued']} in the SMCs-issued field. This restates one cited CSV row; the repository "
+            "does not independently prove an issuance event. It is a facility-period record, not an ACCU project "
+            "record or a general prediction of future SMC eligibility."
         )
         return "QUALIFIED", "SUPPORTED", statement, []
     if claim_family == "ACCU_SMC_SEMANTIC_BOUNDARY":

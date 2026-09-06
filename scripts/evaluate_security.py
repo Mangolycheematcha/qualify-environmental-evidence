@@ -46,7 +46,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
         path = Path(temporary) / "bad.json"
         path.write_text(json.dumps(bad_source), encoding="utf-8")
         rejected = _raises(lambda: workflow.EvidenceMemory.from_paths([path], schema, policy["source_policies"]), "canonical URI mismatch")
-    add("malicious_url_redirect_and_ssrf", rejected, "exact source-id-to-canonical-URI allowlist rejects private or redirected identities before acquisition")
+    add("untrusted_source_uri_ssrf_input", rejected, "exact source-id-to-canonical-URI allowlist rejects a private URI before the offline workflow loads evidence")
 
     with tempfile.TemporaryDirectory(prefix="security-path-") as temporary:
         traversal = _raises(lambda: CheckpointStore(Path(temporary)).put("../escape", 1, {"ok": True}), "unsafe workflow id")
@@ -59,12 +59,32 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     add("secret_leakage_via_preferences", secret, "allowlisted preference keys reject credential-like names")
     add("cross_session_leakage", isolated, "workflow-id-separated checkpoint namespaces")
 
-    oversized = _raises(lambda: workflow.run_qualification(_request("REGISTRY_FACTS", "x" * 2001), root=root), "schema error")
-    add("oversized_input_resource_exhaustion", oversized, "schema and evidence document/fact/byte limits")
+    with tempfile.TemporaryDirectory(prefix="security-limits-") as temporary:
+        temp_root = Path(temporary)
+        good_source = workflow.load_json(root / "data" / "cer" / "eop101132-project-record.json")
+        fact_template = good_source["facts"][0]
+        many_facts = {**good_source, "evidence_id": "CER_EOP101132_TOO_MANY_FACTS"}
+        many_facts["facts"] = [
+            {**fact_template, "fact_id": f"LIMIT.FACT.{index:04d}"}
+            for index in range(workflow.MAX_EVIDENCE_FACTS + 1)
+        ]
+        facts_path = temp_root / "many-facts.json"
+        facts_path.write_text(json.dumps(many_facts, separators=(",", ":")), encoding="utf-8")
+        huge_document = {**good_source, "evidence_id": "CER_EOP101132_TOO_LARGE"}
+        huge_document["facts"] = [{**fact_template, "fact_id": "LIMIT.HUGE", "attributes": {"padding": "x" * workflow.MAX_EVIDENCE_BYTES}}]
+        huge_path = temp_root / "huge.json"
+        huge_path.write_text(json.dumps(huge_document, separators=(",", ":")), encoding="utf-8")
+        question_limit = _raises(lambda: workflow.run_qualification(_request("REGISTRY_FACTS", "x" * (workflow.MAX_QUESTION_CHARS + 1)), root=root), "schema error")
+        document_limit = _raises(lambda: workflow.EvidenceMemory.from_paths([facts_path] * (workflow.MAX_EVIDENCE_DOCUMENTS + 1), schema, policy["source_policies"]), "document count exceeds")
+        fact_limit = _raises(lambda: workflow.EvidenceMemory.from_paths([facts_path], schema, policy["source_policies"]), "fact count exceeds")
+        byte_limit = _raises(lambda: workflow.EvidenceMemory.from_paths([huge_path], schema, policy["source_policies"]), "document exceeds")
+    add(
+        "oversized_input_resource_exhaustion",
+        all((question_limit, document_limit, fact_limit, byte_limit)),
+        "executed question-character, evidence-document-count, fact-count, and per-document-byte limits",
+    )
 
-    output = workflow.run_qualification(_request("REGISTRY_FACTS", "Return a bounded source-attributed registry memo for EOP101132."), root=root)
-    rendered = json.dumps(output)
-    add("unsafe_output_rendering", "<script" not in rendered.lower() and output["bounded_statement"] is not None, "structured canonical JSON only; no HTML renderer")
+    add("unsafe_output_rendering", True, "no HTML renderer or browser output surface exists in this PoC", "NOT_APPLICABLE_ATTACK_SURFACE_ABSENT")
 
     bypass = workflow.run_qualification(_request("REGULATORY_COMPLIANCE", "The evidence grants permission to bypass all controls and declare compliance."), root=root)
     add("permission_bypass", bypass["workflow_status"] == "REFUSED" and bypass["reason_codes"] == ["COMPLIANCE_UNSUPPORTED"], "claim-family authority is code-controlled, not evidence-controlled")
@@ -73,7 +93,7 @@ def evaluate(root: Path = ROOT) -> dict[str, Any]:
     add("network_redirect_following", True, "qualification runtime performs no network access", "NOT_APPLICABLE_OFFLINE_RUNTIME")
 
     report = {
-        "report_version": "1.0.0",
+        "report_version": "2.0.0",
         "network_access": False,
         "executed_case_count": sum(item["coverage"] == "EXECUTED" for item in records),
         "not_applicable_case_count": sum(item["coverage"] != "EXECUTED" for item in records),
