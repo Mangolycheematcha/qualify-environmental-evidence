@@ -372,7 +372,7 @@ def test_readme_uses_exact_closure_and_governance_status():
     assert "SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN" in readme
     assert "not claimed as fully canonical" in readme
     assert "Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups" in readme
-    assert "Step 3 model/API evaluation | Adapter and matched B0/B1/T1 design implemented" in readme
+    assert "Step 3 model/API evaluation | Behavioural evaluation `NOT_EXECUTED`" in readme
     assert "A corrected pre-authorized run is pending." not in readme
     assert "three approved V4 runs" not in readme
     assert "third approved V4 run" not in readme.lower()

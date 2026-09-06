@@ -1,12 +1,12 @@
 # Data And Artifact Licensing Inventory
 
-This is a factual release inventory, not legal advice. The repository owner selected Apache-2.0 for original material they have authority to license. Repository visibility must not change until the remaining ownership, disclosure, identity, settings, and release checks are complete.
+This is a factual release inventory, not legal advice. In [GitHub Issue #3](https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/3), the repository owner confirmed, to the best of their knowledge, authority to release original owner-controlled material under Apache-2.0 and approved continued public availability. That attestation does not relicense third-party or mixed-origin material.
 
 ## Inventory
 
 | Material | Current tracked state | Proposed treatment before public release |
 |---|---|---|
-| Repository-specific Python | Tracked as source | Apache-2.0 where original and owner-controlled; confirm ownership before public release |
+| Repository-specific Python | Tracked as source | Apache-2.0 where original and owner-controlled; owner review recorded in Issue #3 |
 | JSON Schemas, registries, and tests | Tracked; repository-specific structure and fixtures | Apache-2.0 where original and owner-controlled; source-derived facts retain their own status |
 | Original documentation and diagrams | Markdown tracked; no binary diagrams or fonts found | Apache-2.0 where original and owner-controlled |
 | Curated CER fact snapshots under `data/cer/` | Tracked as small, source-attributed factual extracts; no raw page or complete register export | Do not relicense the underlying CER material; retain source URL, access date, and extraction caveat |
@@ -25,6 +25,6 @@ Apache-2.0 applies to original code, schemas, registries, tests, and documentati
 
 The tracked `examples/eop101132-v3-abstained/` directory contains a reviewed derivative rather than a complete evidence package. Its presence does not establish that upstream source material can be relicensed.
 
-## Remaining Release Decisions
+## Owner Authorization And Remaining Operations
 
-Before public release, the owner must still confirm authorship and redistribution rights for every tracked file, review the real-run derivative examples, complete identity and GitHub settings checks, and explicitly approve the visibility change. Selecting Apache-2.0 does not itself authorize publication.
+The owner accepted the historical Gmail disclosure, retained third-party exclusions, and approved continued public availability in Issue #3. GitHub service settings, future source additions, releases, deployments, and any redistribution of excluded material still require their own review. Selecting Apache-2.0 and approving repository publication do not provide a legal guarantee or expand rights in third-party material.

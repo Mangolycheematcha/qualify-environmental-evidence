@@ -42,7 +42,7 @@ def status_report(model: str) -> dict[str, Any]:
     packet_pairs = [{"case_id": case["case_id"], "b1": _evidence_packet(case["request"])["packet_sha256"], "t1": _evidence_packet(case["request"])["packet_sha256"]} for case in cases]
     credentials = bool(os.environ.get("OPENAI_API_KEY"))
     report = {
-        "report_version": "1.0.0",
+        "report_version": "2.0.0",
         "evaluation_design": {
             "held_out_cases": len(cases),
             "split": "HELD_OUT",
@@ -61,17 +61,21 @@ def status_report(model: str) -> dict[str, Any]:
             "fixture_output_status": fixture["reason_codes"][0],
             "fixture_is_behavioural_evidence": False,
         },
-        "arms": {arm: {"planned": len(cases), "executed": 0, "status": "NOT_RUN"} for arm in ("B0", "B1", "T1")},
+        "arms": {
+            arm: {"planned_cases": len(cases), "completed_cases": 0, "status": "NOT_EXECUTED"}
+            for arm in ("B0", "B1", "T1")
+        },
         "human_evaluation": {
             "name": "H1",
-            "planned": len(cases),
-            "independently_labelled": 0,
-            "status": "BLOCKED_PENDING_INDEPENDENT_HUMAN_LABELS",
+            "planned_cases": len(cases),
+            "completed_cases": 0,
+            "status": "NOT_EXECUTED",
+            "blocked_reason": "PENDING_INDEPENDENT_HUMAN_LABELS",
             "self_labels_counted_as_human": False,
         },
         "network_access": False,
         "api_cost": None,
-        "status": "LIVE_MODEL_EVALUATION_BLOCKED" if not credentials else "LIVE_MODEL_EVALUATION_READY_NOT_AUTHORIZED",
+        "status": "BEHAVIOURAL_EVALUATION_NOT_EXECUTED",
     }
     report["report_sha256"] = workflow.sha256_bytes(workflow.canonical_bytes(report))
     return report

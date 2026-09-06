@@ -6,7 +6,7 @@ A reproducible proof of concept for qualifying—not validating—public
 registry and Earth-observation evidence before use in regulated
 financial workflows.
 
-> **Original, owner-controlled repository material is licensed under Apache-2.0. Third-party data, metadata, source responses, derived artifacts, dependencies, services, and marks remain under their applicable terms and are not relicensed. The repository remains private pending release approval.**
+> **Original, owner-controlled repository material is licensed under Apache-2.0. Third-party data, metadata, source responses, derived artifacts, dependencies, services, and marks remain under their applicable terms and are not relicensed. Continued public availability is authorized in [GitHub Issue #3](https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/3).**
 
 ## Project Status
 
@@ -21,9 +21,9 @@ financial workflows.
 | CER qualification corpus | Seven real ACCU projects across six method types plus one real 2024-25 Safeguard facility-period row |
 | Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups; 27 held out by group, template, subject and target evidence; four E2E journeys |
 | Retrieval, security and performance | controlled 25-query Top-1: lexical 22, TF-IDF 22, hybrid 23; 7 executed security cases plus 3 explicit N/A surfaces; reproducible p50/p95 samples |
-| Step 3 model/API evaluation | Adapter and matched B0/B1/T1 design implemented; 0/27 live cases per arm because no credential is configured |
-| Independent human evaluation | H1 0/27; blocked pending independent annotation; repository expectations are not human gold |
-| Public release and hosting | Prepared documentation and offline package only; no push, release, visibility change, API service, or deployment |
+| Step 3 model/API evaluation | Behavioural evaluation `NOT_EXECUTED`; B0/B1/T1 each have 27 planned held-out cases and 0 completed cases |
+| Independent human evaluation | H1 `NOT_EXECUTED`; 27 labels planned and 0 completed; repository expectations are not human gold |
+| Public repository and hosting | Public repository authorized; no software release, DOI, hosted API service, or application deployment |
 
 The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`.
 
@@ -51,6 +51,14 @@ The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_R
 - It does not establish causality, carbon quantity, additionality, permanence, or scientific truth.
 - It does not provide audit assurance, regulatory approval, lending, trading, or investment advice.
 - It is not a production-ready agent or a general benchmark of environmental claims.
+
+### Data boundary
+
+This public proof of concept is developed and evaluated using public registry and Earth-observation sources. It contains no customer, partner or confidential operational data, and the current implementation does not train a machine-learning model.
+
+Future research or partner deployments may operate in private, access-controlled environments and may use non-public data only under appropriate governance, permissions and data-sharing agreements. Such data and proprietary deployment assets would remain outside this public repository.
+
+The public core, including its claim contracts, schemas, deterministic controls, evaluation protocol and reproducibility materials, is intended to remain openly inspectable.
 
 ## Safe Reproduction
 
@@ -139,6 +147,6 @@ Original code and other owner-controlled repository material are licensed under 
 - The 80 rows are repository-authored deterministic regression cases across 22 semantic groups, not 80 independent substantive scenarios, expert labels, or comparative model evidence.
 - The 25 retrieval queries are a small repository-authored controlled set with structured subject filters, not independent human queries; the hybrid Top-1 gain was 1/25.
 - A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- Step 3 B0/B1/T1 live model evaluation and H1 independent annotation have not run. Multi-project deterministic evaluation has run; hosting has not.
+- Step 3 B0/B1/T1 behavioural evaluation and H1 independent annotation are `NOT_EXECUTED`: 27 cases are planned and 0 are completed for each arm. Multi-project deterministic evaluation has run; application hosting has not.
 
 See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).

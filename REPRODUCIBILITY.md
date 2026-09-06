@@ -47,7 +47,7 @@ Any future runtime code, policy, or runtime-spec change requires a new commit, f
 
 The qualification workflow reads ten local, schema-validated evidence documents: seven curated ACCU project records, one Safeguard facility-period extract, one ACCU/SMC definition document, and one frozen observational derivative. It builds a content-addressed memory snapshot, retrieves facts deterministically, applies authority and evidence gates, and emits a canonical result hash. The evaluator executes 80 repository-authored regression rows across 22 semantic groups twice per row, including 53 development and 27 partition-held-out rows. The qualification and deterministic evaluation paths do not access an external service.
 
-This is the implemented deterministic, multi-project portion of Step 3. The 25-query retrieval comparison, four E2E journeys, local security controls, and performance samples are implemented. B0/B1/T1 live model/API evaluation, H1 independent human labelling, a stable live CER API integration, public hosting, and deployment remain unexecuted. See `docs/STEP3_EVALUATION.md`.
+This is the implemented deterministic, multi-project portion of Step 3. The 25-query retrieval comparison, four E2E journeys, local security controls, and performance samples are implemented. B0/B1/T1 behavioural evaluation and H1 independent human labelling are `NOT_EXECUTED`: each has 27 planned held-out cases and 0 completed cases. A stable live CER API integration and application deployment also remain unexecuted. See `docs/STEP3_EVALUATION.md`.
 
 ## Historical Integrity
 

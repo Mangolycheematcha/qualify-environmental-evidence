@@ -4,7 +4,7 @@ Publication audit date: 2026-09-06. Branch: `main`. Audit initial HEAD: `a33c252
 
 ## Executed verification
 
-- Full test suite: 313 passed in 58.53 seconds after correcting one time-dependent approval fixture and two stale README expectations.
+- Full test suite: 317 passed with pytest caching disabled after adding publication-closure invariants and updating two stale README expectations.
 - Corpus generator check: 9 documents, including 7 ACCU projects and 1 Safeguard facility-period record.
 - Independent source check: all 9 cited official CER responses matched their recorded source byte counts and SHA-256 values on 2026-09-06; raw responses were not saved.
 - Evaluation generator check: 80 rows across 22 groups, 53 development and 27 held out, with no group, template-family, subject-partition or target-evidence overlap.
@@ -17,9 +17,9 @@ Publication audit date: 2026-09-06. Branch: `main`. Audit initial HEAD: `a33c252
 - Frozen policy and runtime-spec builders: PASS.
 - Strict JSON finite-value parse: 85 repository JSON files; no NaN or Infinity numeric value.
 - Frozen run checksum manifest: 336/336 generated files, 0 missing, 0 extra, 0 mismatched.
-- Candidate baseline scan: 195 files, 2,124,421 bytes, no secret/path failures, binaries, symlinks, executables, or files over 10 MB; only three clearly synthetic signed-URL fixtures under `tests/` were identified.
+- Candidate baseline scan: 197 files, with no secret/path failures, binaries, symlinks, executables, or files over 10 MB; only three clearly synthetic signed-URL fixtures under `tests/` were identified.
 - Full-history content scan: 385 Git objects, no secret/path pattern hit, binary blob, or blob over 10 MB.
-- No live EO, STAC, signed-raster or GDAL access occurred. Public CER pages/CSV and official framework documentation were read only to verify citations and hashes.
+- No live EO, STAC, signed-raster, GDAL, model API or approval-consumption access occurred. GitHub's public read-only Issue endpoint was used to verify Issue #3; no credential or raw response was retained.
 
 ## Frozen identities
 
@@ -45,13 +45,17 @@ Publication audit date: 2026-09-06. Branch: `main`. Audit initial HEAD: `a33c252
 
 ## External blockers
 
-- B0/B1/T1: 0/27 live cases per arm. No provider credential is configured and no model/API cost was authorized. The adapter and matched B1/T1 packet design are implemented; fixture output is not counted as behavioural evidence.
-- H1: 0/27 independent labels. Repository expectations are engineering labels, not human gold.
+- B0/B1/T1 behavioural evaluation: `NOT_EXECUTED`; 27 held-out cases are planned and 0 are completed for each arm. No provider credential or model/API cost was authorized. The adapter and matched B1/T1 packet design are implemented; fixture output is not behavioural evidence.
+- H1 independent evaluation: `NOT_EXECUTED`; 27 labels are planned and 0 are completed. Repository expectations are engineering labels, not human gold.
 - CER API: no stable authenticated API contract was identified or exercised; inputs are exact public pages and one raw CSV publication.
-- Hosting/publication: no authenticated service, cloud target, push, release, visibility change or production controls were authorized.
-- Publication rights: ownership and redistribution rights for every tracked artifact still require accountable human confirmation.
-- Git identity: the four commits from `9d12ff0` through `a33c252` use the configured noreply identity, but older reachable commits include `e28581919@gmail.com`. Rewriting history was prohibited; the owner must accept that disclosure or choose a separate publication process.
-- Release authority: GitHub settings and third-party terms still require review, and no explicit approval to publish or change visibility has been given.
+- Hosting: the GitHub repository is public, but no authenticated service, hosted API, cloud application, release, DOI, or production controls were exercised.
+
+## Publication authorization
+
+- Rights: in [GitHub Issue #3](https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/3), the repository owner confirmed review of tracked original material and authority, to the best of their knowledge, to release owner-controlled code, schemas, registries, tests, documentation and original diagrams under Apache-2.0. The local [authorization record](PUBLIC_RELEASE_AUTHORIZATION.md) preserves the verified metadata and hashes.
+- Third-party boundary: the same authorization explicitly retains the exclusions in `THIRD_PARTY_NOTICES.md` and `docs/DATA_AND_ARTIFACT_LICENSING.md`; it is not a legal guarantee or relicensing of third-party material.
+- Historical identity: the four commits from `9d12ff0` through `a33c252` use the configured noreply identity. The owner explicitly accepted public disclosure of `e28581919@gmail.com` in older reachable history and prohibited history rewriting.
+- Release authority: the owner approved continued public availability of implementation baseline `47bbeaf5375c365eee758bbf8f6eda9f0c217dbe` and a subsequent documentation-only publication-closure commit. Step 3 behavioural evaluation, live EO, approval consumption, release/DOI creation and fully canonical claims remain outside scope.
 
 ## Commit attribution
 
@@ -59,5 +63,6 @@ Publication audit date: 2026-09-06. Branch: `main`. Audit initial HEAD: `a33c252
 - `be3c39e`: multi-entity corpus, workflow and evaluation implementation; parent `9d12ff0`.
 - `cd5e0a3`: package, CI, architecture and release-status documentation; parent `be3c39e`.
 - `a33c252`: master-prompt verification status; parent `cd5e0a3`.
+- `47bbeaf`: publication audit and evaluation-claim corrections; parent `a33c252`.
 
-Those four commits use `Hio Wai Hoi <288892596+Mangolycheematcha@users.noreply.github.com>` and form the expected linear chain. Earlier history contains the personal email noted above. No push was performed.
+The four implementation-tranche commits from `9d12ff0` through `a33c252`, plus audit commit `47bbeaf`, use `Hio Wai Hoi <288892596+Mangolycheematcha@users.noreply.github.com>` and form the expected linear chain. Earlier history contains the owner-accepted personal email noted above. The publication-closure commit is resolved mechanically with `git log -1 --format=%H -- HANDOFF.md` after creation rather than predicted inside the ledger.

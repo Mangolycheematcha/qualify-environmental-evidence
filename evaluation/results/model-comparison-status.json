@@ -1,5 +1,5 @@
 {
-  "report_version": "1.0.0",
+  "report_version": "2.0.0",
   "evaluation_design": {
     "held_out_cases": 27,
     "split": "HELD_OUT",
@@ -24,30 +24,31 @@
   },
   "arms": {
     "B0": {
-      "planned": 27,
-      "executed": 0,
-      "status": "NOT_RUN"
+      "planned_cases": 27,
+      "completed_cases": 0,
+      "status": "NOT_EXECUTED"
     },
     "B1": {
-      "planned": 27,
-      "executed": 0,
-      "status": "NOT_RUN"
+      "planned_cases": 27,
+      "completed_cases": 0,
+      "status": "NOT_EXECUTED"
     },
     "T1": {
-      "planned": 27,
-      "executed": 0,
-      "status": "NOT_RUN"
+      "planned_cases": 27,
+      "completed_cases": 0,
+      "status": "NOT_EXECUTED"
     }
   },
   "human_evaluation": {
     "name": "H1",
-    "planned": 27,
-    "independently_labelled": 0,
-    "status": "BLOCKED_PENDING_INDEPENDENT_HUMAN_LABELS",
+    "planned_cases": 27,
+    "completed_cases": 0,
+    "status": "NOT_EXECUTED",
+    "blocked_reason": "PENDING_INDEPENDENT_HUMAN_LABELS",
     "self_labels_counted_as_human": false
   },
   "network_access": false,
   "api_cost": null,
-  "status": "LIVE_MODEL_EVALUATION_BLOCKED",
-  "report_sha256": "8fccbea6824884865d573999a000594d5e61104c53917a2f7510c1210674f2e5"
+  "status": "BEHAVIOURAL_EVALUATION_NOT_EXECUTED",
+  "report_sha256": "74ad8f0644b74a93af3ebaeb8890f80f4f9543fc5e88b0b5bd4d1b2e3ce05dbc"
 }

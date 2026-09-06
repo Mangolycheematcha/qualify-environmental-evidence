@@ -1,50 +1,59 @@
-# Astra Handoff Ledger
+# Handoff Ledger
 
-Owner: Astra (SOL audit authority). This file is rewritten by Astra at each phase boundary.
+This ledger is updated by the implementation agent before commit. It records stable audited baselines and resolution commands, not a prediction of the commit that contains the ledger. Read-only auditors do not modify it.
 
-## Current Git State
+## Stable Git Anchors
 
-- Baseline HEAD: `a33c252cb1df79029dd946354046c0bcc2bc8d4d`
-- Branch: `main`
-- Worktree: dirty with the authorised publication-audit corrective pass; no commit has yet been created.
-- Remote actions: none. No push, release, tag, issue, visibility change, deployment, paid API, live EO, CER runtime, STAC, signed-raster, or GDAL operation was performed.
+- `implementation_baseline_commit`: `47bbeaf5375c365eee758bbf8f6eda9f0c217dbe`
+- `audit_target_commit`: `47bbeaf5375c365eee758bbf8f6eda9f0c217dbe`
+- `handoff_parent_commit`: `47bbeaf5375c365eee758bbf8f6eda9f0c217dbe`
+- `handoff_document_commit`: resolve with `git log -1 --format=%H -- HANDOFF.md`
+- `working_tree_at_handoff_creation`: publication-closure files modified from the clean implementation baseline; these changes are intended to be committed together as `Close public-release governance findings`
+- `next_authorised_phase`: `STEP_3_AUTHORISED_BUT_NOT_STARTED`
 
-## Phase States And Evidence
+The publication authorization in GitHub Issue #3 does not itself authorize Step 3 behavioural execution. B0/B1/T1 and H1 remain `NOT_EXECUTED` and require their separately documented prerequisites.
 
-| Phase | State | Evidence path |
+## Publication Closure Evidence
+
+| Item | State | Evidence |
 |---|---|---|
-| Git baseline and four-commit lineage | Astra-audited complete | `docs/IMPLEMENTATION_VERIFICATION.md` (`Commit attribution`) |
-| CER corpus count, six method categories, source traceability | Astra-audited complete | `data/cer/corpus-manifest.json`; `docs/IMPLEMENTATION_VERIFICATION.md` |
-| Evaluation split and denominator correction | Implemented; final regeneration/verification pending | `evaluation/qualification-benchmark.json`; `evaluation/results/qualification-evaluation.json` |
-| Retrieval leakage correction and metric recalculation | Implemented; latest result regeneration pending | `evaluation/retrieval-benchmark.json`; `scripts/evaluate_retrieval.py` |
-| E2E, state-store, security, and performance corrections | Implemented and focused/full tests passed before the latest retrieval-only edit | `evaluation/results/e2e-demonstrations.json`; `evaluation/results/security-evaluation.json`; `evaluation/results/performance.json` |
-| Frozen V3/V4 integrity | Astra-audited complete: V4 336/336; V3/V4 hashes match | `docs/IMPLEMENTATION_VERIFICATION.md` (`Frozen identities`) |
-| Publication scans | Astra-audited complete for content; candidate-byte count needs one final refresh | `docs/IMPLEMENTATION_VERIFICATION.md` |
-| Final corrective commit | Pending Luna implementation and Astra acceptance | Git state |
+| Owner rights attestation and Apache-2.0 scope | Confirmed for original owner-controlled material | `docs/PUBLIC_RELEASE_AUTHORIZATION.md`; GitHub Issue #3 |
+| Third-party exclusions | Retained | `THIRD_PARTY_NOTICES.md`; `docs/DATA_AND_ARTIFACT_LICENSING.md` |
+| Historical Gmail disclosure | Accepted by owner; no history rewrite | `docs/PUBLIC_RELEASE_AUTHORIZATION.md`; GitHub Issue #3 |
+| Continued public availability | Approved by owner | `docs/PUBLIC_RELEASE_AUTHORIZATION.md`; GitHub Issue #3 |
+| Framework ADR artifact-only finding | Resolved prospectively by removing version/date reliance | `docs/adr/0001-workflow-framework.md` |
+| Frozen Step 2B status | `SCIENCE_VALID - GOVERNANCE_LIMITATION - NO_RERUN` | `docs/STEP2B_V4_CLOSURE.md` |
 
-## Exact Next Command
+## Mixed-Responsibility Audit History
+
+The following corrections predate the separated publication-closure protocol and retain their historical classification:
+
+- Evaluation denominators, semantic groups, partition isolation, retrieval corrections, checkpoint/replay controls, performance calculations, security coverage, Safeguard wording, documentation reconciliation and time-dependent test stabilization: **applied under mixed responsibility, re-verified**.
+- The former framework ADR version/date assertions were **applied under mixed responsibility, not independently verifiable**. That historical finding is not rewritten; this closure removes reliance on those assertions for future publication.
+
+## Resolution Commands
+
+After the publication-closure commit, resolve the document commit and audit target without editing this file:
 
 ```powershell
-& '.\.venv\Scripts\python.exe' scripts/evaluate_retrieval.py --write --json
+git log -1 --format=%H -- HANDOFF.md
+git status --short
+git show --stat --oneline HEAD
 ```
 
-After that, Luna must synchronise the existing 46-resource skill package, run the documented offline verification, refresh only mechanically derived audit numbers, inspect the diff, and create the single local commit `Audit evaluation and publication claims`. Luna must not choose or alter any threshold or status label.
+The first command identifies the commit containing this ledger. Phase 2 must audit that commit and leave the worktree unchanged.
 
-## Open Escalations Awaiting Astra Decision
+## Remaining Limits
 
-- Public redistribution rights remain an accountable-human decision: `docs/DATA_AND_ARTIFACT_LICENSING.md` (`Remaining Release Decisions`) and `PUBLIC_RELEASE_CHECKLIST.md`.
-- Older reachable commits expose `e28581919@gmail.com`; history rewrite is prohibited. Evidence: `docs/IMPLEMENTATION_VERIFICATION.md` (`External blockers`).
-- GitHub settings and explicit publication approval remain human-controlled: `PUBLIC_RELEASE_CHECKLIST.md`.
-
-## Unfixed Red-Team Findings And Disclosed Limits
-
-- The 25-query retrieval set is repository-authored after the corpus, uses structured subject filters, and includes one single-candidate query. It is not independent human or comparative-model evidence.
-- The 80 rows are parameterised deterministic regression evidence across 22 semantic groups, not 80 independent expert-labelled scenarios.
-- B0/B1/T1 remain 0/27 per arm; H1 remains 0/27; no public hosting or deployment has occurred.
-- The frozen Step 2B classification remains `SCIENCE_VALID - GOVERNANCE_LIMITATION - NO_RERUN`; no fully canonical claim is allowed.
+- The 80 rows remain repository-authored deterministic regression evidence, not model accuracy or expert validation.
+- Retrieval remains a small repository-authored controlled set with one single-candidate query.
+- B0/B1/T1 and H1 are `NOT_EXECUTED`; each has 27 planned cases and 0 completed cases.
+- No stable live CER API, hosted application, software release, DOI or production control environment has been exercised.
+- The owner-operated review of GitHub Pages, Actions, collaborators and secrets is not performed by this repository commit.
 
 ## Must Not Be Redone
 
-- Do not rerun live EO or mutate any frozen run. The retained scientific result and its 336-entry checksum package were already independently verified and are immutable.
-- Do not refetch CER or framework sources during this pass. Astra already compared all nine cited CER response byte counts and hashes and checked the current official framework documentation.
-- Do not revisit framework selection, tau, scientific thresholds, policy semantics, schema versions, or historical run classification; none is in the approved implementation scope.
+- Do not rerun live EO, modify a frozen run, consume approval, or recalculate the scientific result.
+- Do not change tau, thresholds, policy semantics, schemas, or historical classifications in this closure.
+- Do not rewrite Git history to remove the accepted historical email disclosure.
+- Do not execute B0/B1/T1/H1 or call a model API as part of publication closure.

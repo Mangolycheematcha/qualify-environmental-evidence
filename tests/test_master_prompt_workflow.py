@@ -123,8 +123,10 @@ def test_e2e_security_and_provider_status_are_honest(monkeypatch):
     assert e2e["status"] == "PASS" and e2e["journey_count"] == 4
     assert security["status"] == "PASS" and security["executed_case_count"] == 7
     assert security["not_applicable_case_count"] == 3
-    assert provider["arms"]["B0"]["executed"] == 0
-    assert provider["human_evaluation"]["independently_labelled"] == 0
+    assert provider["arms"]["B0"] == {"planned_cases": 27, "completed_cases": 0, "status": "NOT_EXECUTED"}
+    assert provider["human_evaluation"]["planned_cases"] == 27
+    assert provider["human_evaluation"]["completed_cases"] == 0
+    assert provider["human_evaluation"]["status"] == "NOT_EXECUTED"
     assert provider["provider"]["fixture_is_behavioural_evidence"] is False
 
 
