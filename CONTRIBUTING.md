@@ -1,6 +1,6 @@
 # Contribution Policy
 
-This is a single-owner research PoC. Original, owner-controlled repository material is licensed under Apache-2.0, subject to the scope and third-party exclusions documented in `docs/DATA_AND_ARTIFACT_LICENSING.md` and `THIRD_PARTY_NOTICES.md`. The repository remains private pending release approval. Contributions require explicit owner permission.
+This is a public, single-owner research PoC. Original, owner-controlled repository material is licensed under Apache-2.0, subject to the scope and third-party exclusions documented in `docs/DATA_AND_ARTIFACT_LICENSING.md` and `THIRD_PARTY_NOTICES.md`. Public visibility does not imply that every proposed contribution will be accepted. Contributions require explicit owner permission and must preserve the repository's deterministic, provenance, licensing, security, and governance boundaries.
 
 ## Change Boundaries
 
