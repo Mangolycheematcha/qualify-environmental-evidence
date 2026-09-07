@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="700" viewBox="0 0 1200 700" role="img" aria-labelledby="title description">
+  <title id="title">Evidence decision boundary for the demonstrated NDVI comparison</title>
+  <desc id="description">PRE median NDVI was 0.663 and POST median NDVI was 0.643. The observed change of minus 0.0198 lies inside the operational policy band from minus 0.03 to plus 0.03, so the system abstained as inconclusive.</desc>
+  <rect width="1200" height="700" fill="#f7f9fc"/>
+  <text x="64" y="66" fill="#162638" font-family="system-ui, sans-serif" font-size="30" font-weight="700">Evidence decision boundary</text>
+  <text x="64" y="99" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="18">Policy frozen before observation</text>
+
+  <rect x="64" y="132" width="250" height="112" rx="6" fill="#ffffff" stroke="#aab7c4" stroke-width="2"/>
+  <text x="88" y="172" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="17" font-weight="600">PRE median NDVI</text>
+  <text x="88" y="220" fill="#162638" font-family="system-ui, sans-serif" font-size="40" font-weight="700">0.663</text>
+
+  <rect x="334" y="132" width="250" height="112" rx="6" fill="#ffffff" stroke="#aab7c4" stroke-width="2"/>
+  <text x="358" y="172" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="17" font-weight="600">POST median NDVI</text>
+  <text x="358" y="220" fill="#162638" font-family="system-ui, sans-serif" font-size="40" font-weight="700">0.643</text>
+
+  <rect x="604" y="132" width="532" height="112" rx="6" fill="#e8eef5" stroke="#73869a" stroke-width="2"/>
+  <text x="628" y="172" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="17" font-weight="600">DECISION</text>
+  <text x="628" y="215" fill="#173f5f" font-family="system-ui, sans-serif" font-size="31" font-weight="700">ABSTAINED / INCONCLUSIVE</text>
+
+  <rect x="64" y="276" width="1072" height="330" rx="6" fill="#ffffff" stroke="#c4cdd7" stroke-width="2"/>
+  <text x="96" y="321" fill="#162638" font-family="system-ui, sans-serif" font-size="21" font-weight="700">Operational policy boundary &#8722; not a confidence interval</text>
+  <text x="96" y="351" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="16">Observed POST-minus-PRE change</text>
+
+  <line x1="120" y1="436" x2="1080" y2="436" stroke="#8c9baa" stroke-width="10" stroke-linecap="round"/>
+  <rect x="312" y="409" width="576" height="54" rx="4" fill="#dceadf" stroke="#50765a" stroke-width="2"/>
+  <line x1="312" y1="399" x2="312" y2="476" stroke="#354b3a" stroke-width="3"/>
+  <line x1="600" y1="402" x2="600" y2="470" stroke="#6e7e8e" stroke-width="2"/>
+  <line x1="888" y1="399" x2="888" y2="476" stroke="#354b3a" stroke-width="3"/>
+
+  <line x1="410" y1="382" x2="410" y2="480" stroke="#a63d40" stroke-width="5"/>
+  <circle cx="410" cy="436" r="10" fill="#a63d40" stroke="#ffffff" stroke-width="3"/>
+  <rect x="328" y="358" width="164" height="38" rx="4" fill="#a63d40"/>
+  <text x="410" y="384" text-anchor="middle" fill="#ffffff" font-family="system-ui, sans-serif" font-size="18" font-weight="700">&#916; = &#8722;0.0198</text>
+
+  <text x="312" y="505" text-anchor="middle" fill="#162638" font-family="system-ui, sans-serif" font-size="18" font-weight="700">&#8722;0.03</text>
+  <text x="600" y="505" text-anchor="middle" fill="#162638" font-family="system-ui, sans-serif" font-size="18" font-weight="700">0</text>
+  <text x="888" y="505" text-anchor="middle" fill="#162638" font-family="system-ui, sans-serif" font-size="18" font-weight="700">+0.03</text>
+  <text x="600" y="541" text-anchor="middle" fill="#354b3a" font-family="system-ui, sans-serif" font-size="18" font-weight="600">Operational indifference band</text>
+  <text x="600" y="575" text-anchor="middle" fill="#173f5f" font-family="system-ui, sans-serif" font-size="22" font-weight="700">|&#916;| = 0.0198 &lt; &#964; = 0.03</text>
+
+  <text x="64" y="654" fill="#4b5d70" font-family="system-ui, sans-serif" font-size="16">Qualification outcome only. No claim of statistical significance, project validation, or regulatory decision.</text>
+</svg>

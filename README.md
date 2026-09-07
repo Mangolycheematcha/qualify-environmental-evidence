@@ -1,152 +1,112 @@
-# qualify-environmental-evidence
+# Qualify Environmental Evidence
 
 **Evidence before inference.**
 
-A reproducible proof of concept for qualifying—not validating—public
-registry and Earth-observation evidence before use in regulated
-financial workflows.
+This is a reproducible public-data proof of concept for qualifying evidence, not validating projects. It combines source identity, allowed inference, [provenance](GLOSSARY.md#provenance), deterministic controls, and [abstention](GLOSSARY.md#abstention) in an auditable workflow: an evidence-control pattern to apply before environmental information enters a regulated financial workflow. It is not presented as deployed in a bank, Microsoft, a regulator, or a customer environment.
 
-> **Original, owner-controlled repository material is licensed under Apache-2.0. Third-party data, metadata, source responses, derived artifacts, dependencies, services, and marks remain under their applicable terms and are not relicensed. Continued public availability is authorized in [GitHub Issue #3](https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/3).**
-
-## Project Status
-
-| Area | Status |
-|---|---|
-| Step 1 contract and skill packaging | Contract `0.5.0`; schemas, registries, validator, and packaged skill implemented and tested |
-| Step 2B real EO vertical slice | Completed for EOP101132 under frozen V4 policy and Approval Protocol V2 |
-| Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs |
-| Scientific result | Retained: `ABSTAINED / INCONCLUSIVE / EFFECT_WITHIN_OPERATIONAL_INDIFFERENCE_BAND` |
-| Cached replay | Assessment bytes, array hashes, grouping, composites, and joint mask reproduced |
-| Canonical/governance status | Governance limitations documented; not claimed as fully canonical |
-| CER qualification corpus | Seven real ACCU projects across six method types plus one real 2024-25 Safeguard facility-period row |
-| Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups; 27 held out by group, template, subject and target evidence; four E2E journeys |
-| Retrieval, security and performance | controlled 25-query Top-1: lexical 22, TF-IDF 22, hybrid 23; 7 executed security cases plus 3 explicit N/A surfaces; reproducible p50/p95 samples |
-| Step 3 model/API evaluation | Behavioural evaluation `NOT_EXECUTED`; B0/B1/T1 each have 27 planned held-out cases and 0 completed cases |
-| Independent human evaluation | H1 `NOT_EXECUTED`; 27 labels planned and 0 completed; repository expectations are not human gold |
-| Public repository and hosting | Public repository authorized; no software release, DOI, hosted API service, or application deployment |
-
-The current Step 2B closure is `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`.
+[![Offline validation](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml/badge.svg)](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml)
 
 ## In 30 Seconds
 
-- The PoC binds a narrow evidence question to allowlisted sources, frozen transformations, reason codes, and explicit abstention behavior.
-- It executed one real Sentinel-2 vertical slice and retained the resulting bounded scientific assessment.
-- It reproduced that assessment from cached arrays without network access.
-- It records two governance limitations: an erroneous diagnostic-only area value and incomplete request-level visibility into GDAL HTTP range requests and retries.
-- It does not validate carbon credits, prove environmental causality, provide assurance, or make an investment decision.
+- Bind a narrow question to allowlisted public sources and a policy frozen before observation.
+- Resolve source identity and admissibility before transforming or comparing evidence.
+- Produce structured decisions with provenance, reason codes, authority limits, and explicit abstention.
+- Reproduce the demonstrated assessment offline from retained inputs without repeating external actions.
+
+![Decision boundary showing an observed NDVI change of minus 0.0198 inside an operational policy band from minus 0.03 to plus 0.03, resulting in abstention](docs/assets/evidence-decision-boundary.svg)
+
+## Plain-Language Outcome
+
+The system was asked a bounded question, found that the observed change remained inside the policy's pre-observation indifference band, and declined to produce a stronger conclusion. That is the designed control behaviour, not a failure to return a result.
+
+The outcome does **not** mean there was no environmental change. It is not a statistical-significance result, project validation, regulatory decision, or judgment of financial suitability.
 
 ## What It Does
 
-- Validates versioned claim contracts, schemas, registries, and provenance relationships.
-- Resolves metadata-only acquisition groups before raster processing.
-- Computes a bounded PRE/POST Sentinel-2 NDVI comparison under a frozen policy.
-- Emits structured status, disposition, reason codes, hashes, and human-review requirements.
-- Preserves one-time approval consumption and cached deterministic replay evidence.
-- Runs an offline evidence-memory and qualification workflow over source-attributed CER facts and the frozen Step 2B summary.
-- Enforces the distinction between ACCUs and SMCs before any quality, equivalence, compliance, trading, or financial inference.
+- Validates versioned [claim contracts](GLOSSARY.md#claim-contract), schemas, registries, and provenance relationships.
+- Separates source facts from transformations, decision rules, and generated statements.
+- Enforces ACCU and Safeguard Mechanism semantic boundaries before downstream inference.
+- Runs bounded PRE/POST Earth-observation comparison and deterministic qualification workflows.
+- Pauses when authority or evidence is insufficient, then supports idempotent resume and offline replay.
 
-## What It Does Not Do
+## Key Demonstrated Result
 
-- It does not validate ACCUs, carbon-credit quality, project integrity, or regulatory compliance.
-- It does not establish causality, carbon quantity, additionality, permanence, or scientific truth.
-- It does not provide audit assurance, regulatory approval, lending, trading, or investment advice.
-- It is not a production-ready agent or a general benchmark of environmental claims.
+- PRE median NDVI: **0.663**
+- POST median NDVI: **0.643**
+- Observed change: **−0.0198**
+- Operational policy band: **±0.03**
+- Decision: **ABSTAINED / INCONCLUSIVE**
 
-### Data boundary
+Because `|−0.0198| < 0.03`, the [authority ceiling](GLOSSARY.md#authority-ceiling) prevented a stronger conclusion. Full-precision values, hashes, provenance, replay evidence, and disclosed governance limitations remain in the [authoritative Step 2B closure](docs/STEP2B_V4_CLOSURE.md). Its scientific-path record is: Real raster and NDVI path | Executed against permitted live V4 assets and reproduced from cached inputs.
 
-This public proof of concept is developed and evaluated using public registry and Earth-observation sources. It contains no customer, partner or confidential operational data, and the current implementation does not train a machine-learning model.
+## Quickstart
 
-Future research or partner deployments may operate in private, access-controlled environments and may use non-public data only under appropriate governance, permissions and data-sharing agreements. Such data and proprietary deployment assets would remain outside this public repository.
-
-The public core, including its claim contracts, schemas, deterministic controls, evaluation protocol and reproducibility materials, is intended to remain openly inspectable.
-
-## Safe Reproduction
-
-The shortest supported entry point is offline contract validation:
+Prepare the locked environment once. This may contact a package registry; it does not install the repository root as a package.
 
 ```text
-uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/validate_step1_specs.py
+uv sync --locked --no-install-project --extra test --extra runtime --python 3.14
 ```
 
-The end-to-end offline qualification demo is:
+Run the qualification example offline on POSIX or Windows:
 
 ```text
-uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
-uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_qualification.py --json
-uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/run_e2e_demos.py --json
+.venv/bin/python scripts/qualification_workflow.py examples/qualification/eop101132-request.json --json
+.venv\Scripts\python.exe scripts\qualification_workflow.py examples\qualification\eop101132-request.json --json
 ```
 
-The complete offline suite is:
+Run the complete offline test suite with pytest caching disabled:
 
 ```text
-uv run --offline --no-project --with "jsonschema>=4.18,<5" --with "pytest>=8,<9" --with "pyyaml>=6,<7" --with "numpy==2.5.2" --with "rasterio==1.5.1" python -m pytest -o addopts="" -p no:cacheprovider -q
-uv run --offline --no-project python scripts/package_skill.py --check
-uv run --offline --no-project python scripts/freeze_v4_runtime_spec.py --check
+.venv/bin/python -m pytest -o addopts="" -p no:cacheprovider -q
 ```
 
-| Path | Network/approval boundary |
+These commands do not start live EO access or consume an approval. See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full command and network boundary.
+
+## How It Works
+
+1. Validate a claim contract and its permitted sources, transformations, and statements.
+2. Retrieve only admissible evidence and preserve source identity and content hashes.
+3. Apply deterministic grouping, transformation, coverage, and decision rules.
+4. Enforce the authority ceiling; abstain when evidence cannot support the requested claim.
+5. Emit a structured assessment, provenance, checkpoints, and replay evidence.
+
+## Project Status
+
+| Area | Evidence-backed status |
 |---|---|
-| Commands above | `OFFLINE-ONLY`; use repository fixtures and do not consume approval |
-| Cached replay verification | `OFFLINE-ONLY`; the completed private run package is immutable, so do not invoke the replay writer against it |
-| Live EO runtime | `LIVE/NETWORK` and `APPROVAL-CONSUMING`; intentionally not presented as a quick start |
-| Step 3 deterministic evaluation | `OFFLINE-ONLY`; no model or external API is used |
-| Step 3 model/API evaluation | Adapter implemented; no call executed; requires explicit authorization, credential and selected model |
+| Public repository governance | Public availability authorized; Apache-2.0 is limited to owner-controlled material |
+| CI | Offline validation runs on GitHub Actions |
+| Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups; 53 development and 27 group-held-out; deterministic regression evidence only |
+| Retrieval and evidence workflow | Controlled Top-1: lexical 22/25, local TF-IDF 22/25, hybrid 23/25; not external model evidence |
+| Step 3 model/API evaluation | Behavioural evaluation `NOT_EXECUTED`; [B0/B1/T1/H1](GLOSSARY.md#b0--b1--t1--h1) each have 27 planned cases and 0 completed cases |
+| Step 3 | `STEP_3_READY_BUT_NOT_AUTHORISED_OR_STARTED` |
 
-See [REPRODUCIBILITY.md](REPRODUCIBILITY.md) for the full command boundary.
+At Step 2B closure, Step 3 had not started. Deterministic offline evaluation was added later; the behavioural arms remain unexecuted and current Step 3 execution is not authorized.
 
-## Step 2B Result
+## Data Boundary
 
-The retained run is `EOP101132-STEP2B-V4-20260901T081607339902Z-703540348beaee0f`, executed at commit `9e1fabbf005dd29fba09aa82ea18046e99556e02` with:
+The public PoC uses public registry and Earth-observation sources. It contains no customer, partner, or confidential operational data, and the current implementation does not train a machine-learning model.
 
-- policy SHA-256 `3412570f327f4c55184ced99948f3625e718e19e994732ec204cb7dea16318dd`;
-- runtime-spec SHA-256 `e7671981e1edbe9b17d2198d68bd873750c40c9489923c403790c34ae9059b51`;
-- PRE median NDVI `0.6630660903670323`;
-- POST median NDVI `0.6432938994009436`;
-- POST-minus-PRE delta `-0.0197721909660887`;
-- joint coverage `0.9997194163860831`;
-- frozen primary tau `0.03`.
+### Data boundary for future use
 
-Under the frozen primary policy, the result is `ABSTAINED / INCONCLUSIVE` because the observation falls within the operational indifference band. This is a qualification outcome, not a scientific detection threshold.
-
-Offline replay reproduced the assessment bytes and array hashes. The run is not claimed as fully canonical under Approval Protocol V2 because one diagnostic area field was erroneous and GDAL internal HTTP range requests and retries were not fully represented in request-level transport provenance.
-
-Read the [Step 2B closure and impact audit](docs/STEP2B_V4_CLOSURE.md), its [provenance and replay record](docs/STEP2B_V4_CLOSURE.md#provenance-and-replay), and the documented [governance limitations](docs/STEP2B_V4_CLOSURE.md#governance-limitations). Earlier run history remains available in the [historical V4 audit](docs/STEP2B_V4_THIRD_APPROVED_RUN_AUDIT.md) and [approval-binding incident](docs/incidents/STEP2B_V4_APPROVAL_BINDING_FAILURE.md).
-
-The [qualification workflow](docs/QUALIFICATION_WORKFLOW.md) now provides deterministic retrieval and bounded memo generation over curated CER public facts and the frozen summary. The [Step 3 evaluation](docs/STEP3_EVALUATION.md) reports exactly what has and has not been tested; [deployment guidance](docs/DEPLOYMENT.md) describes the supported offline package and future service gates.
-
-## Repository Layout
-
-- `cases/`: bounded claim contracts.
-- `config/`: evidence, transformation, reason-code, statement, and forbidden-inference registries.
-- `policies/`: immutable historical policies and proposals.
-- `schemas/`: JSON Schemas for contract artifacts.
-- `scripts/`: deterministic validators, offline logic, packaging, and controlled runtime code.
-- `tests/`: synthetic offline tests.
-- `examples/`: reviewed derivatives; not complete run packages.
-- `data/cer/`: curated, source-attributed CER public fact snapshots; not raw pages or complete exports.
-- `evaluation/`: versioned offline qualification benchmark.
-- `skill/qualify-environmental-evidence/`: allowlisted packaged skill resources.
-
-Complete live `runs/` directories remain local and ignored. Raw HTTP payloads, caches, raster assets, signed URLs, and credentials are not tracked.
-
-## Data, Licensing, And Citation
-
-The contract identifies official Clean Energy Regulator records and Microsoft Planetary Computer Sentinel-2 L2A metadata as allowed sources. Source identity is attribution and provenance, not affiliation, endorsement, partnership, regulatory approval, or scientific validation.
-
-Original code and other owner-controlled repository material are licensed under [Apache-2.0](LICENSE). That licence does not relicense CER material, Sentinel-2 or Planetary Computer data and metadata, raw network responses, derived or cached artifacts, third-party dependencies, services, or marks. See the [licence scope inventory](docs/DATA_AND_ARTIFACT_LICENSING.md), [third-party notices](THIRD_PARTY_NOTICES.md), [NOTICE](NOTICE), and [CITATION.cff](CITATION.cff).
+Future research or partner deployments may operate in private, access-controlled environments and may use non-public data only under appropriate governance, permissions, and data-sharing agreements. Private data and proprietary deployment assets stay outside this repository; the public contracts, controls, and reproducibility materials remain inspectable.
 
 ## Limitations
 
-- The result is one bounded observational comparison and does not generalise beyond its frozen claim, AOI, windows, sources, and policy.
-- The incorrect projected-area value in `target-grid.json` is diagnostic-only. Bounds, transform, shape, AOI mask, coverage, arrays, composites, NDVI, disposition, and sensitivity did not read that value and were independently reproduced.
-- Request-level provenance does not enumerate GDAL's internal HTTP range requests, and the GDAL retry configuration cannot be claimed as compliant with the frozen logical `0/2/5` retry semantics.
-- Cached array-level replay proves deterministic reconstruction from retained inputs; it does not prove complete original COG transport-byte provenance.
-- CER snapshots are time-stamped curated facts, not a live API or continuously refreshed register mirror.
-- Evidence memory is local and content-addressed; it is not user memory, a vector database, or a claim of semantic completeness.
-- The Step 3 unsupported-assertion metric evaluates the deterministic rule system only, not an LLM hallucination rate.
-- The 80 rows are repository-authored deterministic regression cases across 22 semantic groups, not 80 independent substantive scenarios, expert labels, or comparative model evidence.
-- The 25 retrieval queries are a small repository-authored controlled set with structured subject filters, not independent human queries; the hybrid Top-1 gain was 1/25.
-- A single PoC cannot establish causality, carbon quantity, additionality, permanence, compliance, ACCU quality, project integrity, or financial suitability.
-- Step 3 B0/B1/T1 behavioural evaluation and H1 independent annotation are `NOT_EXECUTED`: 27 cases are planned and 0 are completed for each arm. Multi-project deterministic evaluation has run; application hosting has not.
+- This public-data PoC retains the Step 2B closure `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`; it makes no unqualified canonicality claim and remains one bounded case, not project, regulatory, carbon-integrity, or financial validation.
+- The comparison is observational and does not establish causality, carbon quantity, additionality, or permanence.
+- The operational indifference band is a policy boundary, not a scientific detection threshold or confidence interval.
+- A projected-area defect affected a diagnostic field only; the independently traced decision path did not read it.
+- GDAL request-level transport provenance and retry visibility are partial; cached array replay does not prove complete original transport bytes.
+- CER snapshots are dated curated facts, not a live or continuously refreshed register mirror.
+- Deterministic and retrieval evaluations are repository-authored engineering evidence with limited external validity; model and independent human evaluation remain unexecuted.
 
-See [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).
+## Documentation And Glossary
+
+Start with the [glossary](GLOSSARY.md), [qualification workflow](docs/QUALIFICATION_WORKFLOW.md), [Step 2B closure](docs/STEP2B_V4_CLOSURE.md), [Step 3 evaluation](docs/STEP3_EVALUATION.md), and [deployment boundary](docs/DEPLOYMENT.md). Security, contribution, source, and release guidance are in [SECURITY.md](SECURITY.md), [CONTRIBUTING.md](CONTRIBUTING.md), [DATA_SOURCES.md](DATA_SOURCES.md), and [PUBLIC_RELEASE_CHECKLIST.md](PUBLIC_RELEASE_CHECKLIST.md).
+
+## Licensing And Release Governance
+
+Original, owner-controlled repository material is licensed under Apache-2.0. The [licence](LICENSE) does not relicense third-party data and metadata, source responses, raster products, derived or cached artifacts, dependencies, services, or marks; those remain under their applicable terms. See [licensing scope](docs/DATA_AND_ARTIFACT_LICENSING.md), [third-party notices](THIRD_PARTY_NOTICES.md), [NOTICE](NOTICE), and [CITATION.cff](CITATION.cff).
+
+Continued public availability is authorized in [GitHub Issue #3](https://github.com/Mangolycheematcha/qualify-environmental-evidence/issues/3). The issue and [public-release authorization record](docs/PUBLIC_RELEASE_AUTHORIZATION.md) preserve the Apache-2.0 scope, third-party exclusions, and accepted historical email disclosure. Source identity records attribution and provenance; it does not imply affiliation, endorsement, partnership, approval, or validation.
