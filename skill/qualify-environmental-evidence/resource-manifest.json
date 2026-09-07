@@ -80,7 +80,7 @@
     },
     {
       "path": "data/cer/corpus-manifest.json",
-      "sha256": "d2ff086f0f7ae1c8516df896b1f9a5798ad2b9deac7fe994470a5275b8199b79"
+      "sha256": "53e7defaf9179864c64726c7ad88800a2416f8c3e3c8bd1f619920505f896f26"
     },
     {
       "path": "data/cer/eop100183-project-record.json",
@@ -116,15 +116,15 @@
     },
     {
       "path": "evaluation/held-out-freeze.json",
-      "sha256": "a2e870cd787e6aef20f7e0094ebdcac8a2a9e45557636f14a799aecb94b1c668"
+      "sha256": "c98914fb6b6c5d220f220451add47bc030a78ec8f840d069193962929fbd35e1"
     },
     {
       "path": "evaluation/qualification-benchmark.json",
-      "sha256": "6d03a6bde4ee618e87ba209e2e7fc99036b371be06cb305a1a544ec076a3b38a"
+      "sha256": "ddc11424d9c1131668e10cdd544a615009da64c8d1644533f958f5d3914746fa"
     },
     {
       "path": "evaluation/retrieval-benchmark.json",
-      "sha256": "21bc5f5dcdd2643a8aea750fbe4481cffc34bb357f1e3b58a62f47bae9fa6769"
+      "sha256": "0ab6670064716a0a688e2071cb73eabeb881b7677bc03ea3a3469f680ccf5701"
     },
     {
       "path": "examples/qualification/accu-smc-boundary-request.json",
