@@ -2,7 +2,9 @@
 
 **Evidence before inference.**
 
-This is a reproducible public-data proof of concept for qualifying evidence, not validating projects. It combines source identity, allowed inference, [provenance](GLOSSARY.md#provenance), deterministic controls, and [abstention](GLOSSARY.md#abstention) in an auditable workflow: an evidence-control pattern to apply before environmental information enters a regulated financial workflow. It is not presented as deployed in a bank, Microsoft, a regulator, or a customer environment.
+A reproducible public-data proof of concept for deciding whether environmental evidence is sufficient and authorised to support a bounded claim before it enters a regulated financial workflow. It qualifies evidence rather than validating projects, separates sources and observations from permissible conclusions, and can qualify or [abstain](GLOSSARY.md#abstention). It is not presented as deployed in a bank, Microsoft, a regulator, or a customer environment.
+
+Financial workflows do not fail only when evidence is missing. They also fail when available evidence is stretched beyond what it can support. This project makes that boundary explicit, inspectable, and reproducible through [provenance](GLOSSARY.md#provenance) and deterministic controls.
 
 [![Offline validation](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml/badge.svg)](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml)
 
@@ -70,6 +72,12 @@ These commands do not start live EO access or consume an approval. See [REPRODUC
 4. Enforce the authority ceiling; abstain when evidence cannot support the requested claim.
 5. Emit a structured assessment, provenance, checkpoints, and replay evidence.
 
+## Value To Reviewers
+
+- Industry partners can inspect the control design before introducing customer or confidential operational data.
+- Supervisors and researchers can examine falsifiable boundaries, source-linked artifacts, and the evaluation design.
+- Engineers can reproduce deterministic tests, provenance checks, and the abstention path locally.
+
 ## Project Status
 
 | Area | Evidence-backed status |
@@ -93,7 +101,7 @@ Future research or partner deployments may operate in private, access-controlled
 
 ## Limitations
 
-- This public-data PoC retains the Step 2B closure `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`; it makes no unqualified canonicality claim and remains one bounded case, not project, regulatory, carbon-integrity, or financial validation.
+- Known provenance and canonicality limitations remain documented; the retained run is not presented as a canonical execution record. Its Step 2B closure remains `SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN`, and it is one bounded case, not project, regulatory, carbon-integrity, or financial validation.
 - The comparison is observational and does not establish causality, carbon quantity, additionality, or permanence.
 - The operational indifference band is a policy boundary, not a scientific detection threshold or confidence interval.
 - A projected-area defect affected a diagnostic field only; the independently traced decision path did not read it.

@@ -367,12 +367,17 @@ def test_historical_policy_science_and_completed_run_hashes_are_preserved():
         assert protocol.sha256_file(failed / "approval" / "approval-consumption.json") == "9f69cc7d03f37a0d4c5587e562a2eccc373f6d03f69ddd303fbe6319842954ac"
 
 
-def test_readme_uses_exact_closure_and_governance_status():
+def test_readme_preserves_closure_and_governance_boundaries():
     readme = (runtime.ROOT / "README.md").read_text(encoding="utf-8")
-    assert "SCIENCE_VALID — GOVERNANCE_LIMITATION — NO_RERUN" in readme
-    assert "not claimed as fully canonical" in readme
+    lower = readme.lower()
+    assert "science_valid — governance_limitation — no_rerun" in lower
+    assert "canonicality" in lower
+    assert "canonical execution record" in lower
+    assert "fully canonical" not in lower
     assert "Step 3 deterministic evaluation | 80/80 engineering rows across 22 semantic groups" in readme
     assert "Step 3 model/API evaluation | Behavioural evaluation `NOT_EXECUTED`" in readme
+    assert "B0/B1/T1/H1" in readme
+    assert "27 planned cases and 0 completed cases" in readme
     assert "A corrected pre-authorized run is pending." not in readme
     assert "three approved V4 runs" not in readme
     assert "third approved V4 run" not in readme.lower()

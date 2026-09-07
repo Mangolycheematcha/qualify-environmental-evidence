@@ -8,7 +8,7 @@ This is a factual release inventory, not legal advice. In [GitHub Issue #3](http
 |---|---|---|
 | Repository-specific Python | Tracked as source | Apache-2.0 where original and owner-controlled; owner review recorded in Issue #3 |
 | JSON Schemas, registries, and tests | Tracked; repository-specific structure and fixtures | Apache-2.0 where original and owner-controlled; source-derived facts retain their own status |
-| Original documentation and diagrams | Markdown tracked; no binary diagrams or fonts found | Apache-2.0 where original and owner-controlled |
+| Original documentation and presentation assets | Markdown documentation, an SVG decision-boundary diagram, and a validated PNG social-preview derivative are tracked; no third-party logos, photos, satellite basemaps, or font files | Apache-2.0 where original and owner-controlled; presentation assets do not relicense their factual subject matter |
 | Curated CER fact snapshots under `data/cer/` | Tracked as small, source-attributed factual extracts; no raw page or complete register export | Do not relicense the underlying CER material; retain source URL, access date, and extraction caveat |
 | CER project pages and CEA boundary files | Canonical identities appear in policy/provenance; complete responses and boundary files are ignored locally | Do not relicense; link and attribute. Publish source bytes only after a separate redistribution review |
 | Sentinel-2 and Planetary Computer metadata | Identifiers, URLs, metadata-derived fields, and hashes appear in contracts/examples | Attribute and preserve source terms; do not imply Microsoft or Copernicus endorsement |
@@ -17,7 +17,7 @@ This is a factual release inventory, not legal advice. In [GitHub Issue #3](http
 | Derived run artifacts | One redacted V3 text example is tracked; current V4 assessment/cache package is local | Treat as mixed-origin research artifacts; document derivation and source terms rather than assuming the code licence covers source-derived facts |
 | Python dependencies | Declared in `pyproject.toml`/`uv.lock`, not vendored | Retain dependency notices and comply with each package licence when distributing built bundles |
 | GitHub Actions | External actions referenced by pinned commit, with no vendored action code | Retain action identity; its upstream licence applies |
-| Fonts, images, website templates | None found in the tracked baseline | Re-audit if visual assets are added |
+| Third-party fonts, images, logos, and website templates | None tracked; the SVG and PNG presentation assets are original and owner-controlled | Keep third-party visual assets excluded unless separately reviewed and licensed |
 
 ## Selected Licence And Scope
 
