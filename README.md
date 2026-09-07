@@ -8,7 +8,7 @@ Financial workflows do not fail only when evidence is missing. They also fail wh
 
 [![Offline validation](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml/badge.svg)](https://github.com/Mangolycheematcha/qualify-environmental-evidence/actions/workflows/offline-ci.yml)
 
-## In 30 Seconds
+## What This Demonstrates
 
 - Bind a narrow question to allowlisted public sources and a policy frozen before observation.
 - Resolve source identity and admissibility before transforming or comparing evidence.
