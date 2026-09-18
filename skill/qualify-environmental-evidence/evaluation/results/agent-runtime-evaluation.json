@@ -1,0 +1,23 @@
+{
+  "report_version": "1.0.0",
+  "agent_loop": "OBSERVE_DECIDE_ACT_VERIFY",
+  "memory_mode": "CONTENT_ADDRESSED_LOCAL_EVIDENCE",
+  "checkpoint_mode": "APPEND_ONLY_HASH_BOUND",
+  "completed_receipt_sha256": "d44cec93a7e2c2b90250aa4fb74b81181aa9f53030d2d5468aa1139386dee7bf",
+  "replayed_receipt_sha256": "8cf9a3bd67b7595d3227fcd0e119dd61b67a549bc90377813f74ad0299be70b5",
+  "paused_receipt_sha256": "b1df43ac6876478d16a89a59e8088b97a5c58a0fcd8573e3e5d1291db9138d3c",
+  "resumed_receipt_sha256": "fcf778597d9fb5210d7dc989a3e653ab4b78804d4953d5203250b7ee89bf11b8",
+  "result_sha256": "ac1f5f4bdf4136e46c17c85ca04fd114562500e42c85e2b5a65be7149cbeec93",
+  "checks": {
+    "bounded_three_step_completion": true,
+    "one_step_budget_stop": true,
+    "resume_after_budget_stop": true,
+    "replay_is_terminal": true,
+    "replay_result_is_byte_identical": true,
+    "replay_creates_no_files": true,
+    "network_remained_disabled": true,
+    "external_action_count_zero": true
+  },
+  "status": "PASS",
+  "report_sha256": "7e614d860fa073f60b71152532b7524e62c2746577487e63fa285c0b676a99d0"
+}

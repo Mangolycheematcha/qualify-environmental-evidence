@@ -31,6 +31,10 @@
       "sha256": "45e5555e87bb038cd1fb9eb2d0d7b068d04ad3ac1bc54717dfadf2c259f2d10d"
     },
     {
+      "path": "schemas/agent-execution-receipt.schema.json",
+      "sha256": "c205b259bec3bdafe5313096e898e97554d3ae41f8fc4fbe91286b7985b63365"
+    },
+    {
       "path": "schemas/qualification-request.schema.json",
       "sha256": "bd1f4dce41be3bbb35366fb34d8cf92472fff0da5339661d35fbdc33ba96b19d"
     },
@@ -127,6 +131,10 @@
       "sha256": "0ab6670064716a0a688e2071cb73eabeb881b7677bc03ea3a3469f680ccf5701"
     },
     {
+      "path": "evaluation/results/agent-runtime-evaluation.json",
+      "sha256": "addf6f5de64c77eff3b10b589e0d2c06675ee3e0da16920a84c94816aa1f7339"
+    },
+    {
       "path": "examples/qualification/accu-smc-boundary-request.json",
       "sha256": "0da7475383241ff3cbfbda65b494629a0eb3c637ba4a8fff09da39e37f22fc0c"
     },
@@ -149,6 +157,14 @@
     {
       "path": "scripts/approval_protocol_v2.py",
       "sha256": "a642662e9e983794688448278032a19a14bf4e2224070cd1ee54903bb3f67576"
+    },
+    {
+      "path": "scripts/agent_runtime.py",
+      "sha256": "a1f33e4cacd7a5048612e70794e925431cd9c7ed4ce882190959ff264f81262e"
+    },
+    {
+      "path": "scripts/evaluate_agent_runtime.py",
+      "sha256": "f79fafea0b6dbb3337cfad9249e37b070e0ddb8a541d04b7507068a4a59783f4"
     },
     {
       "path": "scripts/evaluate_qualification.py",

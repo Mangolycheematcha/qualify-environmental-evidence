@@ -93,7 +93,7 @@ def test_packaged_resources_match_authoritative_allowlist_and_manifest():
     result = subprocess.run([sys.executable, str(PACKAGE_SCRIPT), "--check"], cwd=ROOT, text=True, capture_output=True, check=False)
     assert result.returncode == 0, result.stderr
     manifest = json.loads((SKILL / "resource-manifest.json").read_text(encoding="utf-8"))
-    assert len(manifest["resources"]) == 46
+    assert len(manifest["resources"]) == 50
     assert [item["path"] for item in manifest["resources"]] == list(dict.fromkeys(item["path"] for item in manifest["resources"]))
 
 
@@ -143,6 +143,38 @@ def test_standalone_skill_runs_qualification_and_evaluation(tmp_path):
     assert report["evaluation_status"] == "PASS"
     assert report["model_api_used"] is False
     assert report["network_access"] is False
+
+
+def test_standalone_skill_runs_bounded_agent_and_checks_runtime_evidence(tmp_path):
+    standalone = tmp_path / "qualify-environmental-evidence"
+    shutil.copytree(SKILL, standalone)
+    request = standalone / "examples" / "qualification" / "eop101132-request.json"
+    runtime_result = run_cli(
+        str(request),
+        "--state-root",
+        str(tmp_path / "state"),
+        "--workflow-id",
+        "STANDALONE-AGENT",
+        "--max-steps",
+        "3",
+        "--json",
+        cwd=tmp_path,
+        cli=standalone / "scripts" / "agent_runtime.py",
+    )
+    assert runtime_result.returncode == 0, runtime_result.stderr
+    receipt = json.loads(runtime_result.stdout)
+    assert receipt["final_status"] == "COMPLETED"
+    assert receipt["network_access"] is False
+    assert receipt["external_action_count"] == 0
+
+    evaluation_result = run_cli(
+        "--check",
+        "--json",
+        cwd=tmp_path,
+        cli=standalone / "scripts" / "evaluate_agent_runtime.py",
+    )
+    assert evaluation_result.returncode == 0, evaluation_result.stderr
+    assert json.loads(evaluation_result.stdout)["status"] == "PASS"
 
 
 def test_standalone_skill_validates_approval_request_without_network(tmp_path):
