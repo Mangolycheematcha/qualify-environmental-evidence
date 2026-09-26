@@ -10,6 +10,7 @@ Originally executed on 2026-09-05 and independently regenerated during the 2026-
 | Sources | 29 real-source, 23 synthetic counterfactual, 28 adversarial | Reported separately in the result artifact | Synthetic and adversarial rows are not prevalence estimates |
 | Retrieval | 25 repository-authored controlled queries | lexical 22/25, local TF-IDF 22/25, hybrid 23/25 Top-1; all 24/25 Recall@3 | Hybrid gain 1/25 is below the recorded 5% materiality threshold; no external vector infrastructure added |
 | End-to-end journeys | 4 | 4/4 pass, including missing/stale/conflict and resume/replay | Offline workflow integration only |
+| Bounded agent runtime | 8 recovery and observability checks | 8/8 pass | Offline observe-decide-act-verify loop; no model or external action |
 | Security | 7 executed, 3 not-applicable attack surfaces | 10/10 recorded controls pass | Bounded local threat evaluation, not a penetration test |
 | Performance | 8 cold processes, 40 warm workflow calls, 200 calls per retrieval mode | Raw samples plus recomputable p50/p95 in `evaluation/results/performance.json` | Machine-specific local latency; cache conditions recorded |
 | B0/B1/T1 model arms | 27 planned per arm | `NOT_EXECUTED`; 0 completed per arm | No configured API credential or execution authorization; adapter exists |
@@ -25,6 +26,7 @@ Originally executed on 2026-09-05 and independently regenerated during the 2026-
 - `security-evaluation.json`: threat/control matrix and excluded classes.
 - `performance.json`: environment, cache state, raw samples, statistic definitions and p50/p95.
 - `model-comparison-status.json`: B0/B1/T1 design, matched B1/T1 packet hashes, adapter readiness and exact blockers.
+- `agent-runtime-evaluation.json`: bounded-loop completion, step-budget pause, resume, receipt integrity and side-effect-free replay.
 
 ## Interpretation limits
 

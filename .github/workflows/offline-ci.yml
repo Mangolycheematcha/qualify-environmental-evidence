@@ -51,6 +51,7 @@ jobs:
           .venv/bin/python scripts/build_retrieval_benchmark.py --check
           .venv/bin/python scripts/evaluate_retrieval.py --json
           .venv/bin/python scripts/run_e2e_demos.py --json
+          .venv/bin/python scripts/evaluate_agent_runtime.py --check --json
           .venv/bin/python scripts/evaluate_security.py --json
           .venv/bin/python scripts/evaluate_model_comparisons.py --json
           .venv/bin/python scripts/audit_git_baseline.py --json

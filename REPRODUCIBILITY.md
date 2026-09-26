@@ -24,6 +24,7 @@ uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/build_
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/build_retrieval_benchmark.py --check
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_retrieval.py --json
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/run_e2e_demos.py --json
+uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_agent_runtime.py --check --json
 uv run --offline --no-project --with "jsonschema>=4.18,<5" python scripts/evaluate_security.py --json
 ```
 
@@ -48,6 +49,8 @@ Any future runtime code, policy, or runtime-spec change requires a new commit, f
 The qualification workflow reads ten local, schema-validated evidence documents: seven curated ACCU project records, one Safeguard facility-period extract, one ACCU/SMC definition document, and one frozen observational derivative. It builds a content-addressed memory snapshot, retrieves facts deterministically, applies authority and evidence gates, and emits a canonical result hash. The evaluator executes 80 repository-authored regression rows across 22 semantic groups twice per row, including 53 development and 27 partition-held-out rows. The qualification and deterministic evaluation paths do not access an external service.
 
 This is the implemented deterministic, multi-project portion of Step 3. The 25-query retrieval comparison, four E2E journeys, local security controls, and performance samples are implemented. B0/B1/T1 behavioural evaluation and H1 independent human labelling are `NOT_EXECUTED`: each has 27 planned held-out cases and 0 completed cases. A stable live CER API integration and application deployment also remain unexecuted. See `docs/STEP3_EVALUATION.md`.
+
+The optional bounded agent controller in `scripts/agent_runtime.py` exposes the existing resumable workflow as an observe-decide-act-verify loop. It has an explicit step budget and emits a schema-validated receipt containing action, checkpoint, evidence-snapshot, stop-reason and result hashes. `scripts/evaluate_agent_runtime.py --check` verifies three-step completion, budgeted pause, recovery, byte-identical replay and replay without new files. It remains offline and performs no external action.
 
 ## Historical Integrity
 
